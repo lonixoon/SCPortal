@@ -1,0 +1,425 @@
+body, html {
+	height: 100%;
+}
+
+body {
+	margin: 0;font-size: 8pt;
+
+}
+
+body, table {
+	font-family: Verdana, Arial, sans-serif;
+}
+
+img {
+	border: 0;
+}
+
+form {
+	margin: 0;
+}
+
+.main {
+	width: 100%;
+	height: 100%;
+}
+
+.main  td{
+	vertical-align: top;
+}
+
+/* HEADER */
+.header table {
+	width: 100%;
+}
+
+.headerLeft {
+	height: 78px;
+	width: 408px;
+}
+
+.headerMiddle {
+	background: white url('../Images/headerRight.gif') repeat-x top left;
+	height: 48px;
+}
+
+.headerText {
+	height: 30px;
+	vertical-align: bottom;
+	font-size: 8pt;
+}
+
+.headerText table {
+	width: 100%;
+	height: 30px;
+}
+
+.welcome span {
+	color: #CC3E3E;
+	font-size: 10px;
+	font-weight: bolder;
+	height: 30px;
+	line-height: 12px;
+	text-align: center;			
+}
+
+.timePeriods {
+	height: 30px;
+	width: 360px;
+	float: right;
+	text-align: right;
+}
+
+.headerText a {
+	display: block;
+	float: right;
+	color: white;
+	text-decoration: none;
+	height: 17px;
+	width: 83px;
+	text-align: center;
+	font-size: 10px;
+	font-weight: normal;
+	line-height: 17px;
+	margin-top: 13px;
+}
+
+.headerText a:hover {
+	color: #CC3333;
+}
+
+.lbTimeDay {
+	background: url('../Images/timeDay.gif') no-repeat bottom right;
+}
+
+.lbTimeWeek {
+	background: url('../Images/timeWeek.gif') no-repeat bottom right;
+}
+
+.lbTimeMonth {
+	background: url('../Images/timeMonth.gif') no-repeat bottom right;
+}
+
+.lbTimeYear {
+	background: url('../Images/timeYear.gif') no-repeat bottom right;
+	margin-right: 8px;
+}
+
+/* REPORTS/PARAMETERS */
+.reportsParametersHolder {
+	width: 236px;
+	height: 21px;
+	font-size: 8pt;
+}
+
+.reportsParameters,.reportsParameters2 {
+	width: 190px;
+	height: 21px;
+	margin: 0px 23px 0px 13px;
+}
+
+.reportsParameters {font-size: 8pt;
+	background: url('../Images/reportsParameters.gif') no-repeat top left;
+}
+
+.reportsParameters2 {font-size: 8pt;
+	background: url('../Images/reportsParameters2.gif') no-repeat top left;
+}
+
+.reportsParameters a, .reportsParameters2  a{
+	color: white;
+	text-decoration: none;
+	font-weight: bolder;
+	font-size: 11px;
+	line-height: 19px;
+}
+
+.lbReports {
+	position: relative;
+	left: 8px;
+}
+
+.lbParameters {
+	position: relative;
+	left: 52px;
+}
+
+.reportsParametersBorderTop {
+	height: 19px;
+	width: 236px;
+	background: url('../Images/reportsParametersBorderTop.gif') no-repeat top left;
+	font-size: 8pt;
+}
+
+.reportsParametersBorder {
+	width: 236px;
+	background: url('../Images/reportsParametersBorder.gif') repeat-y  left;
+	font-size: 8pt;
+}
+
+.reportsParametersForm h2, .reportsParametersBorder  h2{
+	font-weight: bolder;
+	font-size: 12px;
+	text-align: left;
+	margin-left: 20px;
+}
+
+.reportsParametersForm  {
+	margin: 10px;
+	font-size: 10px;
+	text-align: left;
+	line-height: 25px;
+}
+
+.reportsParametersBorder {
+	font-size: 11px;
+	text-align: left;
+	line-height: 25px;
+}
+
+.reportsParametersForm  input{
+	margin-right: 7px;
+	margin-left: 40px;
+}
+
+.divMenu{padding-left:5px;padding-bottom:5px;}
+.divMenu h2{display:inline}
+
+.divMenu2{padding-left:5px;padding-bottom:0px;}
+.divMenu2 h2{display:inline}
+
+.pnlMenu
+{
+scrollbar-face-color: rgb(252, 152, 152);
+scrollbar-highlight-color: rgb(252, 152, 152);
+scrollbar-3dlight-color: rgb(255, 193, 193);
+scrollbar-shadow-color: rgb(252, 152, 152);
+scrollbar-darkshadow-color: rgb(255, 53, 53);
+scrollbar-track-color: rgb(245, 245, 245);
+scrollbar-arrow-color: rgb(255, 255, 255);
+}
+
+.plusMinus, .plusMinus:hover, .plusMinusSub, .plusMinusSub:hover {
+	text-decoration: none;
+	display: block;
+	color: #333333;
+	border: 1px solid #cccccc;
+	width: 12px;
+	height: 11px;
+	line-height: 11px;
+	text-align: center;
+	float: left;
+	margin-top: 6px;
+	margin-left: 10px; 
+}
+
+.plusMinusSub, .plusMinusSub:hover {
+	margin-left: 20px;
+}
+
+
+
+/* CATEGORIES */
+.categories {
+	font-size: 8pt;
+	width: 100%;
+	height: 21px;
+}
+
+
+
+
+.categoriesLeftDay, .categoriesLeftWeek, .categoriesLeftMonth, .categoriesLeftYear, .categoriesLeftReason {
+	width: 33px;
+	height: 21px;
+}
+
+.categoriesLeftDay {background: url('../Images/categoriesLeftDay.gif') no-repeat top right;}
+.categoriesLeftWeek {background: url('../Images/categoriesLeftWeek.gif') no-repeat top right;}
+.categoriesLeftMonth {background: url('../Images/categoriesLeftMonth.gif') no-repeat top right;}
+.categoriesLeftYear {background: url('../Images/categoriesLeftYear.gif') no-repeat top right;}
+.categoriesLeftReason{background: url('../Images/categoriesLeftReason.gif') no-repeat top right;}
+
+.categoriesMiddleDay, .categoriesMiddleWeek, .categoriesMiddleMonth, .categoriesMiddleYear, .categoriesMiddleReason {
+	height: 21px;
+	text-align: left;
+	padding-right: 24px;
+}
+
+.categoriesMiddleDay {background: url('../Images/categoriesMiddleDay.gif') repeat-x top;}
+.categoriesMiddleWeek {background: url('../Images/categoriesMiddleWeek.gif') repeat-x top;}
+.categoriesMiddleMonth {background: url('../Images/categoriesMiddleMonth.gif') repeat-x top;}
+.categoriesMiddleYear {background: url('../Images/categoriesMiddleYear.gif') repeat-x top;}
+.categoriesMiddleReason{background: url('../Images/categoriesMiddleReason.gif') repeat-x top;}
+
+.categoriesRightDay, .categoriesRightWeek, .categoriesRightMonth, .categoriesRightYear, .categoriesRightReason {
+	height: 21px;
+	width: 9px;
+}
+
+.categoriesRightDay {background: url('../Images/categoriesRightDay.gif') no-repeat top left;}
+.categoriesRightWeek {background: url('../Images/categoriesRightWeek.gif') no-repeat top left;}
+.categoriesRightMonth {background: url('../Images/categoriesRightMonth.gif') no-repeat top left;}
+.categoriesRightYear {background: url('../Images/categoriesRightYear.gif') no-repeat top left;}
+.categoriesRightReason{background: url('../Images/categoriesRightReason.gif') no-repeat top left;}
+
+
+
+
+.categories a {
+	color: white;
+	text-decoration: none;
+	font-weight: bolder;
+	font-size: 11px;
+	line-height: 19px;
+}
+
+.categories a:hover {
+	color: #CC3E3E;
+}
+a.categoriesCurrent  {
+	color: #990b0b;
+	text-decoration: underline;
+	font-weight: bolder;
+	font-size: 11px;
+	line-height: 19px;
+}
+
+.justBorder {
+	border-top: 1px solid #F14A1F;font-size: 8pt;
+}
+
+/* MINIMIZED */
+.minimizedTop {
+	width: 19px;
+	height: 19px;
+	background: url('../Images/minimizedTop.gif') no-repeat top right;
+}
+
+.minimized {
+	width: 19px;
+	background: url('../Images/minimized.gif') repeat-y right;
+font-size: 8pt;
+}
+
+.minimize {
+	cursor: pointer;
+	float: right;
+	position: absolute;
+	top: 107px;
+	left: 210px;
+}
+
+.maximize {
+	cursor: pointer;
+	position: absolute;
+	top: 109px;
+	left: 0px;
+}
+
+/* INFO */
+.info {
+	font-size: 11px;
+	text-align:center;
+	font-size: 8pt;
+}
+
+
+/* FOOTER */
+.footerHolder {
+	height: 47px;
+}
+
+.footerBorder {
+	width: 236px;
+	height: 12px;
+	line-height: 0;
+	background: url('../Images/reportsParametersBorder.gif') repeat-y  left;
+	
+}
+.footerBorderSettings {
+	width: 246px;
+	height: 12px;
+	line-height: 0;
+}
+.footerMinimizedBorder {
+	width: 19px;
+	height: 12px;
+	line-height: 0;
+	background: url('../Images/minimized.gif') repeat-y left;
+}
+
+.footer {
+	height: 47px;
+	width: 100%;
+}
+
+.footerLeft {
+	vertical-align: bottom;
+	width: 415px;
+	height: 35px;
+	background: white url('../Images/footerLeft.gif') repeat-x bottom left;
+	padding-top: 18px;
+	color: #ffffff;
+	font-size: 10px;
+}
+
+.footerLeft span {
+	margin-left: 20px;
+}
+
+.footerMiddle {
+	background: white url('../Images/footerBack.jpg') repeat-x bottom left;
+
+}
+
+.footerRight {
+	width: 182px;
+	background: white url('../Images/footerRight.jpg') no-repeat bottom left;
+}
+
+/* BUTTONS */
+.buttons a, .buttons a:hover {
+	text-decoration: none;
+	outline: none;
+	margin-right: 6px;
+}
+
+ .buttons a img:hover{
+	cursor: pointer;
+}
+
+.buttons {
+	position: relative;
+	top: 32px; left: 60px;
+	font-size: 8pt;
+} 
+.trMenu{padding-left:5px; padding-right:0px;}
+.dLeftMenu{padding-left:5px;height:400px;width:197px;Font-Size:8pt;}
+.aLeftMenu{text-decoration:none;color:#000000;padding-top:0px;padding-bottom:15px;}
+.aLeftMenu:hover{text-decoration:underline;}
+.aLeftMenu:selected{text-decoration:underline;color:MidnightBlue;font-weight:bold;}
+.imgMenu{padding-top:10px;padding-bottom:0px}                
+                   
+.inputCalendar
+{
+border: 1px solid #FF0000; 
+width:120px; 
+padding-left:5px;
+}
+
+.divCalendar1
+{
+vertical-align:middle;
+padding-bottom:5px; 
+padding-top:15px
+}
+
+.divCalendar2
+{
+    vertical-align:middle;
+}
+
+.divParam1{display:none;}
+.divParam2{display:none;}
+

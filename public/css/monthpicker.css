@@ -1,0 +1,58 @@
+/* basic style */ 
+.MonthPicker {margin:0; padding:0; font:bold 10px Arial; color:#007d00; }
+.MonthPicker {-moz-user-select:none; user-select:none}
+.MonthPicker th{padding-left:20px}
+.MonthPicker td{padding:0px}
+.MonthPicker a{text-decoration:none; color:#007d00}
+.MonthPicker a:hover{background: #fcdcdc; }
+.MonthPicker a:hover span{background: #fcdcdc; color:#f60}
+.MonthPicker a.li{position:relative}
+.MonthPicker ul{list-style:none; margin:0; padding:0; font-size:10px;}
+.MonthPicker ul table{width:100%; border-collapse:collapse}
+.MonthPicker ul ul{position:absolute; visibility:hidden; left:-1px; top:20px; z-index:2; border:1px solid #e6443f}
+.MonthPicker ul ul .selected{background:#e6443f; color:#fff}
+.MonthPicker li{position:relative; width:60px; float:left; text-align:center}
+.MonthPicker li a{display:block;}
+.MonthPicker .li:hover ul{background:#fff; visibility:visible;}
+.MonthPicker .li:hover li a:hover{background:#fcdcdc; color:#007d00;}
+.MonthPicker span{display:inline-block; width:57px; padding:1px; line-height:19px; text-align:center; cursor:pointer; border: solid 1px #cecece;background-color:#fff;}
+.MonthPicker .caption{font-size:10px; vertical-align:middle;}
+.MonthPicker .month span{width:40px; font-size:10px;}
+
+.MonthPicker .tbl
+{
+    /*border: solid 1px #f00;*/
+    padding: 5px 5px 5px 5px;
+}
+
+.MonthPicker .tbl .tYear
+{
+    vertical-align:middle;
+    text-align:center;
+    border-bottom: solid 1px #e6443f;
+    font-size:10px;
+}
+
+.MonthPicker .tbl .tMonth{ background-color:#f0f0f0;}
+
+.MonthPicker .disabled span{
+background:#fff; 
+color:#cccccc;
+opacity: 0.5;
+filter: alpha(opacity=50); 
+cursor:not-allowed;
+}
+
+.MonthPicker .selected{background:#e6443f; color:#fff;}
+/* print style */
+@media print{
+.MonthPicker span{display:none}
+.MonthPicker .selected{display:block}
+}
+
+.ddl
+{
+    border: solid 1px #e6443f;
+    color:#007d00;
+    font-weight:bold;
+}
