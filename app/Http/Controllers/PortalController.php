@@ -14,32 +14,32 @@ class PortalController extends Controller
     public $password = 'Cc123123*';
 
 //    public function index()
-    public function getHtmlComparativeReport ()
+    public function getHtmlComparativeReport()
     {
         $client = new Client([
             // Base URI is used with relative requests
             'base_uri' => 'http://portal.ru.auchan.com/portal/',
 //            'base_uri' => 'http://portal.ru.auchan.com/iradmin2/',
             // You can set any number of default request options.
-            'timeout'  => 60.0,
+            'timeout' => 60.0,
         ]);
         $cookieJar = new CookieJar();
-/*
-        $response = $client->request('POST', 'Login.aspx', [
-                'form_params' => [
-                    '__VIEWSTATE' => '/wEPDwULLTE1MzMwNjI5MzBkZOqagiYgAo4JMe9TN957wRcBVGHK',
-                    '__EVENTVALIDATION' => '/wEWAwL08PbTAQKvpuq2CALyveCRD6VWgHb/gFTNuHcb5oYkLK82suC8',
-                    'username' => $this->user,
-                    'password' => $this->password,
-                ],
-                'cookies' => $cookieJar,
-                'headers' => [
-                    'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.91 Safari/537.36',
-//                    'Accept'     => 'application/x-www-form-urlencoded',
-                ],
-                'allow_redirects' => true,
-            ]
-        );*/
+        /*
+                $response = $client->request('POST', 'Login.aspx', [
+                        'form_params' => [
+                            '__VIEWSTATE' => '/wEPDwULLTE1MzMwNjI5MzBkZOqagiYgAo4JMe9TN957wRcBVGHK',
+                            '__EVENTVALIDATION' => '/wEWAwL08PbTAQKvpuq2CALyveCRD6VWgHb/gFTNuHcb5oYkLK82suC8',
+                            'username' => $this->user,
+                            'password' => $this->password,
+                        ],
+                        'cookies' => $cookieJar,
+                        'headers' => [
+                            'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.91 Safari/537.36',
+        //                    'Accept'     => 'application/x-www-form-urlencoded',
+                        ],
+                        'allow_redirects' => true,
+                    ]
+                );*/
 
         $client->request('POST', 'Login.aspx', [
                 'form_params' => [
@@ -118,78 +118,119 @@ class PortalController extends Controller
     public function index()
     {
         $link = 'http://scportal/public/po';
+        // получает РЕЬД разметку
         $html = file_get_contents($link);
+        // создаем новую модель кравлера
         $crawler = new Crawler(null, $link);
+        // добавляем ссылку в кравлер и получаем весь контент
         $crawler->addHtmlContent($html, 'UTF-8');
 
+        // забираем циклом номера ситов
         $citeName = $crawler
+            // поиск осуществляем по постаянному кусочку от класса
             ->filterXPath('//div[contains(@class, "371")]')
             ->each(function (Crawler $node, $i) {
                 return $node->html();
             });
 
-//        $citeName = array_flip($cite);
-
+        // забираем циклом значения по клиентам
         $clientsValue = $crawler
             ->filterXPath('//div[contains(@class, "375")]')
             ->each(function (Crawler $node, $i) {
                 return $node->html();
             });
 
+        // забираем циклом значения по артикулам
         $articleValue = $crawler
             ->filterXPath('//div[contains(@class, "383")]')
             ->each(function (Crawler $node, $i) {
                 return $node->html();
             });
 
+        // забираем циклом значения по обороту
         $CaValue = $crawler
             ->filterXPath('//div[contains(@class, "403")]')
             ->each(function (Crawler $node, $i) {
                 return $node->html();
             });
 
+        // забираем циклом значения по обороту за период
         $CaPeriodValue = $crawler
             ->filterXPath('//div[contains(@class, "415")]')
             ->each(function (Crawler $node, $i) {
                 return $node->html();
             });
 
-        $problemArr = [];
+        // массив для всех ситов
+        $allCiteArr = [];
+        // массив для всех ситов где нет данных
+        $problemCiteArr = [];
+        // массив для всех ситов где нет данных но есть данные за период
+        $problemCiteArr2 = [];
 
+
+        /*
+         *  Цикл перебирает данные по ситам $citeName, клиентам $clientsValue, артикулам $articleValue, ТО $CaValue и
+         *  ТО за период $CaPeriodValue.
+         *  И добавляет данные в массив $allCiteArr где ключь это номер сита, занение это данные по нему указанные выше.
+         */
         foreach ($citeName as $key => $value1) {
 
             foreach ($clientsValue as $key2 => $value2) {
                 if ($key2 == $key) {
-                    $problemArr[$value1]['client_value'] = $value2;
+                    $allCiteArr[$value1]['client_value'] = $value2;
                 }
             }
-//
-            foreach ($articleValue as $key3 => $value3) {
-                if ($key3 == $key) {
-                    $problemArr[$value1]['article_value'] = $value3;
-                }
-             }
 
+            /*foreach ($articleValue as $key3 => $value3) {
+                if ($key3 == $key) {
+                    $allCiteArr[$value1]['article_value'] = $value3;
+                }
+            }
 
             foreach ($CaValue as $key4 => $value4) {
                 if ($key4 == $key) {
-                    $problemArr[$value1]['CA_value'] = $value4;
+                    $allCiteArr[$value1]['CA_value'] = $value4;
+                }
+            }*/
+
+            foreach ($CaPeriodValue as $key5 => $value5) {
+                if ($key5 == $key) {
+                    $allCiteArr[$value1]['CA_period_value'] = $value5;
                 }
             }
+        };
 
-            foreach ($CaPeriodValue  as $key5 => $value5) {
-                if ($key5 == $key) {
-                    $problemArr[$value1]['CA_period_value'] = $value5;
+        /*
+         *  Перебираем $allCiteArr и ищем отсутвующие ТО за период, что бы определить закрыт или нет магазин
+         */
+        foreach ($allCiteArr as $key => $value) {
+            foreach ($value as $key2 => $value2) {
+                // условие для закрытых магазов где нет данных
+                if ($key2 == 'CA_period_value' && $value2 == '*****') {
+                    $problemCiteArr[$key] = 'NOK';
+
+                // условие для открытых магазов где нет данных
+                } elseif ($value2 == '*****') {
+                    $problemCiteArr[$key] = 'No data';
                 }
             }
         }
 
-        dump($problemArr);
-//
-//        dump($citeName);
-//        dump($clientsValue);
-//        dump($articleValue);
-//        dump($CaValue);
-//        dump($CaPeriodValue);
+        /*
+         *  Перебираем массив по открытым магазам где нет данных и если они есть выводим их
+         */
+        foreach ($problemCiteArr as $key => $value) {
+            // условие для открытых магазов где нет данных
+            if ($value == 'No data') {
+                $problemCiteArr2[$key] = $value;
+
+            // если таких нет, все ок!
+            } elseif ($value != 'No data') {
+                $problemCiteArr2['Other Site'] = 'Data OK!';
+            }
+        }
+
+        dump($problemCiteArr2);
     }
 }
