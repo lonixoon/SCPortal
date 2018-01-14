@@ -8,7 +8,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use GuzzleHttp\Client;
 
 
-class DailyStatusPortalController extends Controller
+class DailyStatusPortalControllerCOPY1 extends Controller
 {
     public $user = 'rus9211689';
     public $password = 'Cc123123*';
