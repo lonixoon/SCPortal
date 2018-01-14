@@ -8,10 +8,15 @@ use Symfony\Component\DomCrawler\Crawler;
 use GuzzleHttp\Client;
 
 
-class PortalController extends Controller
+class PortalControllerCOPY2 extends Controller
 {
     public $user = 'rus9211689';
     public $password = 'Cc123123*';
+
+        public function index()
+    {
+        return view('portal.index');
+    }
 
 //    public function index()
     public function getHtmlComparativeReport()
@@ -115,9 +120,10 @@ class PortalController extends Controller
 
 
 //    public function parseDataComparativeReport()
-    public function index()
+    public function getDataInPortal()
     {
-        $link = 'http://scportal/public/po';
+//        $link = 'http://scportal/public/po';
+        $link = 'http://w7ru09990004/po';
         // получает РЕЬД разметку
         $html = file_get_contents($link);
         // создаем новую модель кравлера
@@ -127,6 +133,7 @@ class PortalController extends Controller
 
         // забираем циклом номера ситов
         $citeName = $crawler
+//        $dataPortal['citeName'] = $crawler
             // поиск осуществляем по постаянному кусочку от класса
             ->filterXPath('//div[contains(@class, "371")]')
             ->each(function (Crawler $node, $i) {
@@ -135,31 +142,39 @@ class PortalController extends Controller
 
         // забираем циклом значения по клиентам
         $clientsValue = $crawler
+//        $dataPortal['clientsValue'] = $crawler
             ->filterXPath('//div[contains(@class, "375")]')
             ->each(function (Crawler $node, $i) {
                 return $node->html();
             });
 
         // забираем циклом значения по артикулам
-        $articleValue = $crawler
+        /*$articleValue = $crawler
+        $dataPortal['articleValue'] = $crawler
             ->filterXPath('//div[contains(@class, "383")]')
             ->each(function (Crawler $node, $i) {
                 return $node->html();
             });
 
         // забираем циклом значения по обороту
-        $CaValue = $crawler
+//        $CaValue = $crawler
+        $dataPortal['CaValue'] = $crawler
             ->filterXPath('//div[contains(@class, "403")]')
             ->each(function (Crawler $node, $i) {
                 return $node->html();
-            });
+            });*/
 
         // забираем циклом значения по обороту за период
         $CaPeriodValue = $crawler
+//        $dataPortal['CaPeriodValue'] = $crawler
             ->filterXPath('//div[contains(@class, "415")]')
             ->each(function (Crawler $node, $i) {
                 return $node->html();
             });
+
+//        dd($dataPortal);
+
+
 
         // массив для всех ситов
         $allCiteArr = [];
@@ -208,7 +223,7 @@ class PortalController extends Controller
             foreach ($value as $key2 => $value2) {
                 // условие для закрытых магазов где нет данных
                 if ($key2 == 'CA_period_value' && $value2 == '*****') {
-                    $problemCiteArr[$key] = 'NOK';
+                    $problemCiteArr[$key] = 'Close';
 
                 // условие для открытых магазов где нет данных
                 } elseif ($value2 == '*****') {
@@ -220,17 +235,22 @@ class PortalController extends Controller
         /*
          *  Перебираем массив по открытым магазам где нет данных и если они есть выводим их
          */
-        foreach ($problemCiteArr as $key => $value) {
-            // условие для открытых магазов где нет данных
-            if ($value == 'No data') {
-                $problemCiteArr2[$key] = $value;
+//        foreach ($problemCiteArr as $key => $value) {
+//            // условие для открытых магазов где нет данных
+//            if ($value == 'No data') {
+//                $problemCiteArr2[$key] = $value;
+//
+//            // если таких нет, все ок!
+//            } elseif ($value != 'No data') {
+//                $problemCiteArr2['Other Site'] = 'Data OK!';
+//            }
+//        }
 
-            // если таких нет, все ок!
-            } elseif ($value != 'No data') {
-                $problemCiteArr2['Other Site'] = 'Data OK!';
-            }
-        }
+        dump($problemCiteArr);
+    }
 
-        dump($problemCiteArr2);
+    public function a()
+    {
+
     }
 }

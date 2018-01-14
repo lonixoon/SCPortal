@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Portal;
+use App\DailyStatusPortal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,17 +10,17 @@ class PortalController extends Controller
 {
     public function index()
     {
-        return Portal::all();
+        return DailyStatusPortal::all();
     }
 
     public function show($id)
     {
-        return Portal::findOrFail($id);
+        return DailyStatusPortal::findOrFail($id);
     }
 
     public function update(Request $request, $id)
     {
-        $Portal = Portal::findOrFail($id);
+        $Portal = DailyStatusPortal::findOrFail($id);
         $Portal->update($request->all());
 
         return $Portal;
@@ -28,13 +28,13 @@ class PortalController extends Controller
 
     public function store(Request $request)
     {
-        $Portal = Portal::create($request->all());
+        $Portal = DailyStatusPortal::create($request->all());
         return $Portal;
     }
 
     public function destroy($id)
     {
-        $Portal = Portal::findOrFail($id);
+        $Portal = DailyStatusPortal::findOrFail($id);
         $Portal->delete();
         return '';
     }

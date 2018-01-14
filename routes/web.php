@@ -11,17 +11,24 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+Route::get('/', 'SCPortalController@index');
 
 Auth::routes();
+//Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');
+// DailyStatusPortal DS
+//Route::get('/po', 'DailyStatusPortalController@getHtmlComparativeReport');
+Route::get('/po', 'DailyStatusPortalController@getPortalClassicHtml');
+Route::get('/po2', 'DailyStatusPortalController@getPortalAtakHtml');
+Route::get('/por', 'DailyStatusPortalController@processingData');
+//Route::get('/por', 'DailyStatusPortalController@processingData');
 
-// Portal DS
-Route::get('/po', 'PortalController@getHtmlComparativeReport');
-Route::get('/por', 'PortalController@index');
+// HD DS
+Route::get('/daily-status-helpdesk', 'DailyStatusHDController@index');
+Route::post('/daily-status-helpdesk/result', 'DailyStatusHDController@getFile');
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('companies', 'CompaniesController@index')->name('companies.index');
