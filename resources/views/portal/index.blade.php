@@ -9,7 +9,7 @@
 
                 <div class="panel-body">
                     <p>
-                        <a href="http://w7ru09990004/por">Daily Status Portal</a>
+                        <a href="http://w7ru09990004/daily-status-portal/result">Daily Status Portal</a>
                     </p>
                     <p>
                         <a href="http://w7ru09990004/daily-status-helpdesk">Daily Status Helpdesk</a>

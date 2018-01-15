@@ -42,6 +42,7 @@
             padding: 7px;
             text-decoration: none;
             cursor: pointer;
+            font-size: inherit;
         }
 
         .input-file {

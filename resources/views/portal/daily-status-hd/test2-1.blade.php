@@ -8,11 +8,9 @@
             <div class="input-file__btn">Обзор</div>
             <input type="file" accept=".rtf" name="file" id="upload" onchange="getFileName(this.value)" required>
         </div>
-        <p>
+        <p class="">
             <button class="btn" type="submit">Загрузить</button>
-        </p>
-        <p>
-            <a href="{{ url('/') }}" class="btn">На главную</a>
+            <a href="{{ url('/') }}" class="btn">Вернуться на главную</a>
         </p>
     </form>
     @if (count($errors) > 0)

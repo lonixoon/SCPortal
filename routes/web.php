@@ -21,10 +21,9 @@ Auth::routes();
 
 // DailyStatusPortal DS
 //Route::get('/po', 'DailyStatusPortalController@getHtmlComparativeReport');
-Route::get('/po', 'DailyStatusPortalController@getPortalClassicHtml');
-Route::get('/po2', 'DailyStatusPortalController@getPortalAtakHtml');
-Route::get('/por', 'DailyStatusPortalController@processingData');
-//Route::get('/por', 'DailyStatusPortalController@processingData');
+Route::get('/daily-status-portal/portal-classic', 'DailyStatusPortalController@getPortalClassicHtml');
+Route::get('/daily-status-portal/portal-atak', 'DailyStatusPortalController@getPortalAtakHtml');
+Route::get('/daily-status-portal/result', 'DailyStatusPortalController@index');
 
 // HD DS
 Route::get('/daily-status-helpdesk', 'DailyStatusHDController@index');

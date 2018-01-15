@@ -8,7 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'DailyStatusPortal') }}</title>
+    <title>
+        {{--{{ config('app.name', 'SC Portal') }}--}}
+        SC Portal
+    </title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -29,7 +32,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{--{{ config('app.name', 'SC DailyStatusPortal') }}--}}
+                        {{--{{ config('app.name', 'SC Portal') }}--}}
                         SC Portal
                     </a>
                 </div>
