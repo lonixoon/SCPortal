@@ -8,12 +8,14 @@
                 <div class="panel-heading">Support Center Portal</div>
 
                 <div class="panel-body">
-                    <p>
-                        <a href="http://w7ru09990004/daily-status-portal/result">Daily Status Portal</a>
-                    </p>
-                    <p>
-                        <a href="http://w7ru09990004/daily-status-helpdesk">Daily Status Helpdesk</a>
-                    </p>
+                    <router-view name="portalIndex"></router-view>
+                    <router-view></router-view>
+                    {{--<p>--}}
+                        {{--<a href="http://w7ru09990004/daily-status-portal/result">Daily Status Portal</a>--}}
+                    {{--</p>--}}
+                    {{--<p>--}}
+                        {{--<a href="http://w7ru09990004/daily-status-helpdesk">Daily Status Helpdesk</a>--}}
+                    {{--</p>--}}
                 </div>
             </div>
         </div>

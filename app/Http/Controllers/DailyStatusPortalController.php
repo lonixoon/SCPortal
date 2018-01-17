@@ -14,17 +14,51 @@ class DailyStatusPortalController extends Controller
     private $user = 'rus9211689';
     private $password = 'Cc123123*';
 
-//    public function index()
-//    {
-//        $allProblemCiteArr = $this->controlData();
-//        return view('portal.daily-status-portal.daily-status-portal',  $allProblemCiteArr);
-//    }
+    public function index()
+    {
+        $allProblemCiteArr['portal'] = $this->controlData();
+        return view('portal.daily-status-portal.daily-status-portal',  $allProblemCiteArr);
+    }
+    public function apiClassic()
+    {
+        $DailyStatusPortal = new DailyStatusPortal();
+        // получаеем данные в виде массивов СИТЫ, КЛИНТЫ, ТО ЗА ПЕРИОД
+        $classicHtml = $this->PortalClassicParseHtml();
 
+        //  выводим массив где ключ магазин, значение данные по магазину
+        $allCiteClassicArr = $DailyStatusPortal->processingData($classicHtml);
+
+        // оставляем только проблемыне и закрытые ситы
+        $allProblemCiteArr['classic'] = $DailyStatusPortal->processingProblemData($allCiteClassicArr);
+
+        // масиив в JSON для VueJs
+//        $allProblemCiteJson = json_encode($allProblemCiteArr);
+
+//        dump(collect($allProblemCiteArr));
+//        dump(collect($allProblemCiteJson));
+        return collect($allProblemCiteArr);
+    }
+
+    public function apiAtak()
+    {
+        $DailyStatusPortal = new DailyStatusPortal();
+        // получаеем данные в виде массивов СИТЫ, КЛИНТЫ, ТО ЗА ПЕРИОД
+        $atakHtml = $this->PortalAtakParseHtml();
+
+        //  выводим массив где ключ магазин, значение данные по магазину
+        $allCiteAtakArr = $DailyStatusPortal->processingData($atakHtml);
+
+        // оставляем только проблемыне и закрытые ситы
+        $allProblemCiteArr['atak'] = $DailyStatusPortal->processingProblemData($allCiteAtakArr);
+
+        return collect($allProblemCiteArr);
+    }
 
     /*
      * Упарвляющая функция
      */
-    public function index()
+//    public function index()
+    public function controlData()
     {
         $DailyStatusPortal = new DailyStatusPortal();
         // получаеем данные в виде массивов СИТЫ, КЛИНТЫ, ТО ЗА ПЕРИОД
@@ -39,19 +73,18 @@ class DailyStatusPortalController extends Controller
         $allProblemCiteArr['Classic'] = $DailyStatusPortal->processingProblemData($allCiteClassicArr);
         $allProblemCiteArr['Atak'] = $DailyStatusPortal->processingProblemData($allCiteAtakArr);
 
-//        return $allProblemCiteArr;
-//        dump($allProblemCiteArr);
+        return $allProblemCiteArr;
 
         // временная разметка таблицей
-        echo '<div style="display: inline-flex">';
-        foreach ($allProblemCiteArr as $portalName => $portalData) {
-            echo '<div style="margin-right: 40px"><h3>' . $portalName . '</h3><table border="2">';
-            foreach ($portalData as $citeNme => $status) {
-                echo '<tr><td>' . $citeNme . '</td><td>' . $status . '</td></tr>';
-            }
-            echo '</table></div>';
-        }
-        echo '</div>';
+//        echo '<div style="display: inline-flex">';
+//        foreach ($allProblemCiteArr as $portalName => $portalData) {
+//            echo '<div style="margin-right: 40px"><h3>' . $portalName . '</h3><table border="2">';
+//            foreach ($portalData as $citeNme => $status) {
+//                echo '<tr><td>' . $citeNme . '</td><td>' . $status . '</td></tr>';
+//            }
+//            echo '</table></div>';
+//        }
+//        echo '</div>';
     }
 
 

@@ -10,6 +10,7 @@ class CompaniesController extends Controller
 {
     public function index()
     {
+//        dump(Company::all());
         return Company::all();
     }
 

@@ -9,11 +9,11 @@
 
                 <div class="panel-body">
                     <div style="display: inline-flex">
-                        @foreach ($allProblemCiteArr as $portalName => $portalData)
+                        @foreach ($portal as $portalName => $portalData)
                             <div style="margin-right: 40px">
                                 <h3>{{ $portalName }}</h3>
                                 <table border="2">
-                                    @foreach ($portal as $citeNme => $status) {
+                                    @foreach ($portalData as $citeNme => $status)
                                         <tr>
                                             <td>{{ $citeNme }}</td>
                                             <td>{{ $status }}</td>
@@ -22,8 +22,9 @@
                                 </table>
                             </div>
                         @endforeach
-                    </div>';
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
