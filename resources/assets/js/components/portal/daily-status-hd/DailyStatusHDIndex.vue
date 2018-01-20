@@ -8,18 +8,43 @@
             <form class="col-md-3" id="uploadForm" name="uploadForm" enctype="multipart/form-data">
                 <!--{{ csrf_field() }}-->
                 <div class="form-group">
-                    <input class="btn btn-default"  type='file' accept='.rtf' name='file' id='upload' required>
+                    <input class="btn btn-default" type='file' accept='.rtf' name='file' id='upload' required>
                 </div>
                 <div class="form-group">
                     <button type="button" class="btn btn-primary" @click="this.uploadFiles">Загрузить</button>
                 </div>
             </form>
         </div>
-        <div class="row col-md-6" v-for="listProblem in list" >
-            <div class="alert alert-info" v-for="(cites, problem) in listProblem" >
-                <div>{{ problem }} <input type="checkbox"></div>
-                <span v-for="cite in cites">{{ cite }}, </span>
+        <div class="row" v-for="listProblem in list">
+            <!--Первый вариант-->
+            <div  class="col-md-6">
+                <h4>Первый вариант</h4>
+                <div class="alert alert-info" v-for="(cites, problem) in listProblem">
+                    <div>{{ problem }} <input type="checkbox"></div>
+                    <div>
+                        <span v-for="cite in cites">{{ cite }}, </span>
+                    </div>
+                </div>
             </div>
+            <!--Второй вариант-->
+            <div class="col-md-6">
+                <h4>Второй вариант</h4>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th class="col-md-4">Проблема</th>
+                        <th>Ситы</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="(cites, problem) in listProblem">
+                        <td class="col-md-4">{{ problem }}</td>
+                        <td><span v-for="cite in cites">{{ cite }}, </span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </template>
