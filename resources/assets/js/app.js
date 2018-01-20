@@ -16,8 +16,11 @@ import CompaniesIndex from './components/companies/CompaniesIndex.vue';
 import CompaniesCreate from './components/companies/CompaniesCreate.vue';
 import CompaniesEdit from './components/companies/CompaniesEdit.vue';
 
+
 import PortalIndex from './components/portal/PortalIndex.vue';
+
 import DailyStatusPortalIndex from './components/portal/daily-status-portal/DailyStatusPortalIndex.vue';
+import DailyStatusHDIndex from './components/portal/daily-status-hd/DailyStatusHDIndex.vue';
 
 // const routes = [
 //     {
@@ -39,7 +42,7 @@ const routes = [
         }
     },
     {path: '/daily-status-portal', component: DailyStatusPortalIndex, name: 'dailyStatusPortal'},
-    // {path: '/daily-status-hd', component: dailyStatusHD, name: 'dailyStatusHD'},
+    {path: '/daily-status-hd', component: DailyStatusHDIndex, name: 'dailyStatusHD'},
 
 //     {
 //         path: '/',

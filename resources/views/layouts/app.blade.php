@@ -19,32 +19,32 @@
 <body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+                    {{--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">--}}
+                        {{--<span class="sr-only">Toggle Navigation</span>--}}
+                        {{--<span class="icon-bar"></span>--}}
+                        {{--<span class="icon-bar"></span>--}}
+                        {{--<span class="icon-bar"></span>--}}
+                    {{--</button>--}}
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
                         {{--{{ config('app.name', 'SC Portal') }}--}}
-                        SC Portal
+                        Support Center Portal
                     </a>
                 </div>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                {{--<div class="collapse navbar-collapse" id="app-navbar-collapse">--}}
                     <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
+                    {{--<ul class="nav navbar-nav">--}}
                         &nbsp;
-                    </ul>
+                    {{--</ul>--}}
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
+                    {{--<ul class="nav navbar-nav navbar-right">--}}
                         <!-- Authentication Links -->
                         {{--@guest--}}
                             {{--<li><a href="{{ route('login') }}">Login</a></li>--}}
@@ -71,8 +71,8 @@
                                 {{--</ul>--}}
                             {{--</li>--}}
                         {{--@endguest--}}
-                    </ul>
-                </div>
+                    {{--</ul>--}}
+                {{--</div>--}}
             </div>
         </nav>
 
@@ -81,5 +81,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>

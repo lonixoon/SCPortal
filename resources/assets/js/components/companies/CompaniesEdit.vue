@@ -2,7 +2,7 @@
 <template>
     <div>
         <div class="form-group">
-            <router-link to="/" class="btn btn-default">Назад</router-link>
+            <router-link to="/" class="btn btn-link">Назад</router-link>
         </div>
 
         <div class="panel panel-default">

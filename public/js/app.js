@@ -1092,6 +1092,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_portal_PortalIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_portal_PortalIndex_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -1105,6 +1107,8 @@ window.Vue = __webpack_require__(36);
 
 
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
+
+
 
 
 
@@ -1130,8 +1134,7 @@ var routes = [{
         portalIndex: __WEBPACK_IMPORTED_MODULE_4__components_portal_PortalIndex_vue___default.a,
         companiesIndex: __WEBPACK_IMPORTED_MODULE_1__components_companies_CompaniesIndex_vue___default.a
     }
-}, { path: '/daily-status-portal', component: __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue___default.a, name: 'dailyStatusPortal' },
-// {path: '/daily-status-hd', component: dailyStatusHD, name: 'dailyStatusHD'},
+}, { path: '/daily-status-portal', component: __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue___default.a, name: 'dailyStatusPortal' }, { path: '/daily-status-hd', component: __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue___default.a, name: 'dailyStatusHD' },
 
 //     {
 //         path: '/',
@@ -46265,11 +46268,9 @@ var render = function() {
       "div",
       { staticClass: "form-group" },
       [
-        _c(
-          "router-link",
-          { staticClass: "btn btn-default", attrs: { to: "/" } },
-          [_vm._v("Назад")]
-        )
+        _c("router-link", { staticClass: "btn btn-link", attrs: { to: "/" } }, [
+          _vm._v("Назад")
+        ])
       ],
       1
     ),
@@ -46630,6 +46631,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -46663,61 +46671,83 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", [
-      _c("h3", [_vm._v("Портал Классика")]),
-      _vm._v(" "),
+  return _c(
+    "div",
+    [
       _c(
-        "table",
-        { staticClass: "table table-bordered table-striped" },
-        [
-          _vm._m(0),
-          _vm._v(" "),
-          _vm._l(_vm.classic, function(portalClassic) {
-            return _c(
-              "tbody",
-              _vm._l(portalClassic, function(statusClassic, citeClassic) {
-                return _c("tr", [
-                  _c("td", [_vm._v(_vm._s(citeClassic))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(statusClassic))])
-                ])
-              })
-            )
-          })
-        ],
-        2
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", [
-      _c("h3", [_vm._v("Портал АТАК")]),
+        "router-link",
+        { staticClass: "btn btn-default", attrs: { to: "/" } },
+        [_vm._v("Назад")]
+      ),
       _vm._v(" "),
-      _c(
-        "table",
-        { staticClass: "table table-bordered table-striped" },
-        [
-          _vm._m(1),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("h4", [_vm._v("Портал Классика")]),
           _vm._v(" "),
-          _vm._l(_vm.atak, function(portalAtak) {
-            return _c(
-              "tbody",
-              _vm._l(portalAtak, function(statusAtak, citeAtak) {
-                return _c("tr", [
-                  _c("td", [_vm._v(_vm._s(citeAtak))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(statusAtak))])
-                ])
+          _c(
+            "table",
+            { staticClass: "table table-bordered table-striped" },
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _vm._l(_vm.classic, function(portalClassic) {
+                return _c(
+                  "tbody",
+                  _vm._l(portalClassic, function(statusClassic, citeClassic) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(citeClassic))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(statusClassic))])
+                    ])
+                  })
+                )
               })
-            )
-          })
-        ],
-        2
-      )
-    ])
-  ])
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("h4", [_vm._v("Портал АТАК")]),
+          _vm._v(" "),
+          _c(
+            "table",
+            { staticClass: "table table-bordered table-striped" },
+            [
+              _vm._m(2),
+              _vm._v(" "),
+              _vm._l(_vm.atak, function(portalAtak) {
+                return _c(
+                  "tbody",
+                  _vm._l(portalAtak, function(statusAtak, citeAtak) {
+                    return _c("tr", [
+                      _c("td", [_vm._v(_vm._s(citeAtak))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(statusAtak))])
+                    ])
+                  })
+                )
+              })
+            ],
+            2
+          )
+        ])
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12 form-group" }, [
+      _c("h3", [_vm._v("Daily Status Portal")])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -46757,6 +46787,233 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(67)
+/* template */
+var __vue_template__ = __webpack_require__(66)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\portal\\daily-status-hd\\DailyStatusHDIndex.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e1a137a6", Component.options)
+  } else {
+    hotAPI.reload("data-v-e1a137a6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "router-link",
+        { staticClass: "btn btn-default", attrs: { to: "/" } },
+        [_vm._v("Назад")]
+      ),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "form",
+          {
+            staticClass: "col-md-3",
+            attrs: {
+              id: "uploadForm",
+              name: "uploadForm",
+              enctype: "multipart/form-data"
+            }
+          },
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: { click: this.uploadFiles }
+                },
+                [_vm._v("Загрузить")]
+              )
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.list, function(listProblem) {
+        return _c(
+          "div",
+          { staticClass: "row col-md-6" },
+          _vm._l(listProblem, function(cites, problem) {
+            return _c(
+              "div",
+              { staticClass: "alert alert-info" },
+              [
+                _c("div", [
+                  _vm._v(_vm._s(problem) + " "),
+                  _c("input", { attrs: { type: "checkbox" } })
+                ]),
+                _vm._v(" "),
+                _vm._l(cites, function(cite) {
+                  return _c("span", [_vm._v(_vm._s(cite) + ", ")])
+                })
+              ],
+              2
+            )
+          })
+        )
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12 form-group" }, [
+      _c("h3", [
+        _vm._v("Разбор файла Daily Status HelpDesk по активностям (проблемам)")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("input", {
+        staticClass: "btn btn-default",
+        attrs: {
+          type: "file",
+          accept: ".rtf",
+          name: "file",
+          id: "upload",
+          required: ""
+        }
+      })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e1a137a6", module.exports)
+  }
+}
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            list: []
+        };
+    },
+
+    methods: {
+        uploadFiles: function uploadFiles() {
+            var app = this;
+            var formData = new FormData(document.getElementById('uploadForm'));
+            var rtfFile = document.getElementById('upload');
+            //                console.log(rtfFile.file);
+            formData.append('file', rtfFile.file);
+            axios.post('http://scportal/daily-status-helpdesk/result', formData).then(function (response) {
+                app.list = response.data;
+                //                        console.log(resp);
+            }).catch(function (error) {
+                console.log(error.response);
+            });
+        }
+    }
+});
 
 /***/ })
 /******/ ]);

@@ -31,7 +31,8 @@ class DailyStatusHDController extends Controller
         // Получаем количство тикетов
 //        $result['numberOfRecords'] = count($result['list']);
 
-        return view('portal.daily-status-hd.test2-2', $result);
+//        return view('portal.daily-status-hd.test2-2', $result);
+        return $result;
     }
 }
 
