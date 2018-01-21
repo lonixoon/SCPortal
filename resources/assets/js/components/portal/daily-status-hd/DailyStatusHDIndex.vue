@@ -17,28 +17,29 @@
         </div>
         <div class="row" v-for="listProblem in list">
             <!--Первый вариант-->
-            <div  class="col-md-6">
-                <h4>Первый вариант</h4>
-                <div class="alert alert-info" v-for="(cites, problem) in listProblem">
-                    <div>{{ problem }} <input type="checkbox"></div>
-                    <div>
-                        <span v-for="cite in cites">{{ cite }}, </span>
-                    </div>
-                </div>
-            </div>
+            <!--<div  class="col-md-6">-->
+                <!--<h4>Первый вариант</h4>-->
+                <!--<div class="alert alert-info" v-for="(cites, problem) in listProblem">-->
+                    <!--<div>{{ problem }} <input type="checkbox"></div>-->
+                    <!--<div>-->
+                        <!--<span v-for="cite in cites">{{ cite }}, </span>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
             <!--Второй вариант-->
-            <div class="col-md-6">
-                <h4>Второй вариант</h4>
+            <div class="col-md-12">
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th class="col-md-4">Проблема</th>
+                        <th></th>
+                        <th class="col-md-3">Проблема</th>
                         <th>Ситы</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="(cites, problem) in listProblem">
-                        <td class="col-md-4">{{ problem }}</td>
+                        <th style="width: 30px"><input type="checkbox"></th>
+                        <td class="col-md-3">{{ problem }}</td>
                         <td><span v-for="cite in cites">{{ cite }}, </span></td>
                     </tr>
                     </tbody>
@@ -63,14 +64,15 @@
                 let rtfFile = document.getElementById('upload');
 //                console.log(rtfFile.file);
                 formData.append('file', rtfFile.file);
-                axios.post('http://scportal/daily-status-helpdesk/result', formData)
+                axios.post('/daily-status-helpdesk/result', formData)
                     .then(function (response) {
                         app.list = response.data;
 //                        console.log(resp);
                     })
-                    .catch(error => {
+                    .catch(function (error) {
                         console.log(error.response);
-                    })
+                        alert("Не удалось обработать данные");
+                    });
             }
         }
     }

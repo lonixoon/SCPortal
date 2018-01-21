@@ -1072,7 +1072,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(54);
+module.exports = __webpack_require__(57);
 
 
 /***/ }),
@@ -1092,7 +1092,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_portal_PortalIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_portal_PortalIndex_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue__);
 
 /**
@@ -46638,28 +46638,74 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             classic: [],
-            atak: []
+            atak: [],
+            loadingClassic: false,
+            loadingAtak: false
         };
     },
-    mounted: function mounted() {
-        var app = this;
-        axios.get('/daily-status-portal/api/classic').then(function (resp) {
-            app.classic = resp.data;
-        }).catch(function (resp) {
-            console.log(resp);
-            alert("Не удалось загрузить данные КЛАССИКИ");
-        });
-        axios.get('/daily-status-portal/api/atak').then(function (resp) {
-            app.atak = resp.data;
-        }).catch(function (resp) {
-            console.log(resp);
-            alert("Не удалось загрузить данные АТАК");
-        });
+    // запусть функции после отрисовки страницы
+    //        mounted() {
+    //            this.portalClassicUpload();
+    //            this.portalAtakUpload();
+    //        },
+    methods: {
+        portalClassicUpload: function portalClassicUpload() {
+            var app = this;
+            app.loadingClassic = true;
+            axios.get('/daily-status-portal/api/classic').then(function (resp) {
+                app.classic = resp.data;
+                app.loadingClassic = false;
+            }).catch(function (error) {
+                console.log(error.response);
+                app.loadingClassic = false;
+                alert("Не удалось загрузить данные КЛАССИКИ");
+            });
+        },
+        portalAtakUpload: function portalAtakUpload() {
+            var app = this;
+            app.loadingAtak = true;
+            axios.get('/daily-status-portal/api/atak').then(function (resp) {
+                app.atak = resp.data;
+                app.loadingAtak = false;
+            }).catch(function (error) {
+                console.log(error.response);
+                app.loadingAtak = false;
+                alert("Не удалось загрузить данные АТАК");
+            });
+        }
     }
 });
 
@@ -46683,57 +46729,127 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("h4", [_vm._v("Портал Классика")]),
-          _vm._v(" "),
-          _c(
-            "table",
-            { staticClass: "table table-bordered table-striped" },
-            [
-              _vm._m(1),
-              _vm._v(" "),
-              _vm._l(_vm.classic, function(portalClassic) {
-                return _c(
-                  "tbody",
-                  _vm._l(portalClassic, function(statusClassic, citeClassic) {
-                    return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(citeClassic))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(statusClassic))])
-                    ])
-                  })
-                )
-              })
-            ],
-            2
-          )
-        ]),
+        _c(
+          "div",
+          { staticClass: "col-md-6" },
+          [
+            _c("h4", [_vm._v("Портал Классика")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: { click: this.portalClassicUpload }
+                },
+                [_vm._v("Запустить выгрузку")]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.loadingClassic,
+                    expression: "loadingClassic"
+                  }
+                ],
+                staticClass: "alert alert-info"
+              },
+              [_vm._v("\n                Идёт загрузка...\n            ")]
+            ),
+            _vm._v(" "),
+            _vm._l(_vm.classic, function(portalClassic) {
+              return _c(
+                "table",
+                { staticClass: "table table-bordered table-striped" },
+                [
+                  _vm._m(1, true),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(portalClassic, function(statusClassic, citeClassic) {
+                      return _c("tr", [
+                        _c("td", [_vm._v(_vm._s(citeClassic))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(statusClassic))])
+                      ])
+                    })
+                  )
+                ]
+              )
+            })
+          ],
+          2
+        ),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("h4", [_vm._v("Портал АТАК")]),
-          _vm._v(" "),
-          _c(
-            "table",
-            { staticClass: "table table-bordered table-striped" },
-            [
-              _vm._m(2),
-              _vm._v(" "),
-              _vm._l(_vm.atak, function(portalAtak) {
-                return _c(
-                  "tbody",
-                  _vm._l(portalAtak, function(statusAtak, citeAtak) {
-                    return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(citeAtak))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(statusAtak))])
-                    ])
-                  })
+        _c(
+          "div",
+          { staticClass: "col-md-6" },
+          [
+            _c("h4", [_vm._v("Портал АТАК")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: { click: this.portalAtakUpload }
+                },
+                [_vm._v("Запустить выгрузку")]
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.loadingAtak,
+                    expression: "loadingAtak"
+                  }
+                ],
+                staticClass: "alert alert-info"
+              },
+              [
+                _vm._v("\n                Идёт загрузка..."),
+                _c("br"),
+                _vm._v(
+                  " С Порталом АТАК бывают сложности, если появится ошибка, запустите выгрузку ещё раз...\n            "
                 )
-              })
-            ],
-            2
-          )
-        ])
+              ]
+            ),
+            _vm._v(" "),
+            _vm._l(_vm.atak, function(portalAtak) {
+              return _c(
+                "table",
+                { staticClass: "table table-bordered table-striped" },
+                [
+                  _vm._m(2, true),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(portalAtak, function(statusAtak, citeAtak) {
+                      return _c("tr", [
+                        _c("td", [_vm._v(_vm._s(citeAtak))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(statusAtak))])
+                      ])
+                    })
+                  )
+                ]
+              )
+            })
+          ],
+          2
+        )
       ])
     ],
     1
@@ -46754,9 +46870,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Ситы")]),
+        _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Статус")])
+        _c("th", { staticClass: "col-md-5" }, [_vm._v("Статус")])
       ])
     ])
   },
@@ -46766,9 +46882,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Ситы")]),
+        _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Статус")])
+        _c("th", { staticClass: "col-md-5" }, [_vm._v("Статус")])
       ])
     ])
   }
@@ -46784,30 +46900,14 @@ if (false) {
 
 /***/ }),
 /* 54 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(67)
+var __vue_script__ = __webpack_require__(55)
 /* template */
-var __vue_template__ = __webpack_require__(66)
+var __vue_template__ = __webpack_require__(56)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -46846,167 +46946,12 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "router-link",
-        { staticClass: "btn btn-default", attrs: { to: "/" } },
-        [_vm._v("Назад")]
-      ),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "form",
-          {
-            staticClass: "col-md-3",
-            attrs: {
-              id: "uploadForm",
-              name: "uploadForm",
-              enctype: "multipart/form-data"
-            }
-          },
-          [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { type: "button" },
-                  on: { click: this.uploadFiles }
-                },
-                [_vm._v("Загрузить")]
-              )
-            ])
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _vm._l(_vm.list, function(listProblem) {
-        return _c("div", { staticClass: "row" }, [
-          _c(
-            "div",
-            { staticClass: "col-md-6" },
-            [
-              _c("h4", [_vm._v("Первый вариант")]),
-              _vm._v(" "),
-              _vm._l(listProblem, function(cites, problem) {
-                return _c("div", { staticClass: "alert alert-info" }, [
-                  _c("div", [
-                    _vm._v(_vm._s(problem) + " "),
-                    _c("input", { attrs: { type: "checkbox" } })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    _vm._l(cites, function(cite) {
-                      return _c("span", [_vm._v(_vm._s(cite) + ", ")])
-                    })
-                  )
-                ])
-              })
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("h4", [_vm._v("Второй вариант")]),
-            _vm._v(" "),
-            _c("table", { staticClass: "table table-bordered table-striped" }, [
-              _vm._m(2, true),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(listProblem, function(cites, problem) {
-                  return _c("tr", [
-                    _c("td", { staticClass: "col-md-4" }, [
-                      _vm._v(_vm._s(problem))
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      _vm._l(cites, function(cite) {
-                        return _c("span", [_vm._v(_vm._s(cite) + ", ")])
-                      })
-                    )
-                  ])
-                })
-              )
-            ])
-          ])
-        ])
-      })
-    ],
-    2
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12 form-group" }, [
-      _c("h3", [
-        _vm._v("Разбор файла Daily Status HelpDesk по активностям (проблемам)")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("input", {
-        staticClass: "btn btn-default",
-        attrs: {
-          type: "file",
-          accept: ".rtf",
-          name: "file",
-          id: "upload",
-          required: ""
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "col-md-4" }, [_vm._v("Проблема")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Ситы")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-e1a137a6", module.exports)
-  }
-}
-
-/***/ }),
-/* 67 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -47073,15 +47018,163 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var rtfFile = document.getElementById('upload');
             //                console.log(rtfFile.file);
             formData.append('file', rtfFile.file);
-            axios.post('http://scportal/daily-status-helpdesk/result', formData).then(function (response) {
+            axios.post('/daily-status-helpdesk/result', formData).then(function (response) {
                 app.list = response.data;
                 //                        console.log(resp);
             }).catch(function (error) {
                 console.log(error.response);
+                alert("Не удалось обработать данные");
             });
         }
     }
 });
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "router-link",
+        { staticClass: "btn btn-default", attrs: { to: "/" } },
+        [_vm._v("Назад")]
+      ),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "form",
+          {
+            staticClass: "col-md-3",
+            attrs: {
+              id: "uploadForm",
+              name: "uploadForm",
+              enctype: "multipart/form-data"
+            }
+          },
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: { click: this.uploadFiles }
+                },
+                [_vm._v("Загрузить")]
+              )
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.list, function(listProblem) {
+        return _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("table", { staticClass: "table table-bordered table-striped" }, [
+              _vm._m(2, true),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(listProblem, function(cites, problem) {
+                  return _c("tr", [
+                    _vm._m(3, true),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "col-md-3" }, [
+                      _vm._v(_vm._s(problem))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      _vm._l(cites, function(cite) {
+                        return _c("span", [_vm._v(_vm._s(cite) + ", ")])
+                      })
+                    )
+                  ])
+                })
+              )
+            ])
+          ])
+        ])
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12 form-group" }, [
+      _c("h3", [
+        _vm._v("Разбор файла Daily Status HelpDesk по активностям (проблемам)")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("input", {
+        staticClass: "btn btn-default",
+        attrs: {
+          type: "file",
+          accept: ".rtf",
+          name: "file",
+          id: "upload",
+          required: ""
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th"),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Ситы")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", { staticStyle: { width: "30px" } }, [
+      _c("input", { attrs: { type: "checkbox" } })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e1a137a6", module.exports)
+  }
+}
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
