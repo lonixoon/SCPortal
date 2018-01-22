@@ -1,33 +1,16 @@
 <template>
     <div>
-        <router-link to="/" class="btn btn-default">Назад</router-link>
-
+        <!--<router-link to="/" class="btn btn-default">Назад</router-link>-->
         <div class="col-md-12 form-group">
             <h3>Daily Status Portal</h3>
         </div>
-
-        <!--<div class="row">-->
-            <!--<form class="col-md-4" id="loginPortal" name="loginPortal">-->
-                <!--&lt;!&ndash;{{ csrf_field() }}&ndash;&gt;-->
-                <!--<div class="form-group">-->
-                    <!--<input v-model="userLoginPortal" id="userLoginPortal" type="text" class="form-control" name="userLoginPortal" placeholder="Логин в Портал" required autofocus>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<input v-model="userPasswordPortal" id="userPasswordPortal" type="password" class="form-control" name="userPasswordPortal" placeholder="Пароль в Портал" required>-->
-                   <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<button type="button" class="btn btn-primary">Получить отчёт</button>-->
-                <!--</div>-->
-            <!--</form>-->
-        <!--</div>-->
-
         <div class="row">
             <div class="col-md-6">
                 <h4>Портал Классика</h4>
                 <div class="form-group">
-                    <button type="button" class="btn btn-primary" @click="this.portalClassicUpload">Запустить выгрузку</button>
+                    <button id="buttonClassic" type="button" class="btn btn-primary" @click="this.portalClassicUpload">Запустить выгрузку</button>
                 </div>
-                <div v-show="loadingClassic" class="alert alert-info">
+                <div v-show="loadingClassic" class="alert alert-info text-center">
                     Идёт загрузка...
                 </div>
                 <table class="table table-bordered table-striped"  v-for="portalClassic in classic">
@@ -49,9 +32,9 @@
             <div class="col-md-6">
                 <h4>Портал АТАК</h4>
                 <div class="form-group">
-                    <button type="button" class="btn btn-primary" @click="this.portalAtakUpload">Запустить выгрузку</button>
+                    <button id="buttonAtak" type="button" class="btn btn-primary" @click="this.portalAtakUpload">Запустить выгрузку</button>
                 </div>
-                <div v-show="loadingAtak" class="alert alert-info">
+                <div v-show="loadingAtak" class="alert alert-info text-center">
                     Идёт загрузка...<br> С Порталом АТАК бывают сложности, если появится ошибка, запустите выгрузку ещё раз...
                 </div>
                 <table class="table table-bordered table-striped" v-for="portalAtak in atak">
@@ -90,30 +73,42 @@
 //        },
         methods: {
             portalClassicUpload() {
+                // дисейблем кнопку пока идёт выгрузка
+                let buttonClassic = document.getElementById('buttonClassic');
+                buttonClassic.disabled = true;
+
                 let app = this;
                 app.loadingClassic = true;
                 axios.get('/daily-status-portal/api/classic')
                     .then(function (resp) {
                         app.classic = resp.data;
                         app.loadingClassic = false;
+                        buttonClassic.disabled = false;
                     })
                     .catch(function (error) {
                         console.log(error.response);
                         app.loadingClassic = false;
+                        buttonClassic.disabled = false;
                         alert("Не удалось загрузить данные КЛАССИКИ");
                     });
             },
             portalAtakUpload() {
+                // дисейблем кнопку пока идёт выгрузка
+                let buttonAtak = document.getElementById('buttonAtak');
+                buttonAtak.disabled = true;
+
                 let app = this;
                 app.loadingAtak = true;
                 axios.get('/daily-status-portal/api/atak')
                     .then(function (resp) {
                         app.atak = resp.data;
                         app.loadingAtak = false;
+                        buttonAtak.disabled = false;
                     })
                     .catch(function (error) {
                         console.log(error.response);
                         app.loadingAtak = false;
+                        buttonAtak.disabled = false;
                         alert("Не удалось загрузить данные АТАК");
                     });
             },

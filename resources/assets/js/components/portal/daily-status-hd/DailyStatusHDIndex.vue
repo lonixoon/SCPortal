@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link to="/" class="btn btn-default">Назад</router-link>
+        <!--<router-link to="/" class="btn btn-default">Назад</router-link>-->
         <div class="col-md-12 form-group">
             <h3>Разбор файла Daily Status HelpDesk по активностям (проблемам)</h3>
         </div>

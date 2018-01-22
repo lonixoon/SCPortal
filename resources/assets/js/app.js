@@ -44,12 +44,7 @@ const routes = [
     {path: '/daily-status-portal', component: DailyStatusPortalIndex, name: 'dailyStatusPortal'},
     {path: '/daily-status-hd', component: DailyStatusHDIndex, name: 'dailyStatusHD'},
 
-//     {
-//         path: '/',
-//         components: {
-//             companiesIndex: CompaniesIndex
-//         }
-//     },
+
     {path: '/create', component: CompaniesCreate, name: 'createCompany'},
     {path: '/edit/:id', component: CompaniesEdit, name: 'editCompany'},
 ];
