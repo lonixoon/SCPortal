@@ -5,7 +5,7 @@
             <h3>Daily Status Portal</h3>
         </div>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <h4>Портал Классика</h4>
                 <div class="form-group">
                     <button id="buttonClassic" type="button" class="btn btn-primary" @click="this.portalClassicUpload">Запустить выгрузку</button>
@@ -29,7 +29,7 @@
                 </table>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <h4>Портал АТАК</h4>
                 <div class="form-group">
                     <button id="buttonAtak" type="button" class="btn btn-primary" @click="this.portalAtakUpload">Запустить выгрузку</button>
@@ -52,30 +52,6 @@
                     </tbody>
                 </table>
             </div>
-
-            <!--<div class="col-md-3">-->
-                <!--<h4>Портал Админ Классика</h4>-->
-                <!--<div class="form-group">-->
-                    <!--<button id="buttonAdmin" type="button" class="btn btn-primary" @click="this.portalAdminClassicUpload">Запустить выгрузку</button>-->
-                <!--</div>-->
-                <!--<div v-show="loadingAdmin" class="alert alert-info text-center">-->
-                    <!--Идёт загрузка...-->
-                <!--</div>-->
-                <!--<table class="table table-bordered table-striped"  v-for="portalAdmin in admin">-->
-                    <!--<thead>-->
-                    <!--<tr>-->
-                        <!--<th class="col-md-7">Имя</th>-->
-                        <!--<th class="col-md-5">Статус</th>-->
-                    <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tbody>-->
-                    <!--<tr v-for="(statusAdmin, citeAdmin) in portalAdmin">-->
-                        <!--<td>{{ citeAdmin }}</td>-->
-                        <!--<td>{{ statusAdmin }}</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                <!--</table>-->
-            <!--</div>-->
         </div>
     </div>
 </template>
@@ -86,10 +62,8 @@
             return {
                 classic: [],
                 atak: [],
-                admin: [],
                 loadingClassic: false,
                 loadingAtak: false,
-                loadingAdmin: false,
             }
         },
         // запусть функции после отрисовки страницы
@@ -138,25 +112,6 @@
                         alert("Не удалось загрузить данные АТАК");
                     });
             },
-            portalAdminClassicUpload() {
-                let buttonAdmin = document.getElementById('buttonAdmin');
-                buttonAdmin.disabled = true;
-
-                let app = this;
-                app.loadingAdmin = true;
-                axios.get('/daily-status-admin-portal/portal-classic')
-                    .then(function (resp) {
-                        app.atak = resp.data;
-                        app.loadingAdmin = false;
-                        buttonAdmin.disabled = false;
-                    })
-                    .catch(function (error) {
-                        console.log(error.response);
-                        app.loadingAdmin = false;
-                        buttonAdmin.disabled = false;
-                        alert("Не удалось загрузить данные Admin");
-                    });
-            }
         }
     }
 </script>

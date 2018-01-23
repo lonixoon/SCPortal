@@ -46641,14 +46641,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             classic: [],
             atak: [],
+            admin: [],
             loadingClassic: false,
-            loadingAtak: false
+            loadingAtak: false,
+            loadingAdmin: false
         };
     },
     // запусть функции после отрисовки страницы
@@ -46692,6 +46718,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 buttonAtak.disabled = false;
                 alert("Не удалось загрузить данные АТАК");
             });
+        },
+        portalAdminClassicUpload: function portalAdminClassicUpload() {
+            var buttonAdmin = document.getElementById('buttonAdmin');
+            buttonAdmin.disabled = true;
+
+            var app = this;
+            app.loadingAdmin = true;
+            axios.get('/daily-status-admin-portal/portal-classic').then(function (resp) {
+                app.atak = resp.data;
+                app.loadingAdmin = false;
+                buttonAdmin.disabled = false;
+            }).catch(function (error) {
+                console.log(error.response);
+                app.loadingAdmin = false;
+                buttonAdmin.disabled = false;
+                alert("Не удалось загрузить данные Admin");
+            });
         }
     }
 });
@@ -46710,7 +46753,7 @@ var render = function() {
     _c("div", { staticClass: "row" }, [
       _c(
         "div",
-        { staticClass: "col-md-6" },
+        { staticClass: "col-md-3" },
         [
           _c("h4", [_vm._v("Портал Классика")]),
           _vm._v(" "),
@@ -46768,7 +46811,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "col-md-6" },
+        { staticClass: "col-md-3" },
         [
           _c("h4", [_vm._v("Портал АТАК")]),
           _vm._v(" "),

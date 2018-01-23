@@ -9,8 +9,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
-        {{--{{ config('app.name', 'SC Portal') }}--}}
-        SC Portal
+        {{--{{ config('app.name', 'SCPortal') }}--}}
+        SCPortal
     </title>
 
     <!-- Styles -->
