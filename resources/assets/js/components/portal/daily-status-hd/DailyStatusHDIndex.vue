@@ -11,22 +11,11 @@
                     <input class="btn btn-default" type='file' accept='.rtf' name='file' id='upload' required>
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn btn-primary" @click="this.uploadFiles">Загрузить</button>
+                    <button id="buttonSubmit" type="button" class="btn btn-primary" @click="this.uploadFiles">Загрузить</button>
                 </div>
             </form>
         </div>
         <div class="row" v-for="listProblem in list">
-            <!--Первый вариант-->
-            <!--<div  class="col-md-6">-->
-                <!--<h4>Первый вариант</h4>-->
-                <!--<div class="alert alert-info" v-for="(cites, problem) in listProblem">-->
-                    <!--<div>{{ problem }} <input type="checkbox"></div>-->
-                    <!--<div>-->
-                        <!--<span v-for="cite in cites">{{ cite }}, </span>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--Второй вариант-->
             <div class="col-md-12">
                 <table class="table table-bordered table-striped">
                     <thead>
@@ -59,6 +48,10 @@
         },
         methods: {
             uploadFiles() {
+                // дисейблем кнопку пока идёт выгрузка
+                let buttonSubmit = document.getElementById('buttonSubmit');
+                buttonSubmit.disabled = true;
+
                 let app = this;
                 let formData = new FormData(document.getElementById('uploadForm'));
                 let rtfFile = document.getElementById('upload');
@@ -67,10 +60,12 @@
                 axios.post('/daily-status-helpdesk/result', formData)
                     .then(function (response) {
                         app.list = response.data;
+                        buttonSubmit.disabled = false;
 //                        console.log(resp);
                     })
                     .catch(function (error) {
                         console.log(error.response);
+                        buttonSubmit.disabled = false;
                         alert("Не удалось обработать данные");
                     });
             }

@@ -29,10 +29,31 @@ class DailyStatusAdminPortalController extends Controller
         // передаем данные для получения в функция для получения отчёта
         $xml = $this->getPortalAdminAuth($PortalAtakHtmlGetAuth);
         $parseHtml = new DailyStatusAdminPortal();
-        $result1 = $parseHtml->getDataInAdminPortal($xml, $tegParse);
-        $result2['admin'] = $parseHtml->processingData($result1);
+        $showcase = $parseHtml->getDataInAdminPortal($xml, $tegParse);
+//        $result2['admin'] = $parseHtml->processingData($result1);
 
-        return $result2;
+        return $showcase;
+    }
+
+    public function getAdminPortalAtakHtml()
+    {
+        $PortalAtakHtmlGetAuth = [
+            // ссылка на базовую страницу
+            'link' => 'http://146.240.224.178/iradmin2/'
+        ];
+
+        $tegParse = [
+            'showcaseName' => '_lbtRepName',
+            'showcaseStatus' => '_lblStatus',
+        ];
+
+        // передаем данные для получения в функция для получения отчёта
+        $xml = $this->getPortalAdminAuth($PortalAtakHtmlGetAuth);
+        $parseHtml = new DailyStatusAdminPortal();
+        $showcase = $parseHtml->getDataInAdminPortal($xml, $tegParse);
+//        $result2['admin'] = $parseHtml->processingData($result1);
+
+        return $showcase;
     }
 
     /*
@@ -74,6 +95,9 @@ class DailyStatusAdminPortalController extends Controller
         $date['main'] = date("m.Y");
         $date['today'] = date("d");
         $date['previousDay'] = date("d") - 1;
+        // делаем формат ПРИМЕР! '28.03.2018 18:00'
+        $previousDay = $date['previousDay'] . '.' . $date['main'] . ' 18:00';
+        $today = $date['today'] . '.' . $date['main'] . ' 23:59';
 
 
         $response = $client->request('POST', 'ADRequest/Requests.aspx',
@@ -90,10 +114,11 @@ class DailyStatusAdminPortalController extends Controller
                     'ddlPhase' => '-1',
                     'txtRequestName' => '',
                     'ddlOperationType' => '-1',
-                    // с этим полем косяк, не оправлять!
-//                    'ddlStatus' => '-1',
-                    'txtRequestDataSubmitedStart' => $date['previousDay'] . '.' . $date['main'] . ' 18:00',
-                    'txtRequestDataSubmitedEnd' => $date['today'] . '.' . $date['main'] . ' 23:59',
+
+                    // статус витрин (1 : Ошибка), (-1 : НЕ ОТПРАВЛЯТЬ!!)
+                    'ddlStatus' => '1',
+                    'txtRequestDataSubmitedStart' => $previousDay,
+                    'txtRequestDataSubmitedEnd' => $today,
                     'ddlUser' => '-1',
                     'ddlTypes' => 'Любой',
                     'txtDateExecutedStart' => '',

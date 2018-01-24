@@ -1,0 +1,10 @@
+.hellfire {
+    background: url(../img/hellfire.jpg);
+    color: #fff;
+    /*font-weight: 700;*/
+}
+
+.hellfire__span {
+    background: rgba(0,0,0,0.4);
+}
+

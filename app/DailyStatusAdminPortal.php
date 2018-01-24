@@ -14,21 +14,21 @@ class DailyStatusAdminPortal extends Model
         // добавляем ссылку в кравлер и получаем весь контент
         $crawler->addHtmlContent($html, 'UTF-8');
 
-        // забираем циклом номера ситов
-        $dataAdminPortal['showcaseName'] = $crawler
+        // забираем циклом название проблемных витрин
+        $dataAdminPortal['showcaseNames'] = $crawler
             // поиск осуществляем по постаянному кусочку от класса
             ->filterXPath('//a[contains(@id,"' . $tegParse['showcaseName'] . '")]')
             ->each(function (Crawler $node, $i) {
                 return $node->text();
             });
 
-        //забираем циклом значения по клиентам
-        $dataAdminPortal['showcaseStatus'] = $crawler
-            ->filterXPath('//span[contains(@id,"' . $tegParse['showcaseStatus'] . '")]')
-            ->each(function (Crawler $node, $i) {
-                return $node->text();
-            });
-        dd($dataAdminPortal);
+        //забираем циклом статус проблемных витрин
+//        $dataAdminPortal['showcaseStatus'] = $crawler
+//            ->filterXPath('//span[contains(@id,"' . $tegParse['showcaseStatus'] . '")]')
+//            ->each(function (Crawler $node, $i) {
+//                return $node->text();
+//            });
+//        dd($dataAdminPortal);
 
         return $dataAdminPortal;
     }

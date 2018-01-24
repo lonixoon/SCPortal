@@ -24,14 +24,13 @@ Route::get('/daily-status-portal/portal-classic', 'DailyStatusPortalController@g
 Route::get('/daily-status-portal/portal-atak', 'DailyStatusPortalController@getPortalAtakHtml');
 
 Route::get('/daily-status-admin-portal/portal-classic', 'DailyStatusAdminPortalController@getAdminPortalClassicHtml');
+Route::get('/daily-status-admin-portal/portal-atak', 'DailyStatusAdminPortalController@getAdminPortalAtakHtml');
 
 // без испульзования VueJS
 //Route::get('/daily-status-portal/result', 'DailyStatusPortalController@index');
 
 Route::get('/daily-status-portal/api/classic', 'DailyStatusPortalController@apiClassic');
 Route::get('/daily-status-portal/api/atak', 'DailyStatusPortalController@apiAtak');
-
-//Route::get('/daily-status-portal/api/admin-classic', 'DailyStatusPortalController@apiAdminClassic');
 
 // HD DS
 Route::get('/daily-status-helpdesk', 'DailyStatusHDController@index');
