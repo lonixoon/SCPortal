@@ -133,8 +133,8 @@ class DailyStatusPortalController extends Controller
             // ссылка на базовую страницу
             'link' => 'http://portal.ru.auchan.com/portal/',
             // токены
-            'tokenViewsState' => '/wEPDwUJMzgzMzg4MjUwD2QWAgIDD2QWCmYPDxYCHgRUZXh0BQrQm9C+0LPQuNC9ZGQCAg8PFgIfAAUM0J/QsNGA0L7Qu9GMZGQCBA8PFgIfAAUI0K/Qt9GL0LpkZAIFDxBkZBYBZmQCBg8WAh4FdmFsdWUFCNCS0YXQvtC0ZGQniGTj7tOUIsgb60FVI4XE91+HLQ==',
-            'tokenEvanValidation' => '/wEWCQKAufxaAq+m6rYIAvK94JEPAvn6+RsCyYGW8wICjo+S1wQCgtyHhgwC7c2/agL6r+qNDFf2caYpL6FwNpwNbTiwK+9t04HV',
+//            'tokenViewsState' => '/wEPDwUJMzgzMzg4MjUwD2QWAgIDD2QWCmYPDxYCHgRUZXh0BQrQm9C+0LPQuNC9ZGQCAg8PFgIfAAUM0J/QsNGA0L7Qu9GMZGQCBA8PFgIfAAUI0K/Qt9GL0LpkZAIFDxBkZBYBZmQCBg8WAh4FdmFsdWUFCNCS0YXQvtC0ZGQniGTj7tOUIsgb60FVI4XE91+HLQ==',
+//            'tokenEvanValidation' => '/wEWCQKAufxaAq+m6rYIAvK94JEPAvn6+RsCyYGW8wICjo+S1wQCgtyHhgwC7c2/agL6r+qNDFf2caYpL6FwNpwNbTiwK+9t04HV',
         ];
         // передаем данные для получения в функция для получения отчёта
         $xml = $this->getAuthAndReport($PortalClassicHtmlGetAuth);
@@ -151,8 +151,8 @@ class DailyStatusPortalController extends Controller
             // ссылка на базовую страницу
             'link' => 'http://146.240.224.178/Portal/',
             // токены
-            'tokenViewsState' => '/wEPDwUKMTg2MTIxMjgxMQ9kFgICAw9kFg5mDw8WAh4EVGV4dAUK0JvQvtCz0LjQvWRkAgIPDxYCHwAFDNCf0LDRgNC+0LvRjGRkAgMPD2QWAh4Kb25rZXlwcmVzcwUmcmV0dXJuIGNvbnRyb2xFbnRlcignYnRuRW50ZXInLCBldmVudClkAgQPDxYCHwAFCNCv0LfRi9C6ZGQCCg8QZBAVBQ7QoNGD0YHRgdC60LjQuQdFbmdsaXNoCUZyYW7Dp2FpcwhSb21hbmlhbhTQo9C60YDQsMOv0L3RgdGM0LrQsBUFBXJ1LVJVBWVuLVVTBWZyLUZSBXJvLVJPBXVrLVVBFCsDBWdnZ2dnFgFmZAILDw8WAh8ABQjQktGF0L7QtGRkAgwPDxYCHwAFKNCd0LXQstC10YDQvdGL0Lkg0LvQvtCz0LjQvS/Qv9Cw0YDQvtC70YxkZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WBQUJaW1nUnVzc2lhBQVpbWdVSwUJaW1nRnJhbmNlBQppbWdSb21hbmlhBQppbWdVa3JhaW5lId0ULP2sBh99ZTUPCbLcHHDzsz4=',
-            'tokenEvanValidation' => '/wEWEQKc+Jw0Aq+m6rYIAvK94JEPArjo2tYOAo/JydQDAt6ZlIcMAoSA8r8NAoWB7pcKAvn6+RsCyYGW8wIC5Iz21QgCjo+S1wQC74G+xQICwoHiyggCl7fA+AEC7c2/agL6r+qNDIiMhxLvRMZeiUpVPXlMCzJNNHnK',
+//            'tokenViewsState' => '/wEPDwUKMTg2MTIxMjgxMQ9kFgICAw9kFg5mDw8WAh4EVGV4dAUK0JvQvtCz0LjQvWRkAgIPDxYCHwAFDNCf0LDRgNC+0LvRjGRkAgMPD2QWAh4Kb25rZXlwcmVzcwUmcmV0dXJuIGNvbnRyb2xFbnRlcignYnRuRW50ZXInLCBldmVudClkAgQPDxYCHwAFCNCv0LfRi9C6ZGQCCg8QZBAVBQ7QoNGD0YHRgdC60LjQuQdFbmdsaXNoCUZyYW7Dp2FpcwhSb21hbmlhbhTQo9C60YDQsMOv0L3RgdGM0LrQsBUFBXJ1LVJVBWVuLVVTBWZyLUZSBXJvLVJPBXVrLVVBFCsDBWdnZ2dnFgFmZAILDw8WAh8ABQjQktGF0L7QtGRkAgwPDxYCHwAFKNCd0LXQstC10YDQvdGL0Lkg0LvQvtCz0LjQvS/Qv9Cw0YDQvtC70YxkZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WBQUJaW1nUnVzc2lhBQVpbWdVSwUJaW1nRnJhbmNlBQppbWdSb21hbmlhBQppbWdVa3JhaW5lId0ULP2sBh99ZTUPCbLcHHDzsz4=',
+//            'tokenEvanValidation' => '/wEWEQKc+Jw0Aq+m6rYIAvK94JEPArjo2tYOAo/JydQDAt6ZlIcMAoSA8r8NAoWB7pcKAvn6+RsCyYGW8wIC5Iz21QgCjo+S1wQC74G+xQICwoHiyggCl7fA+AEC7c2/agL6r+qNDIiMhxLvRMZeiUpVPXlMCzJNNHnK',
         ];
         // передаем данные для получения в функция для получения отчёта
         $xml = $this->getAuthAndReport($PortalAtakHtmlGetAuth);
@@ -172,13 +172,18 @@ class DailyStatusPortalController extends Controller
         ]);
         $cookieJar = new CookieJar();
 
+        $htmlLogin = $client->request('GET', '')->getBody()->getContents();
+        $tokenAuth = $this->getToken($htmlLogin);
+
         $client->request('POST', 'Login.aspx', [
                 'form_params' => [
                     '__EVENTTARGET' => '',
                     '__EVENTARGUMENT' => '',
                     '__LASTFOCUS' => '',
-                    '__VIEWSTATE' => $PortalHtmlGetAuth['tokenViewsState'],
-                    '__EVENTVALIDATION' => $PortalHtmlGetAuth['tokenEvanValidation'],
+//                    '__VIEWSTATE' => $PortalHtmlGetAuth['tokenViewsState'],
+//                    '__EVENTVALIDATION' => $PortalHtmlGetAuth['tokenEvanValidation'],
+                    '__VIEWSTATE' => $tokenAuth['viewState'],
+                    '__EVENTVALIDATION' => $tokenAuth['eventValidation'],
                     'username' => $this->user,
                     'password' => $this->password,
                     'ddlLanguage' => 'ru-RU',
@@ -197,5 +202,14 @@ class DailyStatusPortalController extends Controller
         $response = $client->get('pg412100.aspx', ['cookies' => $cookieJar]);
         $xml = $response->getBody()->getContents();
         return $xml;
+    }
+
+    public function getToken($html)
+    {
+        $crawler = new Crawler();
+        $crawler->addHtmlContent($html, 'UTF-8');
+        $token['viewState'] = $crawler->filterXPath('//input[@id="__VIEWSTATE"]')->attr('value');
+        $token['eventValidation'] = $crawler->filterXPath('//input[@id="__EVENTVALIDATION"]')->attr('value');
+        return $token;
     }
 }

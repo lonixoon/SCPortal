@@ -4,21 +4,27 @@
 				<div class="col-md-12 form-group">
 						<h3>Daily Status Portal</h3>
 						<div class="alert alert-warning">
-								На стадии тестирования, рекомендуем дважды запускать отчёт Портал Классика и Портал АТАК для
-								перепроверки. Т.к. если сервер Портала	будет тупить, то данные могут быть не корректные.
+								<p>На стадии тестирования, рекомендуем дважды запускать отчёт Портал Классика и Портал АТАК для
+										перепроверки. Т.к. если сервер Портала	будет тупить, то данные могут быть не корректные.
+								</p>
+								<p>
+										Выгрузки запускается асинхронно, отчёты можно запускать в любой последовательности или все сразу.
+								</p>
 						</div>
-						<div class="alert alert-warning">
-								Выгрузки запускается асинхронно, по этому, не нужно ждать пока загрузятся данные по одному отчёту. Можно тыкнуть на все четыре кнопки сразу!
-						</div>
-						<!--<div class="row">-->
 						<div class="col-md-5 alert alert-success">
 								Выгружает ситы по которым нет данных (No data) и закрытые ситы (Closed).
 						</div>
-						<div class="col-md-5 col-md-offset-1 alert alert-info">
-								Выгружает название витрин со статусом ОШИБКА за период с 18:00 предыдущего дня по 23:59
-								текущего дня. Если пусто, всё ок!  :-)
+						<div class="col-md-2">
+								<div class="form-group">
+										<button id="buttonAllReport" type="button" class="btn btn-success center-block"
+														@click="this.allReport">
+												Запустить выгрузку<br> всех отчётов
+										</button>
+								</div>
 						</div>
-						<!--</div>-->
+						<div class="col-md-5 alert alert-info">
+								Выгружает название витрины и её статус за период с 18:00 предыдущего дня по 23:59 текущего дня
+						</div>
 				</div>
 				<div class="row">
 
@@ -32,12 +38,12 @@
 								<div v-show="loadingClassic" class="alert alert-info text-center">
 										Идёт загрузка...
 								</div>
-								<!--<div v-show="errorClassic" class="alert alert-danger text-center">-->
-										<!--Не удалось загрузить данные КЛАССИКИ-->
-								<!--</div>-->
-								<div v-show="errorClassic" class="alert text-center hellfire">
-										<span class="hellfire__span">Не удалось загрузить данные КЛАССИКИ</span>
+								<div v-show="errorClassic" class="alert alert-danger text-center">
+										Не удалось загрузить данные Классики
 								</div>
+								<!--<div v-show="errorClassic" class="alert text-center hellfire">-->
+										<!--<span class="hellfire__span">Не удалось загрузить данные КЛАССИКИ</span>-->
+								<!--</div>-->
 								<table class="table table-bordered table-striped" v-for="portalClassic in classic">
 										<thead>
 										<tr>
@@ -65,12 +71,12 @@
 										Идёт загрузка...<br>
 										С Порталом АТАК бывают сложности, если появится ошибка, запустите выгрузку ещё раз...
 								</div>
-								<!--<div v-show="errorAtak" class="alert alert-danger text-center">-->
-										<!--Не удалось загрузить данные АТАК-->
-								<!--</div>-->
-								<div v-show="errorAtak" class="alert text-center hellfire">
-										<span class="hellfire__span">Не удалось загрузить данные АТАК</span>
+								<div v-show="errorAtak" class="alert alert-danger text-center">
+										Не удалось загрузить данные Атак
 								</div>
+								<!--<div v-show="errorAtak" class="alert text-center hellfire">-->
+										<!--<span class="hellfire__span">Не удалось загрузить данные АТАК</span>-->
+								<!--</div>-->
 								<table class="table table-bordered table-striped" v-for="portalAtak in atak">
 										<thead>
 										<tr>
@@ -97,21 +103,22 @@
 								<div v-show="loadingAdminClassic" class="alert alert-info text-center">
 										Идёт загрузка...
 								</div>
-								<!--<div v-show="errorAdminClassic" class="alert alert-danger text-center">-->
-										<!--Не удалось загрузить данные витрин Классики-->
-								<!--</div>-->
-								<div v-show="errorAdminClassic" class="alert text-center hellfire">
-										<span class="hellfire__span">Не удалось загрузить данные витрин Классики</span>
+								<div v-show="errorAdminClassic" class="alert alert-danger text-center">
+										Не удалось загрузить данные витрин Классики
 								</div>
-								<table class="table table-bordered table-striped" v-for="showcaseNameClassic in showcaseNamesClassic">
+								<table class="table table-bordered table-striped"  v-for="value in showcaseNamesClassic">
 										<thead>
 										<tr>
-												<th class="">Витрина со статусом ОШИБКА</th>
+												<th class="">Витрина</th>
+												<th class="">Статус</th>
 										</tr>
 										</thead>
 										<tbody>
-										<tr v-for="showcaseClassic in showcaseNameClassic">
-												<td>{{ showcaseClassic }}</td>
+										<tr v-for="(status, showcaseNameClassic) in value">
+												<td v-if="status == 'Ошибка'" class="showcase-error">{{ showcaseNameClassic }}</td>
+												<td v-if="status != 'Ошибка'">{{ showcaseNameClassic }}</td>
+												<td v-if="status == 'Ошибка'" class="showcase-error">{{ status }}</td>
+												<td v-if="status != 'Ошибка'">{{ status }}</td>
 										</tr>
 										</tbody>
 								</table>
@@ -127,21 +134,22 @@
 								<div v-show="loadingAdminAtak" class="alert alert-info text-center">
 										Идёт загрузка...
 								</div>
-								<!--<div v-show="errorAdminAtak" class="alert alert-danger text-center">-->
-										<!--Не удалось загрузить данные витрин АТАК-->
-								<!--</div>-->
-								<div v-show="errorAdminAtak" class="alert text-center hellfire">
-										<span class="hellfire__span">Не удалось загрузить данные витрин АТАК</span>
+								<div v-show="errorAdminAtak" class="alert alert-danger text-center">
+										Не удалось загрузить данные витрин АТАК
 								</div>
-								<table class="table table-bordered table-striped" v-for="showcaseNameAtak in showcaseNamesAtak">
+								<table class="table table-bordered table-striped" v-for="value in showcaseNamesAtak">
 										<thead>
 										<tr>
-												<th class="">Витрина со статусом ОШИБКА</th>
+												<th class="">Витрина</th>
+												<th class="">Статус</th>
 										</tr>
 										</thead>
 										<tbody>
-										<tr v-for="showcaseAtak in showcaseNameAtak">
-												<td>{{ showcaseAtak }}</td>
+										<tr v-for="(status, showcaseNameAtak) in value">
+												<td v-if="status == 'Ошибка'" class="showcase-error">{{ showcaseNameAtak }}</td>
+												<td v-if="status != 'Ошибка'">{{ showcaseNameAtak }}</td>
+												<td v-if="status == 'Ошибка'" class="showcase-error">{{ status }}</td>
+												<td v-if="status != 'Ошибка'">{{ status }}</td>
 										</tr>
 										</tbody>
 								</table>
@@ -177,6 +185,14 @@
 //            this.portalAtakUpload();
 //        },
         methods: {
+            allReport() {
+                let buttonAllReport = document.getElementById('buttonAllReport');
+                buttonAllReport.disabled = true;
+                this.portalClassicUpload();
+                this.portalAtakUpload();
+                this.portalAdminClassicUpload();
+                this.portalAdminAtakUpload();
+						},
             portalClassicUpload() {
                 // дисейблем кнопку пока идёт выгрузка
                 let buttonClassic = document.getElementById('buttonClassic');
@@ -195,7 +211,6 @@
                         app.loadingClassic = false;
                         app.errorClassic = true;
                         buttonClassic.disabled = false;
-//                        alert("Не удалось загрузить данные КЛАССИКИ");
                     });
             },
             portalAtakUpload() {
@@ -216,7 +231,6 @@
                         app.loadingAtak = false;
                         app.errorAtak = true;
                         buttonAtak.disabled = false;
-//                        alert("Не удалось загрузить данные АТАК");
                     });
             },
             portalAdminClassicUpload() {
@@ -236,7 +250,6 @@
                         app.loadingAdminClassic = false;
                         app.errorAdminClassic = true;
                         buttonAdminClassic.disabled = false;
-//                        alert("Не удалось загрузить данные витрин Классики");
                     });
             },
             portalAdminAtakUpload() {
@@ -256,7 +269,6 @@
                         app.loadingAdminAtak = false;
                         app.errorAdminAtak = true;
                         buttonAdminAtak.disabled = false;
-//                        alert("Не удалось загрузить данные витрин АТАК");
                     });
             },
         }

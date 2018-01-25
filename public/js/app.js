@@ -46747,6 +46747,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -46773,6 +46781,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     //            this.portalAtakUpload();
     //        },
     methods: {
+        allReport: function allReport() {
+            var buttonAllReport = document.getElementById('buttonAllReport');
+            buttonAllReport.disabled = true;
+            this.portalClassicUpload();
+            this.portalAtakUpload();
+            this.portalAdminClassicUpload();
+            this.portalAdminAtakUpload();
+        },
         portalClassicUpload: function portalClassicUpload() {
             // дисейблем кнопку пока идёт выгрузка
             var buttonClassic = document.getElementById('buttonClassic');
@@ -46789,7 +46805,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 app.loadingClassic = false;
                 app.errorClassic = true;
                 buttonClassic.disabled = false;
-                //                        alert("Не удалось загрузить данные КЛАССИКИ");
             });
         },
         portalAtakUpload: function portalAtakUpload() {
@@ -46808,7 +46823,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 app.loadingAtak = false;
                 app.errorAtak = true;
                 buttonAtak.disabled = false;
-                //                        alert("Не удалось загрузить данные АТАК");
             });
         },
         portalAdminClassicUpload: function portalAdminClassicUpload() {
@@ -46826,7 +46840,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 app.loadingAdminClassic = false;
                 app.errorAdminClassic = true;
                 buttonAdminClassic.disabled = false;
-                //                        alert("Не удалось загрузить данные витрин Классики");
             });
         },
         portalAdminAtakUpload: function portalAdminAtakUpload() {
@@ -46844,7 +46857,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 app.loadingAdminAtak = false;
                 app.errorAdminAtak = true;
                 buttonAdminAtak.disabled = false;
-                //                        alert("Не удалось загрузить данные витрин АТАК");
             });
         }
     }
@@ -46859,7 +46871,41 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm._m(0),
+    _c("div", { staticClass: "col-md-12 form-group" }, [
+      _c("h3", [_vm._v("Daily Status Portal")]),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-5 alert alert-success" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\tВыгружает ситы по которым нет данных (No data) и закрытые ситы (Closed).\n\t\t\t\t"
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-2" }, [
+        _c("div", { staticClass: "form-group" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success center-block",
+              attrs: { id: "buttonAllReport", type: "button" },
+              on: { click: this.allReport }
+            },
+            [
+              _vm._v("\n\t\t\t\t\t\t\t\t\t\tЗапустить выгрузку"),
+              _c("br"),
+              _vm._v(" всех отчётов\n\t\t\t\t\t\t\t\t")
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-5 alert alert-info" }, [
+        _vm._v(
+          "\n\t\t\t\t\t\tВыгружает название витрины и её статус за период с 18:00 предыдущего дня по 23:59 текущего дня\n\t\t\t\t"
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c(
@@ -46911,12 +46957,12 @@ var render = function() {
                   expression: "errorClassic"
                 }
               ],
-              staticClass: "alert text-center hellfire"
+              staticClass: "alert alert-danger text-center"
             },
             [
-              _c("span", { staticClass: "hellfire__span" }, [
-                _vm._v("Не удалось загрузить данные КЛАССИКИ")
-              ])
+              _vm._v(
+                "\n\t\t\t\t\t\t\t\tНе удалось загрузить данные Классики\n\t\t\t\t\t\t"
+              )
             ]
           ),
           _vm._v(" "),
@@ -46999,12 +47045,12 @@ var render = function() {
                   expression: "errorAtak"
                 }
               ],
-              staticClass: "alert text-center hellfire"
+              staticClass: "alert alert-danger text-center"
             },
             [
-              _c("span", { staticClass: "hellfire__span" }, [
-                _vm._v("Не удалось загрузить данные АТАК")
-              ])
+              _vm._v(
+                "\n\t\t\t\t\t\t\t\tНе удалось загрузить данные Атак\n\t\t\t\t\t\t"
+              )
             ]
           ),
           _vm._v(" "),
@@ -47077,16 +47123,16 @@ var render = function() {
                   expression: "errorAdminClassic"
                 }
               ],
-              staticClass: "alert text-center hellfire"
+              staticClass: "alert alert-danger text-center"
             },
             [
-              _c("span", { staticClass: "hellfire__span" }, [
-                _vm._v("Не удалось загрузить данные витрин Классики")
-              ])
+              _vm._v(
+                "\n\t\t\t\t\t\t\t\tНе удалось загрузить данные витрин Классики\n\t\t\t\t\t\t"
+              )
             ]
           ),
           _vm._v(" "),
-          _vm._l(_vm.showcaseNamesClassic, function(showcaseNameClassic) {
+          _vm._l(_vm.showcaseNamesClassic, function(value) {
             return _c(
               "table",
               { staticClass: "table table-bordered table-striped" },
@@ -47095,9 +47141,27 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(showcaseNameClassic, function(showcaseClassic) {
+                  _vm._l(value, function(status, showcaseNameClassic) {
                     return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(showcaseClassic))])
+                      status == "Ошибка"
+                        ? _c("td", { staticClass: "showcase-error" }, [
+                            _vm._v(_vm._s(showcaseNameClassic))
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      status != "Ошибка"
+                        ? _c("td", [_vm._v(_vm._s(showcaseNameClassic))])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      status == "Ошибка"
+                        ? _c("td", { staticClass: "showcase-error" }, [
+                            _vm._v(_vm._s(status))
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      status != "Ошибка"
+                        ? _c("td", [_vm._v(_vm._s(status))])
+                        : _vm._e()
                     ])
                   })
                 )
@@ -47153,16 +47217,16 @@ var render = function() {
                   expression: "errorAdminAtak"
                 }
               ],
-              staticClass: "alert text-center hellfire"
+              staticClass: "alert alert-danger text-center"
             },
             [
-              _c("span", { staticClass: "hellfire__span" }, [
-                _vm._v("Не удалось загрузить данные витрин АТАК")
-              ])
+              _vm._v(
+                "\n\t\t\t\t\t\t\t\tНе удалось загрузить данные витрин АТАК\n\t\t\t\t\t\t"
+              )
             ]
           ),
           _vm._v(" "),
-          _vm._l(_vm.showcaseNamesAtak, function(showcaseNameAtak) {
+          _vm._l(_vm.showcaseNamesAtak, function(value) {
             return _c(
               "table",
               { staticClass: "table table-bordered table-striped" },
@@ -47171,8 +47235,28 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(showcaseNameAtak, function(showcaseAtak) {
-                    return _c("tr", [_c("td", [_vm._v(_vm._s(showcaseAtak))])])
+                  _vm._l(value, function(status, showcaseNameAtak) {
+                    return _c("tr", [
+                      status == "Ошибка"
+                        ? _c("td", { staticClass: "showcase-error" }, [
+                            _vm._v(_vm._s(showcaseNameAtak))
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      status != "Ошибка"
+                        ? _c("td", [_vm._v(_vm._s(showcaseNameAtak))])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      status == "Ошибка"
+                        ? _c("td", { staticClass: "showcase-error" }, [
+                            _vm._v(_vm._s(status))
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      status != "Ошибка"
+                        ? _c("td", [_vm._v(_vm._s(status))])
+                        : _vm._e()
+                    ])
                   })
                 )
               ]
@@ -47189,30 +47273,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12 form-group" }, [
-      _c("h3", [_vm._v("Daily Status Portal")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "alert alert-warning" }, [
+    return _c("div", { staticClass: "alert alert-warning" }, [
+      _c("p", [
         _vm._v(
-          "\n\t\t\t\t\t\tНа стадии тестирования, рекомендуем дважды запускать отчёт Портал Классика и Портал АТАК для\n\t\t\t\t\t\tперепроверки. Т.к. если сервер Портала\tбудет тупить, то данные могут быть не корректные.\n\t\t\t\t"
+          "На стадии тестирования, рекомендуем дважды запускать отчёт Портал Классика и Портал АТАК для\n\t\t\t\t\t\t\t\tперепроверки. Т.к. если сервер Портала\tбудет тупить, то данные могут быть не корректные.\n\t\t\t\t\t\t"
         )
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "alert alert-warning" }, [
+      _c("p", [
         _vm._v(
-          "\n\t\t\t\t\t\tВыгрузки запускается асинхронно, по этому, не нужно ждать пока загрузятся данные по одному отчёту. Можно тыкнуть на все четыре кнопки сразу!\n\t\t\t\t"
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-5 alert alert-success" }, [
-        _vm._v(
-          "\n\t\t\t\t\t\tВыгружает ситы по которым нет данных (No data) и закрытые ситы (Closed).\n\t\t\t\t"
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-5 col-md-offset-1 alert alert-info" }, [
-        _vm._v(
-          "\n\t\t\t\t\t\tВыгружает название витрин со статусом ОШИБКА за период с 18:00 предыдущего дня по 23:59\n\t\t\t\t\t\tтекущего дня. Если пусто, всё ок!  :-)\n\t\t\t\t"
+          "\n\t\t\t\t\t\t\t\tВыгрузки запускается асинхронно, отчёты можно запускать в любой последовательности или все сразу.\n\t\t\t\t\t\t"
         )
       ])
     ])
@@ -47246,7 +47316,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("tr", [_c("th", {}, [_vm._v("Витрина со статусом ОШИБКА")])])
+      _c("tr", [
+        _c("th", {}, [_vm._v("Витрина")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("Статус")])
+      ])
     ])
   },
   function() {
@@ -47254,7 +47328,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("tr", [_c("th", {}, [_vm._v("Витрина со статусом ОШИБКА")])])
+      _c("tr", [
+        _c("th", {}, [_vm._v("Витрина")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("Статус")])
+      ])
     ])
   }
 ]

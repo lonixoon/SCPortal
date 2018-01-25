@@ -1,10 +1,13 @@
 .hellfire {
     background: url(../img/hellfire.jpg);
     color: #fff;
-    /*font-weight: 700;*/
 }
 
 .hellfire__span {
     background: rgba(0,0,0,0.4);
 }
 
+.showcase-error {
+    background: #ebccd1;
+    color: #a94442;
+}

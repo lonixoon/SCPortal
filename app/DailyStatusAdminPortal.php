@@ -17,18 +17,19 @@ class DailyStatusAdminPortal extends Model
         // забираем циклом название проблемных витрин
         $dataAdminPortal['showcaseNames'] = $crawler
             // поиск осуществляем по постаянному кусочку от класса
-            ->filterXPath('//a[contains(@id,"' . $tegParse['showcaseName'] . '")]')
+//            ->filterXPath('//td//*[contains(@id,"' . $tegParse['showcaseName'] . '")]')
+            ->filterXPath('//td//*[contains(@id,"Name")]')
             ->each(function (Crawler $node, $i) {
                 return $node->text();
             });
+        $dataAdminPortal['showcaseNames'] = array_slice($dataAdminPortal['showcaseNames'], 1);
 
         //забираем циклом статус проблемных витрин
-//        $dataAdminPortal['showcaseStatus'] = $crawler
-//            ->filterXPath('//span[contains(@id,"' . $tegParse['showcaseStatus'] . '")]')
-//            ->each(function (Crawler $node, $i) {
-//                return $node->text();
-//            });
-//        dd($dataAdminPortal);
+        $dataAdminPortal['showcaseStatus'] = $crawler
+            ->filterXPath('//span[contains(@id,"' . $tegParse['showcaseStatus'] . '")]')
+            ->each(function (Crawler $node, $i) {
+                return $node->text();
+            });
 
         return $dataAdminPortal;
     }
@@ -38,22 +39,21 @@ class DailyStatusAdminPortal extends Model
         // массив для всех ситов
         $allCiteArr = [];
 
-        $citeName = $dataPortal['showcaseName'];
-        $clientsValue = $dataPortal['showcaseStatus'];
-
         /*
          *  Цикл перебирает данные по ситам $citeName, клиентам $clientsValue, артикулам $articleValue, ТО $CaValue и
          *  ТО за период $CaPeriodValue.
          *  И добавляет данные в массив $allCiteArr где ключь это номер сита, занение это данные по нему указанные выше.
          */
-        foreach ($citeName as $key => $value1) {
 
-            foreach ($clientsValue as $key2 => $value2) {
-                if ($key2 == $key) {
-                    $allCiteArr[$value1] = $value2;
-                }
+//        array_combine($citeName, $clientsValue);
+        foreach ($dataPortal['showcaseNames'] as $key => $value) {
+            if (array_key_exists($value, $allCiteArr)) {
+                $value = $value . $key;
             }
+            $allCiteArr[$value] = $dataPortal['showcaseStatus'][$key];
         }
+
+//        dd($allCiteArr);
 
         return $allCiteArr;
     }

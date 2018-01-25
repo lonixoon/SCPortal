@@ -22,7 +22,7 @@ class DailyStatusAdminPortalController extends Controller
         ];
 
         $tegParse = [
-            'showcaseName' => '_lbtRepName',
+            'showcaseName' => 'Name',
             'showcaseStatus' => '_lblStatus',
         ];
 
@@ -30,9 +30,8 @@ class DailyStatusAdminPortalController extends Controller
         $xml = $this->getPortalAdminAuth($PortalAtakHtmlGetAuth);
         $parseHtml = new DailyStatusAdminPortal();
         $showcase = $parseHtml->getDataInAdminPortal($xml, $tegParse);
-//        $result2['admin'] = $parseHtml->processingData($result1);
-
-        return $showcase;
+        $result['lists'] = $parseHtml->processingData($showcase);
+        return $result;
     }
 
     public function getAdminPortalAtakHtml()
@@ -43,17 +42,17 @@ class DailyStatusAdminPortalController extends Controller
         ];
 
         $tegParse = [
-            'showcaseName' => '_lbtRepName',
+            'showcaseName' => 'Name',
             'showcaseStatus' => '_lblStatus',
         ];
+
 
         // передаем данные для получения в функция для получения отчёта
         $xml = $this->getPortalAdminAuth($PortalAtakHtmlGetAuth);
         $parseHtml = new DailyStatusAdminPortal();
         $showcase = $parseHtml->getDataInAdminPortal($xml, $tegParse);
-//        $result2['admin'] = $parseHtml->processingData($result1);
-
-        return $showcase;
+        $result['lists'] = $parseHtml->processingData($showcase);
+        return $result;
     }
 
     /*
@@ -116,7 +115,7 @@ class DailyStatusAdminPortalController extends Controller
                     'ddlOperationType' => '-1',
 
                     // статус витрин (1 : Ошибка), (-1 : НЕ ОТПРАВЛЯТЬ!!)
-                    'ddlStatus' => '1',
+//                    'ddlStatus' => '1',
                     'txtRequestDataSubmitedStart' => $previousDay,
                     'txtRequestDataSubmitedEnd' => $today,
                     'ddlUser' => '-1',
