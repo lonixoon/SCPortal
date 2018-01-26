@@ -7,7 +7,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class DailyStatusAdminPortal extends Model
 {
-    public function getDataInAdminPortal($html, array $tegParse)
+    public function getDataInAdminPortal($html)
     {
         // создаем новую модель кравлера
         $crawler = new Crawler();
@@ -16,86 +16,83 @@ class DailyStatusAdminPortal extends Model
 
         // забираем циклом название проблемных витрин
         $dataAdminPortal['showcaseNames'] = $crawler
-            // поиск осуществляем по постаянному кусочку от класса
+            // поиск осуществляем по постаянному кусочку от id
 //            ->filterXPath('//td//*[contains(@id,"' . $tegParse['showcaseName'] . '")]')
             ->filterXPath('//td//*[contains(@id,"Name")]')
             ->each(function (Crawler $node, $i) {
                 return $node->text();
             });
+        // первый элемент с указанным кусочком id какая хрень, его отсикаем
         $dataAdminPortal['showcaseNames'] = array_slice($dataAdminPortal['showcaseNames'], 1);
 
         //забираем циклом статус проблемных витрин
         $dataAdminPortal['showcaseStatus'] = $crawler
-            ->filterXPath('//span[contains(@id,"' . $tegParse['showcaseStatus'] . '")]')
+            // поиск осуществляем по постаянному кусочку от id
+            ->filterXPath('//span[contains(@id,"_lblStatus")]')
             ->each(function (Crawler $node, $i) {
                 return $node->text();
             });
 
+        // возванищая два миссва 1) название всех витрин 2) татусы
         return $dataAdminPortal;
     }
 
-    public function processingData($dataPortal)
+    public function processingData(array $dataAdminPortal)
     {
-        // массив для всех ситов
-        $allCiteArr = [];
+        // массив где ключ это название витрины, наение её статус
+        $allShowcase = [];
 
         /*
-         *  Цикл перебирает данные по ситам $citeName, клиентам $clientsValue, артикулам $articleValue, ТО $CaValue и
-         *  ТО за период $CaPeriodValue.
-         *  И добавляет данные в массив $allCiteArr где ключь это номер сита, занение это данные по нему указанные выше.
+         * Перебираем название витрин.
+         * Добавляем к нему индекс (витрину могут перезапустить и получится два ключа с одинаковым именем).
          */
-
-//        array_combine($citeName, $clientsValue);
-        foreach ($dataPortal['showcaseNames'] as $key => $value) {
-            if (array_key_exists($value, $allCiteArr)) {
-                $value = $value . $key;
-            }
-            $allCiteArr[$value] = $dataPortal['showcaseStatus'][$key];
+        foreach ($dataAdminPortal['showcaseNames'] as $key => $showcaseName) {
+            $showcaseName = $key . ' | ' . $showcaseName;
+            $allShowcase[$showcaseName] = $dataAdminPortal['showcaseStatus'][$key];
         }
+//        foreach ($dataPortal['showcaseNames'] as $key => $value) {
+//            if (array_key_exists($value, $allCiteArr)) {
+//                $value = $value . $key;
+//            }
+//            $allCiteArr[$value] = $dataPortal['showcaseStatus'][$key];
+//        }
 
-//        dd($allCiteArr);
-
-        return $allCiteArr;
+        // возвращаем массив: Индекс | Название витрины => Статус
+        return $allShowcase;
     }
 
-    public function processingProblemData($allCiteArr)
+
+    /*
+     * Получения токена для формы
+     * Примает html, взващает массив с двуми токенами
+     */
+    public function getToken($html)
     {
-        // общий массив для ситов
-        $problemCite = [];
+        $crawler = new Crawler();
+        // передаём html в кравлер
+        $crawler->addHtmlContent($html, 'UTF-8');
+        // получаем первый токен
+        $token['viewState'] = $crawler->filterXPath('//input[@id="__VIEWSTATE"]')->attr('value');
+        // получаем второй токен
+        $token['eventValidation'] = $crawler->filterXPath('//input[@id="__EVENTVALIDATION"]')->attr('value');
+        // возващаяем массив с двумя токенами
+        return $token;
+    }
 
-        /*
-         *  Перебираем $allCiteArr и ищем отсутвующие ТО за период, что бы определить закрыт или нет магазин
-         */
-        foreach ($allCiteArr as $key => $value) {
-            foreach ($value as $key2 => $value2) {
-                // условие для закрытых магазов где нет данных
-                if ($key2 == 'CA_period_value' && $value2 == '*****') {
-                    $problemCite[$key] = 'Close';
 
-                    // условие для открытых магазов где нет данных
-                } elseif ($value2 == '*****') {
-                    $problemCite[$key] = 'No data';
-                }
-            }
-        }
-
-        // отсортируем масив, что бы No data были сверху Close внизу
-        arsort($problemCite);
-
-        return $problemCite;
-
-        /*
-         *  Перебираем массив по открытым магазам где нет данных и если они есть выводим их
-         */
-//        foreach ($problemCiteArr as $key => $value) {
-//            // условие для открытых магазов где нет данных
-//            if ($value == 'No data') {
-//                $problemOpenCiteClassicArr[$key] = $value;
-//
-//            // если таких нет, все ок!
-//            } elseif ($value != 'No data') {
-//                $problemOpenCiteClassicArr['Other Site'] = 'Data OK!';
-//            }
-//        }
+    /*
+     *  Создаёт нуженые нам даты для отправики пост запроса
+     */
+    public function createDateForForm()
+    {
+        $date['main'] = date("m.Y");
+        $date['today'] = date("d");
+        $date['previousDay'] = date("d") - 1;
+        // делаем формат ПРИМЕР! '28.03.2018 18:00'
+        $dateForm['previousDay'] = $date['previousDay'] . '.' . $date['main'] . ' 18:00';
+        // делаем формат ПРИМЕР! '29.03.2018 23:59'
+        $dateForm['today'] = $date['today'] . '.' . $date['main'] . ' 23:59';
+        // возвращаем массив с двумя датами
+        return $dateForm;
     }
 }

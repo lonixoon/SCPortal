@@ -14,65 +14,71 @@ class DailyStatusAdminPortalController extends Controller
     private $user = 'rus9211689';
     private $password = 'Cc123123*';
 
-    public function getAdminPortalClassicHtml()
+
+    /*
+     * Главная упавляющаая функция, получает данные Портал Админ Классика в виде массива Витрина => Статус
+     */
+    public function indexAdminPortalClassic()
     {
-        $PortalAtakHtmlGetAuth = [
-            // ссылка на базовую страницу
+        $DailyStatusAdminPortal = new DailyStatusAdminPortal();
+        // ссылка на базовую страницу
+        $link = [
             'link' => 'http://portal.ru.auchan.com/iradmin2/'
         ];
 
-        $tegParse = [
-            'showcaseName' => 'Name',
-            'showcaseStatus' => '_lblStatus',
-        ];
-
-        // передаем данные для получения в функция для получения отчёта
-        $xml = $this->getPortalAdminAuth($PortalAtakHtmlGetAuth);
-        $parseHtml = new DailyStatusAdminPortal();
-        $showcase = $parseHtml->getDataInAdminPortal($xml, $tegParse);
-        $result['lists'] = $parseHtml->processingData($showcase);
-        return $result;
+        // передаём ссылку на сайт, получаем html нужной страницы
+        $html = $this->getPortalAdminAuth($link);
+        // передаём html, получаем два массива: 1) витрины 2) статусы
+        $showcase = $DailyStatusAdminPortal->getDataInAdminPortal($html);
+        // передаём 1) витрины 2) статусы, получаем массив: витрина => статус
+        $showcaseResult['lists'] = $DailyStatusAdminPortal->processingData($showcase);
+        // возвращаем массив: витрина => статус
+        return $showcaseResult;
     }
 
-    public function getAdminPortalAtakHtml()
+
+    /*
+     * Главная упавляющаая функция, получает данные Портал Админ Атак в виде массива Витрина => Статус
+     */
+    public function indexAdminPortalAtak()
     {
-        $PortalAtakHtmlGetAuth = [
-            // ссылка на базовую страницу
+        $DailyStatusAdminPortal = new DailyStatusAdminPortal();
+        // ссылка на базовую страницу
+        $link = [
             'link' => 'http://146.240.224.178/iradmin2/'
         ];
 
-        $tegParse = [
-            'showcaseName' => 'Name',
-            'showcaseStatus' => '_lblStatus',
-        ];
-
-
-        // передаем данные для получения в функция для получения отчёта
-        $xml = $this->getPortalAdminAuth($PortalAtakHtmlGetAuth);
-        $parseHtml = new DailyStatusAdminPortal();
-        $showcase = $parseHtml->getDataInAdminPortal($xml, $tegParse);
-        $result['lists'] = $parseHtml->processingData($showcase);
-        return $result;
+        // передаём ссылку на сайт, получаем html нужной страницы
+        $html = $this->getPortalAdminAuth($link);
+        // передаём html, получаем два массива: 1) витрины 2) статусы
+        $showcase = $DailyStatusAdminPortal->getDataInAdminPortal($html);
+        // передаём 1) витрины 2) статусы, получаем массив: витрина => статус
+        $showcaseResult['lists'] = $DailyStatusAdminPortal->processingData($showcase);
+        // возвращаем массив: витрина => статус
+        return $showcaseResult;
     }
 
+
     /*
-     * Авторизация и получение всего HTML Портала Админ
+     * Авторизация и получение всего HTML Портала Админ на нужной стринице
      */
-    public function getPortalAdminAuth($PortalHtmlGetAuth)
+    public function getPortalAdminAuth($link)
     {
+        $DailyStatusAdminPortal = new DailyStatusAdminPortal();
         $client = new Client([
             // Base URI is used with relative requests
-            'base_uri' => $PortalHtmlGetAuth['link'],
+            'base_uri' => $link['link'],
             // You can set any number of default request options.
             'timeout' => 60.0,
         ]);
         $cookieJar = new CookieJar();
 
+        // получаем html формы для получения токенов
         $htmlLogin = $client->request('GET', '')->getBody()->getContents();
-
         // получаем токены
-        $tokenAuth = $this->getToken($htmlLogin);
+        $tokenAuth = $DailyStatusAdminPortal->getToken($htmlLogin);
 
+        // проходим авторизацию
         $client->request('POST', 'login.aspx', [
                 'form_params' => [
                     '__VIEWSTATE' => $tokenAuth['viewState'],
@@ -84,22 +90,17 @@ class DailyStatusAdminPortalController extends Controller
             ]
         );
 
+        // получаем html формы для получения токенов
         $htmlForm = $client->request('GET', 'ADRequest/Requests.aspx', ['cookies' => $cookieJar])
             ->getBody()->getContents();
-
         // получаем токены
-        $tokenForm = $this->getToken($htmlForm);
+        $tokenForm = $DailyStatusAdminPortal->getToken($htmlForm);
 
-        // передаем дату в форму
-        $date['main'] = date("m.Y");
-        $date['today'] = date("d");
-        $date['previousDay'] = date("d") - 1;
-        // делаем формат ПРИМЕР! '28.03.2018 18:00'
-        $previousDay = $date['previousDay'] . '.' . $date['main'] . ' 18:00';
-        $today = $date['today'] . '.' . $date['main'] . ' 23:59';
+        // получаем нужны даты для отправи формы
+        $dateForm = $DailyStatusAdminPortal->createDateForForm();
 
-
-        $response = $client->request('POST', 'ADRequest/Requests.aspx',
+        // отправляем запрос на отчёт по витринам с нужной нам датой
+        $htmlShowcaseReport = $client->request('POST', 'ADRequest/Requests.aspx',
             [
                 'form_params' => [
                     '__EVENTTARGET' => '',
@@ -113,11 +114,10 @@ class DailyStatusAdminPortalController extends Controller
                     'ddlPhase' => '-1',
                     'txtRequestName' => '',
                     'ddlOperationType' => '-1',
-
-                    // статус витрин (1 : Ошибка), (-1 : НЕ ОТПРАВЛЯТЬ!!)
+                    // статус витрин (1 : Только с ошибке), (-1 : НЕ ОТПРАВЛЯТЬ!!)
 //                    'ddlStatus' => '1',
-                    'txtRequestDataSubmitedStart' => $previousDay,
-                    'txtRequestDataSubmitedEnd' => $today,
+                    'txtRequestDataSubmitedStart' => $dateForm['previousDay'],
+                    'txtRequestDataSubmitedEnd' => $dateForm['today'],
                     'ddlUser' => '-1',
                     'ddlTypes' => 'Любой',
                     'txtDateExecutedStart' => '',
@@ -130,17 +130,7 @@ class DailyStatusAdminPortalController extends Controller
             ]
         )->getBody()->getContents();
 
-        return $response;
-    }
-
-
-    // получения токена для отправки формы
-    public function getToken($html)
-    {
-        $crawler = new Crawler();
-        $crawler->addHtmlContent($html, 'UTF-8');
-        $token['viewState'] = $crawler->filterXPath('//input[@id="__VIEWSTATE"]')->attr('value');
-        $token['eventValidation'] = $crawler->filterXPath('//input[@id="__EVENTVALIDATION"]')->attr('value');
-        return $token;
+        // возвращаем html сраницы с остчётом по витринам
+        return $htmlShowcaseReport;
     }
 }
