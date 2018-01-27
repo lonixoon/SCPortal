@@ -31,7 +31,7 @@ Route::get('/daily-status-portal/api/atak', 'DailyStatusPortalController@apiAtak
 
 // HD DS
 Route::get('/daily-status-helpdesk', 'DailyStatusHDController@index');
-Route::post('/daily-status-helpdesk/result', 'DailyStatusHDController@getFile');
+//Route::post('/daily-status-helpdesk/result', 'DailyStatusHDController@getFile');
 
 //Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('companies', 'CompaniesController@index')->name('companies.index');

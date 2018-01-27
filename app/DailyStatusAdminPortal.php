@@ -7,6 +7,10 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class DailyStatusAdminPortal extends Model
 {
+    /*
+     * в переданном html ищем нужные поля и сохраняем их в массивы
+     * получаем html, возвращаем массивы с данными
+     */
     public function getDataInAdminPortal($html)
     {
         // создаем новую модель кравлера
@@ -37,6 +41,9 @@ class DailyStatusAdminPortal extends Model
         return $dataAdminPortal;
     }
 
+    /*
+     *  Передаём массивы с данными, получаем один массив: витрина => статус
+     */
     public function processingData(array $dataAdminPortal)
     {
         // массив где ключ это название витрины, наение её статус
@@ -47,7 +54,7 @@ class DailyStatusAdminPortal extends Model
          * Добавляем к нему индекс (витрину могут перезапустить и получится два ключа с одинаковым именем).
          */
         foreach ($dataAdminPortal['showcaseNames'] as $key => $showcaseName) {
-            $showcaseName = $key . ' | ' . $showcaseName;
+            $showcaseName = $key . ') ' . $showcaseName;
             $allShowcase[$showcaseName] = $dataAdminPortal['showcaseStatus'][$key];
         }
 //        foreach ($dataPortal['showcaseNames'] as $key => $value) {
