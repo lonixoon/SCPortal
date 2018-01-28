@@ -120,15 +120,15 @@ class DailyStatusPortalNEW extends Model
 
         // Перебираем $allCiteArr и ищем отсутвующие ТО за период, что бы определить закрыт или нет магазин
 
-        foreach ($allCiteArr as $key => $value) {
+        foreach ($allCiteArr as $cite => $value) {
             foreach ($value as $key2 => $value2) {
                 // условие для закрытых магазов где нет данных
                 if ($key2 == 'CA_period_value' && $value2 == '*****') {
-                    $problemCite[$key] = 'Close';
+                    $problemCite[$cite] = 'Close';
 
                     // условие для открытых магазов где нет данных
                 } elseif ($value2 == '*****') {
-                    $problemCite[$key] = 'No data';
+                    $problemCite[$cite] = 'No data';
                 }
             }
         }

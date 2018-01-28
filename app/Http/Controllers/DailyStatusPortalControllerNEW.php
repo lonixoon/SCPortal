@@ -16,7 +16,7 @@ class DailyStatusPortalControllerNEW extends Controller
     private $password = 'Qazxsw123+';
 
     /*
-     * Главная упавляющаая функция, получает данные Портал в виде массива Магазин => Статус
+     * Главная упавляющаая функция, возвращает данные Портал в виде массива Магазин => Статус
      */
     public function indexPortalClassic()
     {
@@ -46,7 +46,7 @@ class DailyStatusPortalControllerNEW extends Controller
 
 
     /*
-     * Главная упавляющаая функция, получает данные Портал в виде массива Магазин => Статус
+     * Главная упавляющаая функция, возвращает данные Портал в виде массива Магазин => Статус
      */
     public function indexPortalAtak()
     {
