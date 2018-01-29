@@ -48,13 +48,16 @@ class DailyStatusAdminPortal extends Model
     {
         // массив где ключ это название витрины, наение её статус
         $allShowcase = [];
+        $arrCount = count($dataAdminPortal['showcaseNames']);
 
         /*
          * Перебираем название витрин.
          * Добавляем к нему индекс (витрину могут перезапустить и получится два ключа с одинаковым именем).
          */
         foreach ($dataAdminPortal['showcaseNames'] as $key => $showcaseName) {
-            $showcaseName = $key . ') ' . $showcaseName;
+//            $showcaseName = $key + 1 . ') ' . $showcaseName;
+            --$arrCount;
+            $showcaseName = $arrCount + 1 . ') ' . $showcaseName;
             $allShowcase[$showcaseName] = $dataAdminPortal['showcaseStatus'][$key];
         }
 //        foreach ($dataPortal['showcaseNames'] as $key => $value) {

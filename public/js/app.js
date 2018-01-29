@@ -1072,7 +1072,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(54);
+module.exports = __webpack_require__(57);
 
 
 /***/ }),
@@ -1092,7 +1092,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_portal_PortalIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_portal_PortalIndex_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue__);
 
 /**
@@ -46796,7 +46796,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var app = this;
             app.loadingClassic = true;
-            axios.get('/daily-status-portal/api/classic').then(function (resp) {
+            axios.get('/daily-status-portal/portal-classic').then(function (resp) {
                 app.classic = resp.data;
                 app.loadingClassic = false;
                 buttonClassic.disabled = false;
@@ -46814,7 +46814,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var app = this;
             app.loadingAtak = true;
-            axios.get('/daily-status-portal/api/atak').then(function (resp) {
+            axios.get('/daily-status-portal/portal-atak').then(function (resp) {
                 app.atak = resp.data;
                 app.loadingAtak = false;
                 buttonAtak.disabled = false;
@@ -47347,30 +47347,14 @@ if (false) {
 
 /***/ }),
 /* 54 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(67)
+var __vue_script__ = __webpack_require__(55)
 /* template */
-var __vue_template__ = __webpack_require__(66)
+var __vue_template__ = __webpack_require__(56)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -47409,7 +47393,86 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 66 */
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            list: []
+        };
+    },
+
+    methods: {
+        uploadFiles: function uploadFiles() {
+            // дисейблем кнопку пока идёт выгрузка
+            var buttonSubmit = document.getElementById('buttonSubmit');
+            buttonSubmit.disabled = true;
+
+            var app = this;
+            var formData = new FormData(document.getElementById('uploadForm'));
+            var rtfFile = document.getElementById('upload');
+            //                console.log(rtfFile.file);
+            formData.append('file', rtfFile.file);
+            axios.post('/daily-status-helpdesk/result', formData).then(function (response) {
+                app.list = response.data;
+                buttonSubmit.disabled = false;
+                //                        console.log(resp);
+            }).catch(function (error) {
+                console.log(error.response);
+                buttonSubmit.disabled = false;
+                alert("Не удалось обработать данные");
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -47544,83 +47607,10 @@ if (false) {
 }
 
 /***/ }),
-/* 67 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/* 57 */
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            list: []
-        };
-    },
-
-    methods: {
-        uploadFiles: function uploadFiles() {
-            // дисейблем кнопку пока идёт выгрузка
-            var buttonSubmit = document.getElementById('buttonSubmit');
-            buttonSubmit.disabled = true;
-
-            var app = this;
-            var formData = new FormData(document.getElementById('uploadForm'));
-            var rtfFile = document.getElementById('upload');
-            //                console.log(rtfFile.file);
-            formData.append('file', rtfFile.file);
-            axios.post('/daily-status-helpdesk/result', formData).then(function (response) {
-                app.list = response.data;
-                buttonSubmit.disabled = false;
-                //                        console.log(resp);
-            }).catch(function (error) {
-                console.log(error.response);
-                buttonSubmit.disabled = false;
-                alert("Не удалось обработать данные");
-            });
-        }
-    }
-});
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

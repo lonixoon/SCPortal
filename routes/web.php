@@ -19,19 +19,24 @@ Route::get('/', 'SCPortalController@index');
 Auth::routes();
 //Route::get('/home', 'HomeController@index')->name('home');
 
-// DailyStatusPortal DS
-Route::get('/daily-status-portal/portal-classic', 'DailyStatusPortalController@getPortalClassicHtml');
-Route::get('/daily-status-portal/portal-atak', 'DailyStatusPortalController@getPortalAtakHtml');
+// Portal Daily Status
+    // выгружнный отчёт в виде api
+Route::get('/daily-status-portal/portal-classic', 'DailyStatusPortalController@indexPortalClassic');
+    // выгружнный отчёт в виде api
+Route::get('/daily-status-portal/portal-atak', 'DailyStatusPortalController@indexPortalAtak');
 
+// Portal Admin Daily Status
+    // выгружнный отчёт в виде api
 Route::get('/daily-status-admin-portal/portal-classic', 'DailyStatusAdminPortalController@indexAdminPortalClassic');
+    // выгружнный отчёт в виде api
 Route::get('/daily-status-admin-portal/portal-atak', 'DailyStatusAdminPortalController@indexAdminPortalAtak');
 
-Route::get('/daily-status-portal/api/classic', 'DailyStatusPortalController@apiClassic');
-Route::get('/daily-status-portal/api/atak', 'DailyStatusPortalController@apiAtak');
+// HelpDesk Daily Status
+    // выгружнный отчёт в виде api
+Route::post('/daily-status-helpdesk/result', 'DailyStatusHDController@getFile');
 
-// HD DS
-Route::get('/daily-status-helpdesk', 'DailyStatusHDController@index');
-//Route::post('/daily-status-helpdesk/result', 'DailyStatusHDController@getFile');
+// Атена
+Route::get('/athena', 'AthenaController@index');
 
 //Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('companies', 'CompaniesController@index')->name('companies.index');

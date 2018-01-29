@@ -200,7 +200,7 @@
 
                 let app = this;
                 app.loadingClassic = true;
-                axios.get('/daily-status-portal/api/classic')
+                axios.get('/daily-status-portal/portal-classic')
                     .then(function (resp) {
                         app.classic = resp.data;
                         app.loadingClassic = false;
@@ -220,7 +220,7 @@
 
                 let app = this;
                 app.loadingAtak = true;
-                axios.get('/daily-status-portal/api/atak')
+                axios.get('/daily-status-portal/portal-atak')
                     .then(function (resp) {
                         app.atak = resp.data;
                         app.loadingAtak = false;

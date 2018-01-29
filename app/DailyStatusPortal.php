@@ -7,28 +7,30 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class DailyStatusPortal extends Model
 {
-    public function getDataInPortal($PortalHtmlParse)
+    /*
+     * в переданном html ищем нужные поля и сохраняем их в массивы
+     * получаем html и еги для поиска, возвращаем массивы с данными
+     */
+    public function getDataInPortal($html, $tegParse)
     {
-        // получает HTML разметку
-        $html = file_get_contents($PortalHtmlParse['link']);
         // создаем новую модель кравлера
-        $crawler = new Crawler(null, $PortalHtmlParse['link']);
+        $crawler = new Crawler();
         // добавляем ссылку в кравлер и получаем весь контент
         $crawler->addHtmlContent($html, 'UTF-8');
 
         // забираем циклом номера ситов
         $dataPortal['citeName'] = $crawler
             // поиск осуществляем по постаянному кусочку от класса
-            ->filterXPath('//div[contains(@class,' . $PortalHtmlParse['citeNameClassParse'] . ')]')
+            ->filterXPath('//div[contains(@class,"' . $tegParse['citeNameClassParse'] . '")]')
             ->each(function (Crawler $node, $i) {
-                return $node->html();
+                return $node->text();
             });
 
         // забираем циклом значения по клиентам
         $dataPortal['clientsValue'] = $crawler
-            ->filterXPath('//div[contains(@class,' . $PortalHtmlParse['clientsValueClassParse'] . ')]')
+            ->filterXPath('//div[contains(@class,"' . $tegParse['clientsValueClassParse'] . '")]')
             ->each(function (Crawler $node, $i) {
-                return $node->html();
+                return $node->text();
             });
         /*
         // забираем циклом значения по артикулам
@@ -48,14 +50,19 @@ class DailyStatusPortal extends Model
 
         // забираем циклом значения по обороту за период
         $dataPortal['CaPeriodValue'] = $crawler
-            ->filterXPath('//div[contains(@class,' . $PortalHtmlParse['CaPeriodValueClassParse'] . ')]')
+            ->filterXPath('//div[contains(@class,"' . $tegParse['CaPeriodValueClassParse'] . '")]')
             ->each(function (Crawler $node, $i) {
-                return $node->html();
+                return $node->text();
             });
 
+        // возвращаем массивы с данными
         return $dataPortal;
     }
 
+
+    /*
+     *  Передаём массивы с данными, получаем массив: Магазин => [Клинеты, ТО за период]
+     */
     public function processingData($dataPortal)
     {
         // массив для всех ситов
@@ -70,11 +77,11 @@ class DailyStatusPortal extends Model
          *  ТО за период $CaPeriodValue.
          *  И добавляет данные в массив $allCiteArr где ключь это номер сита, занение это данные по нему указанные выше.
          */
-        foreach ($citeName as $key => $value1) {
+        foreach ($citeName as $indexCite => $cite) {
 
-            foreach ($clientsValue as $key2 => $value2) {
-                if ($key2 == $key) {
-                    $allCiteArr[$value1]['client_value'] = $value2;
+            foreach ($clientsValue as $indexClient => $client) {
+                if ($indexClient == $indexCite) {
+                    $allCiteArr[$cite]['client_value'] = $client;
                 }
             }
 
@@ -92,9 +99,9 @@ class DailyStatusPortal extends Model
 //                }
 //            }
 
-            foreach ($CaPeriodValue as $key5 => $value5) {
-                if ($key5 == $key) {
-                    $allCiteArr[$value1]['CA_period_value'] = $value5;
+            foreach ($CaPeriodValue as $indexCaPeriod => $caPeriod) {
+                if ($indexCaPeriod == $indexCite) {
+                    $allCiteArr[$cite]['CA_period_value'] = $caPeriod;
                 }
             }
         }
@@ -102,23 +109,26 @@ class DailyStatusPortal extends Model
         return $allCiteArr;
     }
 
+
+    /*
+     * Принемает массив Магазин => [Клинеты, ТО за период], возвращает массив Магазин => Статус
+     */
     public function processingProblemData($allCiteArr)
     {
         // общий массив для ситов
         $problemCite = [];
 
-        /*
-         *  Перебираем $allCiteArr и ищем отсутвующие ТО за период, что бы определить закрыт или нет магазин
-         */
-        foreach ($allCiteArr as $key => $value) {
+        // Перебираем $allCiteArr и ищем отсутвующие ТО за период, что бы определить закрыт или нет магазин
+
+        foreach ($allCiteArr as $cite => $value) {
             foreach ($value as $key2 => $value2) {
                 // условие для закрытых магазов где нет данных
                 if ($key2 == 'CA_period_value' && $value2 == '*****') {
-                    $problemCite[$key] = 'Close';
+                    $problemCite[$cite] = 'Close';
 
                     // условие для открытых магазов где нет данных
                 } elseif ($value2 == '*****') {
-                    $problemCite[$key] = 'No data';
+                    $problemCite[$cite] = 'No data';
                 }
             }
         }
@@ -127,19 +137,23 @@ class DailyStatusPortal extends Model
         arsort($problemCite);
 
         return $problemCite;
+    }
 
-        /*
-         *  Перебираем массив по открытым магазам где нет данных и если они есть выводим их
-         */
-//        foreach ($problemCiteArr as $key => $value) {
-//            // условие для открытых магазов где нет данных
-//            if ($value == 'No data') {
-//                $problemOpenCiteClassicArr[$key] = $value;
-//
-//            // если таких нет, все ок!
-//            } elseif ($value != 'No data') {
-//                $problemOpenCiteClassicArr['Other Site'] = 'Data OK!';
-//            }
-//        }
+
+    /*
+     * Получения токена для формы
+     * Примает html, взващает массив с двуми токенами
+     */
+    public function getToken($html)
+    {
+        $crawler = new Crawler();
+        // передаём html в кравлер
+        $crawler->addHtmlContent($html, 'UTF-8');
+        // получаем первый токен
+        $token['viewState'] = $crawler->filterXPath('//input[@id="__VIEWSTATE"]')->attr('value');
+        // получаем второй токен
+        $token['eventValidation'] = $crawler->filterXPath('//input[@id="__EVENTVALIDATION"]')->attr('value');
+        // возващаяем массив с двумя токенами
+        return $token;
     }
 }
