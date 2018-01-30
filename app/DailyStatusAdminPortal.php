@@ -48,27 +48,44 @@ class DailyStatusAdminPortal extends Model
     {
         // массив где ключ это название витрины, наение её статус
         $allShowcase = [];
-        $arrCount = count($dataAdminPortal['showcaseNames']);
+        $problemShowcase = [];
+
 
         /*
          * Перебираем название витрин.
          * Добавляем к нему индекс (витрину могут перезапустить и получится два ключа с одинаковым именем).
          */
-        foreach ($dataAdminPortal['showcaseNames'] as $key => $showcaseName) {
-//            $showcaseName = $key + 1 . ') ' . $showcaseName;
-            --$arrCount;
-            $showcaseName = $arrCount + 1 . ') ' . $showcaseName;
-            $allShowcase[$showcaseName] = $dataAdminPortal['showcaseStatus'][$key];
-        }
-//        foreach ($dataPortal['showcaseNames'] as $key => $value) {
-//            if (array_key_exists($value, $allCiteArr)) {
-//                $value = $value . $key;
-//            }
-//            $allCiteArr[$value] = $dataPortal['showcaseStatus'][$key];
+//        $arrCount = count($dataAdminPortal['showcaseNames']);
+//        foreach ($dataAdminPortal['showcaseNames'] as $key => $showcaseName) {
+////            $showcaseName = $key + 1 . ') ' . $showcaseName;
+//            --$arrCount;
+//            $showcaseName = $arrCount + 1 . ') ' . $showcaseName;
+//            $allShowcase[$showcaseName] = $dataAdminPortal['showcaseStatus'][$key];
 //        }
 
+        /*
+         * Передаём массивы с данными и убераем перезапущенные витрины,
+         * получаем один массив: витрина => статус
+         */
+        foreach ($dataAdminPortal['showcaseNames'] as $showcaseIndex => $showcaseName) {
+            if (!(array_key_exists($showcaseName, $allShowcase)))
+            {
+                $allShowcase[$showcaseName] = $dataAdminPortal['showcaseStatus'][$showcaseIndex];
+            }
+        }
+
+        /*
+         *  Оставляем витрины в статусе Ошибка
+         */
+        foreach ($allShowcase as $key => $value) {
+            if ($value == 'Ошибка') {
+                $problemShowcase[$key] = $value;
+            }
+        }
+//        dump($problemShowcase);
+//        dd($allShowcase);
         // возвращаем массив: Индекс | Название витрины => Статус
-        return $allShowcase;
+        return $problemShowcase;
     }
 
 

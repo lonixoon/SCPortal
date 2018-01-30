@@ -46510,7 +46510,7 @@ var render = function() {
         _vm._v(" "),
         _c("p", [
           _vm._v(
-            "Разбор файла Daily Status HelpDesk по активностям (проблемам)"
+            "Разбор файла Daily Status HelpDesk по активностям (проблемам) в виде Проблема - Ситы"
           )
         ])
       ],
@@ -46525,10 +46525,12 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("p", [
       _vm._v(
-        "\n            Выгрузка ситов по которым нет данных и закрытых ситов"
+        "\n            Выгрузка ситов по которым нет данных и закрытых ситов в виде Сит - Статус"
       ),
       _c("br"),
-      _vm._v("\n            Выгрузка витрин со статусом ОШИБКА\n        ")
+      _vm._v(
+        "\n            Выгрузка отчёта по витринам в виде Витрина - Статус\n        "
+      )
     ])
   }
 ]
@@ -46755,6 +46757,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -46772,7 +46783,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             errorClassic: false,
             errorAtak: false,
             errorAdminClassic: false,
-            errorAdminAtak: false
+            errorAdminAtak: false,
+
+            successAdminAtak: false
         };
     },
     // запусть функции после отрисовки страницы
@@ -46876,7 +46889,7 @@ var render = function() {
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-5 alert alert-success" }, [
+      _c("div", { staticClass: "col-md-5 alert alert-info" }, [
         _vm._v(
           "\n\t\t\t\t\t\tВыгружает ситы по которым нет данных (No data) и закрытые ситы (Closed).\n\t\t\t\t"
         )
@@ -46900,11 +46913,7 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "col-md-5 alert alert-info" }, [
-        _vm._v(
-          "\n\t\t\t\t\t\tВыгружает название витрины и её статус за период с 18:00 предыдущего дня по 23:59 текущего дня\n\t\t\t\t"
-        )
-      ])
+      _vm._m(1)
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
@@ -46971,15 +46980,35 @@ var render = function() {
               "table",
               { staticClass: "table table-bordered table-striped" },
               [
-                _vm._m(1, true),
+                _vm._m(2, true),
                 _vm._v(" "),
                 _c(
                   "tbody",
                   _vm._l(portalClassic, function(statusClassic, citeClassic) {
                     return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(citeClassic))]),
+                      statusClassic == "No data"
+                        ? _c("td", { staticClass: "danger" }, [
+                            _vm._v(_vm._s(citeClassic))
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(statusClassic))])
+                      statusClassic == "No data"
+                        ? _c("td", { staticClass: "danger" }, [
+                            _vm._v(_vm._s(statusClassic))
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      statusClassic != "No data"
+                        ? _c("td", { staticClass: "warning" }, [
+                            _vm._v(_vm._s(citeClassic))
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      statusClassic != "No data"
+                        ? _c("td", { staticClass: "warning" }, [
+                            _vm._v(_vm._s(statusClassic))
+                          ])
+                        : _vm._e()
                     ])
                   })
                 )
@@ -47059,15 +47088,31 @@ var render = function() {
               "table",
               { staticClass: "table table-bordered table-striped" },
               [
-                _vm._m(2, true),
+                _vm._m(3, true),
                 _vm._v(" "),
                 _c(
                   "tbody",
                   _vm._l(portalAtak, function(statusAtak, citeAtak) {
                     return _c("tr", [
-                      _c("td", [_vm._v(_vm._s(citeAtak))]),
+                      statusAtak == "No data"
+                        ? _c("td", { staticClass: "danger" }, [
+                            _vm._v(_vm._s(citeAtak))
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(statusAtak))])
+                      statusAtak == "No data"
+                        ? _c("td", { staticClass: "danger" }, [
+                            _vm._v(_vm._s(statusAtak))
+                          ])
+                        : _c("td", { staticClass: "warning" }, [
+                            _vm._v(_vm._s(citeAtak))
+                          ]),
+                      _vm._v(" "),
+                      statusAtak != "No data"
+                        ? _c("td", { staticClass: "warning" }, [
+                            _vm._v(_vm._s(statusAtak))
+                          ])
+                        : _vm._e()
                     ])
                   })
                 )
@@ -47137,31 +47182,19 @@ var render = function() {
               "table",
               { staticClass: "table table-bordered table-striped" },
               [
-                _vm._m(3, true),
+                _vm._m(4, true),
                 _vm._v(" "),
                 _c(
                   "tbody",
                   _vm._l(value, function(status, showcaseNameClassic) {
                     return _c("tr", [
-                      status == "Ошибка"
-                        ? _c("td", { staticClass: "showcase-error" }, [
-                            _vm._v(_vm._s(showcaseNameClassic))
-                          ])
-                        : _vm._e(),
+                      _c("td", { staticClass: "danger" }, [
+                        _vm._v(_vm._s(showcaseNameClassic))
+                      ]),
                       _vm._v(" "),
-                      status != "Ошибка"
-                        ? _c("td", [_vm._v(_vm._s(showcaseNameClassic))])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      status == "Ошибка"
-                        ? _c("td", { staticClass: "showcase-error" }, [
-                            _vm._v(_vm._s(status))
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      status != "Ошибка"
-                        ? _c("td", [_vm._v(_vm._s(status))])
-                        : _vm._e()
+                      _c("td", { staticClass: "danger" }, [
+                        _vm._v(_vm._s(status))
+                      ])
                     ])
                   })
                 )
@@ -47231,33 +47264,48 @@ var render = function() {
               "table",
               { staticClass: "table table-bordered table-striped" },
               [
-                _vm._m(4, true),
+                _vm._m(5, true),
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(value, function(status, showcaseNameAtak) {
-                    return _c("tr", [
-                      status == "Ошибка"
-                        ? _c("td", { staticClass: "showcase-error" }, [
-                            _vm._v(_vm._s(showcaseNameAtak))
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      status != "Ошибка"
-                        ? _c("td", [_vm._v(_vm._s(showcaseNameAtak))])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      status == "Ошибка"
-                        ? _c("td", { staticClass: "showcase-error" }, [
-                            _vm._v(_vm._s(status))
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      status != "Ошибка"
-                        ? _c("td", [_vm._v(_vm._s(status))])
-                        : _vm._e()
-                    ])
-                  })
+                  [
+                    _vm._l(value, function(status, showcaseNameAtak) {
+                      return _c("tr", [
+                        _c("td", { staticClass: "danger" }, [
+                          _vm._v(_vm._s(showcaseNameAtak))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "danger" }, [
+                          _vm._v(_vm._s(status))
+                        ])
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "tr",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.successAdminAtak,
+                            expression: "successAdminAtak"
+                          }
+                        ]
+                      },
+                      [
+                        _c(
+                          "td",
+                          {
+                            staticClass: "success text-center",
+                            attrs: { colspan: "2" }
+                          },
+                          [_vm._v("Всё ок!")]
+                        )
+                      ]
+                    )
+                  ],
+                  2
                 )
               ]
             )
@@ -47285,6 +47333,24 @@ var staticRenderFns = [
           "\n\t\t\t\t\t\t\t\tВыгрузки запускается асинхронно, отчёты можно запускать в любой последовательности или все сразу.\n\t\t\t\t\t\t"
         )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-5 alert alert-info" }, [
+      _vm._v(
+        "\n\t\t\t\t\t\tВыгружает название витрины если статус Ошибка за период с 18:00 предыдущего дня по 23:59 текущего дня.\n\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _vm._v(
+        "* Если в отчёте пусто, значит витрин со статусом Ошибка нет!\n\t\t\t\t\t\t"
+      ),
+      _c("br"),
+      _vm._v(
+        "* Если витрина была в ошибке и после перезапуска у неё статус Нормально, в отчёте её не будет!\n\t\t\t\t"
+      )
     ])
   },
   function() {

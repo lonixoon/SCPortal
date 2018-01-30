@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DailyStatusAdminPortal;
+use App\DomainUser;
 use GuzzleHttp\Cookie\CookieJar;
 use Illuminate\Http\Request;
 use Symfony\Component\DomCrawler\Crawler;
@@ -11,10 +12,6 @@ use GuzzleHttp\Client;
 
 class DailyStatusAdminPortalController extends Controller
 {
-    private $user = 'rus9211689';
-    private $password = 'Cc123123*';
-
-
     /*
      * Главная упавляющаая функция, получает данные Портал Админ Классика в виде массива Витрина => Статус
      */
@@ -64,6 +61,9 @@ class DailyStatusAdminPortalController extends Controller
      */
     public function getPortalAdminAuth($link)
     {
+        // получаем пользователя для доступа
+        $user = $this->userAuthData();
+
         $DailyStatusAdminPortal = new DailyStatusAdminPortal();
         $client = new Client([
             // Base URI is used with relative requests
@@ -83,8 +83,8 @@ class DailyStatusAdminPortalController extends Controller
                 'form_params' => [
                     '__VIEWSTATE' => $tokenAuth['viewState'],
                     '__EVENTVALIDATION' => $tokenAuth['eventValidation'],
-                    'username' => $this->user,
-                    'password' => $this->password,
+                    'username' => $user['login'],
+                    'password' => $user['password'],
                 ],
                 'cookies' => $cookieJar,
             ]
@@ -111,7 +111,8 @@ class DailyStatusAdminPortalController extends Controller
                     'ddlTopFilter' => '-',
                     'txtRequestId' => '',
                     'ddlOprType' => '2',
-                    'ddlPhase' => '-1',
+                    // фаза 3 - Выполнен
+                    'ddlPhase' => '3',
                     'txtRequestName' => '',
                     'ddlOperationType' => '-1',
                     // статус витрин (1 : Только с ошибке), (-1 : НЕ ОТПРАВЛЯТЬ!!)

@@ -12,9 +12,6 @@ use App\DailyStatusPortalOld;
 
 class DailyStatusPortalController extends Controller
 {
-    private $user = 'xru9210097';
-    private $password = 'Qazxsw123+';
-
     /*
      * Главная упавляющаая функция, возвращает данные Портал в виде массива Магазин => Статус
      */
@@ -81,6 +78,9 @@ class DailyStatusPortalController extends Controller
      */
     public function getPortalAuth($link)
     {
+        // получаем пользователя для доступа
+        $user = $this->userAuthData();
+
         $DailyStatusPortal = new DailyStatusPortal();
         $client = new Client([
             // Base URI is used with relative requests
@@ -103,8 +103,8 @@ class DailyStatusPortalController extends Controller
                     '__LASTFOCUS' => '',
                     '__VIEWSTATE' => $tokenAuth['viewState'],
                     '__EVENTVALIDATION' => $tokenAuth['eventValidation'],
-                    'username' => $this->user,
-                    'password' => $this->password,
+                    'username' => $user['login'],
+                    'password' => $user['password'],
                     'ddlLanguage' => 'ru-RU',
                     'btnLogin' => 'Вход',
                     'btnEnter' => 'Вход',

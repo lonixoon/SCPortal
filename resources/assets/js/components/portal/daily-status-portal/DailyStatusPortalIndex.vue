@@ -11,7 +11,7 @@
 										Выгрузки запускается асинхронно, отчёты можно запускать в любой последовательности или все сразу.
 								</p>
 						</div>
-						<div class="col-md-5 alert alert-success">
+						<div class="col-md-5 alert alert-info">
 								Выгружает ситы по которым нет данных (No data) и закрытые ситы (Closed).
 						</div>
 						<div class="col-md-2">
@@ -23,7 +23,9 @@
 								</div>
 						</div>
 						<div class="col-md-5 alert alert-info">
-								Выгружает название витрины и её статус за период с 18:00 предыдущего дня по 23:59 текущего дня
+								Выгружает название витрины если статус Ошибка за период с 18:00 предыдущего дня по 23:59 текущего дня.
+								<br>* Если в отчёте пусто, значит витрин со статусом Ошибка нет!
+								<br>* Если витрина была в ошибке и после перезапуска у неё статус Нормально, в отчёте её не будет!
 						</div>
 				</div>
 				<div class="row">
@@ -53,8 +55,10 @@
 										</thead>
 										<tbody>
 										<tr v-for="(statusClassic, citeClassic) in portalClassic">
-												<td>{{ citeClassic }}</td>
-												<td>{{ statusClassic }}</td>
+												<td v-if="statusClassic == 'No data'" class="danger">{{ citeClassic }}</td>
+												<td v-if="statusClassic == 'No data'" class="danger">{{ statusClassic }}</td>
+												<td v-if="statusClassic != 'No data'" class="warning">{{ citeClassic }}</td>
+												<td v-if="statusClassic != 'No data'" class="warning">{{ statusClassic }}</td>
 										</tr>
 										</tbody>
 								</table>
@@ -86,8 +90,10 @@
 										</thead>
 										<tbody>
 										<tr v-for="(statusAtak, citeAtak) in portalAtak">
-												<td>{{ citeAtak }}</td>
-												<td>{{ statusAtak }}</td>
+												<td v-if="statusAtak == 'No data'" class="danger">{{ citeAtak }}</td>
+												<td v-if="statusAtak == 'No data'" class="danger">{{ statusAtak }}</td>
+												<td v-else="statusAtak != 'No data'" class="warning">{{ citeAtak }}</td>
+												<td v-if="statusAtak != 'No data'" class="warning">{{ statusAtak }}</td>
 										</tr>
 										</tbody>
 								</table>
@@ -115,10 +121,10 @@
 										</thead>
 										<tbody>
 										<tr v-for="(status, showcaseNameClassic) in value">
-												<td v-if="status == 'Ошибка'" class="showcase-error">{{ showcaseNameClassic }}</td>
-												<td v-if="status != 'Ошибка'">{{ showcaseNameClassic }}</td>
-												<td v-if="status == 'Ошибка'" class="showcase-error">{{ status }}</td>
-												<td v-if="status != 'Ошибка'">{{ status }}</td>
+												<td class="danger">{{ showcaseNameClassic }}</td>
+												<!--<td v-if="status != 'Ошибка'" class="success">{{ showcaseNameClassic }}</td>-->
+												<td class="danger">{{ status }}</td>
+												<!--<td v-if="status != 'Ошибка'" class="success">{{ status }}</td>-->
 										</tr>
 										</tbody>
 								</table>
@@ -146,10 +152,13 @@
 										</thead>
 										<tbody>
 										<tr v-for="(status, showcaseNameAtak) in value">
-												<td v-if="status == 'Ошибка'" class="showcase-error">{{ showcaseNameAtak }}</td>
-												<td v-if="status != 'Ошибка'">{{ showcaseNameAtak }}</td>
-												<td v-if="status == 'Ошибка'" class="showcase-error">{{ status }}</td>
-												<td v-if="status != 'Ошибка'">{{ status }}</td>
+												<td class="danger">{{ showcaseNameAtak }}</td>
+												<!--<td v-if="status != 'Ошибка'" class="success">{{ showcaseNameAtak }}</td>-->
+												<td class="danger">{{ status }}</td>
+												<!--<td v-if="status != 'Ошибка'" class="success">{{ status }}</td>-->
+										</tr>
+										<tr v-show="successAdminAtak">
+												<td colspan="2" class="success text-center">Всё ок!</td>
 										</tr>
 										</tbody>
 								</table>
@@ -177,6 +186,8 @@
                 errorAtak: false,
                 errorAdminClassic: false,
 								errorAdminAtak: false,
+
+                successAdminAtak: false,
             }
         },
         // запусть функции после отрисовки страницы

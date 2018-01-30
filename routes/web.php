@@ -14,10 +14,11 @@
 //Route::get('/', function () {
 //    return view('welcome');
 //});
+//Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'SCPortalController@index');
 
 Auth::routes();
-//Route::get('/home', 'HomeController@index')->name('home');
+
 
 // Portal Daily Status
     // выгружнный отчёт в виде api
@@ -38,6 +39,12 @@ Route::post('/daily-status-helpdesk/result', 'DailyStatusHDController@getFile');
 // Атена
 Route::get('/athena', 'AthenaController@index');
 
+// domain users
+//Route::get('/users', 'SCPortalController@users');
+
+
+
+// учебный
 //Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('companies', 'CompaniesController@index')->name('companies.index');
 //});

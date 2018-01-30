@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DomainUser;
 use GuzzleHttp\Cookie\CookieJar;
 use Illuminate\Http\Request;
 use Symfony\Component\DomCrawler\Crawler;
@@ -14,4 +15,5 @@ class SCPortalController extends Controller
     {
         return view('portal.index');
     }
+
 }
