@@ -21,4 +21,11 @@ class Controller extends BaseController
         $user = $DomainUser->users();
         return $user;
     }
+
+    public function userXruAuthData()
+    {
+        $DomainUser = new DomainUser();
+        $user = $DomainUser->usersXru();
+        return $user;
+    }
 }

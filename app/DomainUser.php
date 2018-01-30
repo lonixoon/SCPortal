@@ -14,4 +14,13 @@ class DomainUser extends Model
         $adminUser = $adminUser['1'];
         return $adminUser;
     }
+
+    public function usersXru()
+    {
+        $user = $this->all()->filter(function ($value, $key) {
+            return $value['id'] == '1';
+        });
+        $user = $user['1'];
+        return $user;
+    }
 }

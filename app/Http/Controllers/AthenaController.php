@@ -11,10 +11,6 @@ use GuzzleHttp\Client;
 
 class AthenaController extends Controller
 {
-    private $user = 'xru9210097';
-    private $password = 'Qazxsw123+';
-
-
     /*
      * Главная упавляющаая функция, получает данные Портал Админ Классика в виде массива Витрина => Статус
      */
@@ -33,6 +29,8 @@ class AthenaController extends Controller
      */
     public function getAuth($link)
     {
+        $user = $this->userXruAuthData();
+
         $Athena = new Athena();
 
         $client = new Client([
@@ -44,8 +42,8 @@ class AthenaController extends Controller
         $htmlAfterLogin = $client->request('POST', 'index.php', [
                 'form_params' => [
                     'url_account' => '50004',
-                    'url_login' => $this->user,
-                    'url_password' => $this->password,
+                    'url_login' => $user['login'],
+                    'url_password' => $user['password'],
                 ],
                 'cookies' => $cookieJar,
             ]
