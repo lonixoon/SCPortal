@@ -20,7 +20,8 @@ class DomainUser extends Model
         $user = $this->all()->filter(function ($value, $key) {
             return $value['id'] == '1';
         });
-        $user = $user['1'];
+        $user = $user['0'];
         return $user;
+
     }
 }

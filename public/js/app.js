@@ -46529,7 +46529,7 @@ var staticRenderFns = [
       ),
       _c("br"),
       _vm._v(
-        "\n            Выгрузка отчёта по витринам в виде Витрина - Статус\n        "
+        "\n            Выгрузка отчёта по витринам которые имеют статус ОШИБКА в виде Витрина - Статус\n        "
       )
     ])
   }
@@ -46766,6 +46766,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -46783,9 +46794,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             errorClassic: false,
             errorAtak: false,
             errorAdminClassic: false,
-            errorAdminAtak: false,
-
-            successAdminAtak: false
+            errorAdminAtak: false
         };
     },
     // запусть функции после отрисовки страницы
@@ -46796,11 +46805,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         allReport: function allReport() {
             var buttonAllReport = document.getElementById('buttonAllReport');
+            // бликируем кнопку
             buttonAllReport.disabled = true;
+            // запускаем все функции разом
             this.portalClassicUpload();
             this.portalAtakUpload();
             this.portalAdminClassicUpload();
             this.portalAdminAtakUpload();
+            // разблокируем кнопку через определённое время
+            setTimeout(function () {
+                buttonAllReport.disabled = false;
+            }, 30000);
         },
         portalClassicUpload: function portalClassicUpload() {
             // дисейблем кнопку пока идёт выгрузка
@@ -47197,7 +47212,9 @@ var render = function() {
                       ])
                     ])
                   })
-                )
+                ),
+                _vm._v(" "),
+                _vm._m(5, true)
               ]
             )
           })
@@ -47264,7 +47281,7 @@ var render = function() {
               "table",
               { staticClass: "table table-bordered table-striped" },
               [
-                _vm._m(5, true),
+                _vm._m(6, true),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -47281,29 +47298,7 @@ var render = function() {
                       ])
                     }),
                     _vm._v(" "),
-                    _c(
-                      "tr",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.successAdminAtak,
-                            expression: "successAdminAtak"
-                          }
-                        ]
-                      },
-                      [
-                        _c(
-                          "td",
-                          {
-                            staticClass: "success text-center",
-                            attrs: { colspan: "2" }
-                          },
-                          [_vm._v("Всё ок!")]
-                        )
-                      ]
-                    )
+                    _vm._m(7, true)
                   ],
                   2
                 )
@@ -47393,11 +47388,45 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("tfoot", [
+      _c("tr", [
+        _c("td", { staticClass: "text-center", attrs: { colspan: "2" } }, [
+          _vm._v(
+            "\n\t\t\t\t\t\t\t\t\t\t\t\tВсе витрины, которые не попали в этот, отчёт имеют статус Нормально.\n\t\t\t\t\t\t\t\t\t\t\t\t"
+          ),
+          _c("br"),
+          _vm._v(
+            "Если в очёте пусто, занчит все витрины в статусе Нормально.\n\t\t\t\t\t\t\t\t\t\t"
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("th", {}, [_vm._v("Витрина")]),
         _vm._v(" "),
         _c("th", {}, [_vm._v("Статус")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticClass: "text-center", attrs: { colspan: "2" } }, [
+        _vm._v(
+          "\n\t\t\t\t\t\t\t\t\t\t\t\tВсе витрины, которые не попали в этот, отчёт имеют статус Нормально.\n\t\t\t\t\t\t\t\t\t\t\t\t"
+        ),
+        _c("br"),
+        _vm._v(
+          "Если в очёте пусто, занчит все витрины в статусе Нормально.\n\t\t\t\t\t\t\t\t\t\t"
+        )
       ])
     ])
   }

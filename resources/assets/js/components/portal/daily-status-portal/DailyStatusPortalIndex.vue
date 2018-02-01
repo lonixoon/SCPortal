@@ -44,7 +44,7 @@
 										Не удалось загрузить данные Классики
 								</div>
 								<!--<div v-show="errorClassic" class="alert text-center hellfire">-->
-										<!--<span class="hellfire__span">Не удалось загрузить данные КЛАССИКИ</span>-->
+								<!--<span class="hellfire__span">Не удалось загрузить данные КЛАССИКИ</span>-->
 								<!--</div>-->
 								<table class="table table-bordered table-striped" v-for="portalClassic in classic">
 										<thead>
@@ -79,7 +79,7 @@
 										Не удалось загрузить данные Атак
 								</div>
 								<!--<div v-show="errorAtak" class="alert text-center hellfire">-->
-										<!--<span class="hellfire__span">Не удалось загрузить данные АТАК</span>-->
+								<!--<span class="hellfire__span">Не удалось загрузить данные АТАК</span>-->
 								<!--</div>-->
 								<table class="table table-bordered table-striped" v-for="portalAtak in atak">
 										<thead>
@@ -112,7 +112,7 @@
 								<div v-show="errorAdminClassic" class="alert alert-danger text-center">
 										Не удалось загрузить данные витрин Классики
 								</div>
-								<table class="table table-bordered table-striped"  v-for="value in showcaseNamesClassic">
+								<table class="table table-bordered table-striped" v-for="value in showcaseNamesClassic">
 										<thead>
 										<tr>
 												<th class="">Витрина</th>
@@ -127,6 +127,14 @@
 												<!--<td v-if="status != 'Ошибка'" class="success">{{ status }}</td>-->
 										</tr>
 										</tbody>
+										<tfoot>
+										<tr>
+												<td colspan="2" class="text-center">
+														Все витрины, которые не попали в этот, отчёт имеют статус Нормально.
+														<br>Если в очёте пусто, занчит все витрины в статусе Нормально.
+												</td>
+										</tr>
+										</tfoot>
 								</table>
 						</div>
 
@@ -157,8 +165,11 @@
 												<td class="danger">{{ status }}</td>
 												<!--<td v-if="status != 'Ошибка'" class="success">{{ status }}</td>-->
 										</tr>
-										<tr v-show="successAdminAtak">
-												<td colspan="2" class="success text-center">Всё ок!</td>
+										<tr>
+												<td colspan="2" class="text-center">
+														Все витрины, которые не попали в этот, отчёт имеют статус Нормально.
+														<br>Если в очёте пусто, занчит все витрины в статусе Нормально.
+												</td>
 										</tr>
 										</tbody>
 								</table>
@@ -185,9 +196,7 @@
                 errorClassic: false,
                 errorAtak: false,
                 errorAdminClassic: false,
-								errorAdminAtak: false,
-
-                successAdminAtak: false,
+                errorAdminAtak: false,
             }
         },
         // запусть функции после отрисовки страницы
@@ -198,12 +207,18 @@
         methods: {
             allReport() {
                 let buttonAllReport = document.getElementById('buttonAllReport');
+                // бликируем кнопку
                 buttonAllReport.disabled = true;
+                // запускаем все функции разом
                 this.portalClassicUpload();
                 this.portalAtakUpload();
                 this.portalAdminClassicUpload();
                 this.portalAdminAtakUpload();
-						},
+								// разблокируем кнопку через определённое время
+                setTimeout(function() {
+                    buttonAllReport.disabled = false;
+                }, 30000);
+            },
             portalClassicUpload() {
                 // дисейблем кнопку пока идёт выгрузка
                 let buttonClassic = document.getElementById('buttonClassic');
