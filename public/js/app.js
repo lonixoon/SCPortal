@@ -46768,15 +46768,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -46794,7 +46785,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             errorClassic: false,
             errorAtak: false,
             errorAdminClassic: false,
-            errorAdminAtak: false
+            errorAdminAtak: false,
+
+            successAdminAtak: false,
+            successAdminClassic: false
         };
     },
     // запусть функции после отрисовки страницы
@@ -46803,87 +46797,166 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     //            this.portalAtakUpload();
     //        },
     methods: {
+        /*
+         Запуск всех отчётов сразу
+         */
         allReport: function allReport() {
+            // ищём кнопку "Запустить выгрузку всех очётов"
             var buttonAllReport = document.getElementById('buttonAllReport');
-            // бликируем кнопку
+            // бликируем кнопку "Запустить выгрузку всех очётов"
             buttonAllReport.disabled = true;
             // запускаем все функции разом
             this.portalClassicUpload();
             this.portalAtakUpload();
             this.portalAdminClassicUpload();
             this.portalAdminAtakUpload();
-            // разблокируем кнопку через определённое время
+            // разблокируем кнопку "Запустить выгрузку всех очётов" через время
             setTimeout(function () {
                 buttonAllReport.disabled = false;
             }, 30000);
         },
+
+
+        /*
+         Выгрузка данных по Портал Калассика
+         */
         portalClassicUpload: function portalClassicUpload() {
-            // дисейблем кнопку пока идёт выгрузка
+            // ищем кнопку 'запустить выгрузку'
             var buttonClassic = document.getElementById('buttonClassic');
+            // блокируем кнопку 'запустить выгрузку'
             buttonClassic.disabled = true;
 
             var app = this;
+            // показывем 'загрузка' пока выгружаются данные
             app.loadingClassic = true;
-            axios.get('/daily-status-portal/portal-classic').then(function (resp) {
+            // делаем запрос данные по указанному адресу
+            axios.get('/daily-status-portal/portal-classic')
+            // если данные получены
+            .then(function (resp) {
+                // выводим полученные данные
                 app.classic = resp.data;
+                // прячем блок 'загрузка...'
                 app.loadingClassic = false;
+                // разблокируем кнопку 'запустить выгрузку'
                 buttonClassic.disabled = false;
             }).catch(function (error) {
                 console.log(error.response);
+                // прячем блок 'загрузка...'
                 app.loadingClassic = false;
+                // показываем блок "ошибка"
                 app.errorClassic = true;
+                // разблокируем кнопку 'запустить выгрузку'
                 buttonClassic.disabled = false;
             });
         },
         portalAtakUpload: function portalAtakUpload() {
             // дисейблем кнопку пока идёт выгрузка
             var buttonAtak = document.getElementById('buttonAtak');
+            // блокируем кнопку 'запустить выгрузку'
             buttonAtak.disabled = true;
 
             var app = this;
+            // показывем 'загрузка' пока выгружаются данные
             app.loadingAtak = true;
-            axios.get('/daily-status-portal/portal-atak').then(function (resp) {
+            // делаем запрос данные по указанному адресу
+            axios.get('/daily-status-portal/portal-atak')
+            // если данные получены
+            .then(function (resp) {
+                // выводим полученные данные
                 app.atak = resp.data;
+                // прячем блок 'загрузка...'
                 app.loadingAtak = false;
+                // разблокируем кнопку 'запустить выгрузку'
                 buttonAtak.disabled = false;
             }).catch(function (error) {
                 console.log(error.response);
+                // прячем блок 'загрузка...'
                 app.loadingAtak = false;
+                // показываем блок "ошибка"
                 app.errorAtak = true;
+                // разблокируем кнопку 'запустить выгрузку'
                 buttonAtak.disabled = false;
             });
         },
+
+
+        /*
+         Выгрузка данных Портал Админ АТАК
+         */
         portalAdminClassicUpload: function portalAdminClassicUpload() {
+            // ищем кнопку 'запустить выгрузку'
             var buttonAdminClassic = document.getElementById('buttonAdminClassic');
+            // блокируем кнопку 'запустить выгрузку'
             buttonAdminClassic.disabled = true;
 
             var app = this;
+            // показывем 'загрузка' пока выгружаются данные
             app.loadingAdminClassic = true;
-            axios.get('/daily-status-admin-portal/portal-classic').then(function (resp) {
+            // делаем запрос данные по указанному адресу
+            axios.get('/daily-status-admin-portal/portal-classic')
+            // если данные получены
+            .then(function (resp) {
+                // выводим полученные данные
                 app.showcaseNamesClassic = resp.data;
+                // прячем блок 'загрузка...'
                 app.loadingAdminClassic = false;
+                // разблокируем кнопку 'запустить выгрузку'
                 buttonAdminClassic.disabled = false;
-            }).catch(function (error) {
+                // если ошибок нет, показываем сообщение
+                if (app.showcaseNamesClassic['lists'].length <= 0) {
+                    app.successAdminClassic = true;
+                }
+            })
+            // если произошла ошибка
+            .catch(function (error) {
+                // выводим полный текст в консоль
                 console.log(error.response);
+                // прячем блок 'загрузка...'
                 app.loadingAdminClassic = false;
+                // показываем блок "ошибка"
                 app.errorAdminClassic = true;
+                // разблокируем кнопку 'запустить выгрузку'
                 buttonAdminClassic.disabled = false;
             });
         },
+
+
+        /*
+         Выгрузка данных Портал Админ АТАК
+         */
         portalAdminAtakUpload: function portalAdminAtakUpload() {
+            // ищем кнопку 'запустить выгрузку'
             var buttonAdminAtak = document.getElementById('buttonAdminAtak');
+            // блокируем кнопку 'запустить выгрузку'
             buttonAdminAtak.disabled = true;
 
             var app = this;
+            // показывем 'загрузка' пока выгружаются данные
             app.loadingAdminAtak = true;
-            axios.get('/daily-status-admin-portal/portal-atak').then(function (resp) {
+            // делаем запрос данные по указанному адресу
+            axios.get('/daily-status-admin-portal/portal-atak')
+            // если данные получены
+            .then(function (resp) {
+                // выводим полученные данные
                 app.showcaseNamesAtak = resp.data;
+                // прячем блок 'загрузка...'
                 app.loadingAdminAtak = false;
+                // разблокируем кнопку 'запустить выгрузку'
                 buttonAdminAtak.disabled = false;
-            }).catch(function (error) {
+                // если ошибок нет, показываем сообщение
+                if (app.showcaseNamesAtak['lists'].length <= 0) {
+                    app.successAdminAtak = true;
+                }
+            })
+            // если произошла ошибка
+            .catch(function (error) {
+                // выводим полный текст в консоль
                 console.log(error.response);
+                // прячем блок 'загрузка...'
                 app.loadingAdminAtak = false;
+                // показываем блок "ошибка"
                 app.errorAdminAtak = true;
+                // разблокируем кнопку 'запустить выгрузку'
                 buttonAdminAtak.disabled = false;
             });
         }
@@ -46903,12 +46976,6 @@ var render = function() {
       _c("h3", [_vm._v("Daily Status Portal")]),
       _vm._v(" "),
       _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-5 alert alert-info" }, [
-        _vm._v(
-          "\n\t\t\t\t\t\tВыгружает ситы по которым нет данных (No data) и закрытые ситы (Closed).\n\t\t\t\t"
-        )
-      ]),
       _vm._v(" "),
       _c("div", { staticClass: "col-md-2" }, [
         _c("div", { staticClass: "form-group" }, [
@@ -47069,13 +47136,7 @@ var render = function() {
               ],
               staticClass: "alert alert-info text-center"
             },
-            [
-              _vm._v("\n\t\t\t\t\t\t\t\tИдёт загрузка..."),
-              _c("br"),
-              _vm._v(
-                "\n\t\t\t\t\t\t\t\tС Порталом АТАК бывают сложности, если появится ошибка, запустите выгрузку ещё раз...\n\t\t\t\t\t\t"
-              )
-            ]
+            [_vm._v("\n\t\t\t\t\t\t\t\tИдёт загрузка...\n\t\t\t\t\t\t")]
           ),
           _vm._v(" "),
           _c(
@@ -47201,20 +47262,44 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "tbody",
-                  _vm._l(value, function(status, showcaseNameClassic) {
-                    return _c("tr", [
-                      _c("td", { staticClass: "danger" }, [
-                        _vm._v(_vm._s(showcaseNameClassic))
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "danger" }, [
-                        _vm._v(_vm._s(status))
+                  [
+                    _vm._l(value, function(status, showcaseNameClassic) {
+                      return _c("tr", [
+                        _c("td", { staticClass: "danger" }, [
+                          _vm._v(_vm._s(showcaseNameClassic))
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "danger" }, [
+                          _vm._v(_vm._s(status))
+                        ])
                       ])
+                    }),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c(
+                        "td",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.successAdminClassic,
+                              expression: "successAdminClassic"
+                            }
+                          ],
+                          staticClass: "text-center success",
+                          attrs: { colspan: "2" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t\t\t\t\tУра! Все витрины имеют статус НОРМАЛЬНО.\n\t\t\t\t\t\t\t\t\t\t"
+                          )
+                        ]
+                      )
                     ])
-                  })
-                ),
-                _vm._v(" "),
-                _vm._m(5, true)
+                  ],
+                  2
+                )
               ]
             )
           })
@@ -47281,7 +47366,7 @@ var render = function() {
               "table",
               { staticClass: "table table-bordered table-striped" },
               [
-                _vm._m(6, true),
+                _vm._m(5, true),
                 _vm._v(" "),
                 _c(
                   "tbody",
@@ -47298,7 +47383,28 @@ var render = function() {
                       ])
                     }),
                     _vm._v(" "),
-                    _vm._m(7, true)
+                    _c("tr", [
+                      _c(
+                        "td",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.successAdminAtak,
+                              expression: "successAdminAtak"
+                            }
+                          ],
+                          staticClass: "text-center success",
+                          attrs: { colspan: "2" }
+                        },
+                        [
+                          _vm._v(
+                            "\n\t\t\t\t\t\t\t\t\t\t\t\tУра! Все витрины имеют статус НОРМАЛЬНО.\n\t\t\t\t\t\t\t\t\t\t"
+                          )
+                        ]
+                      )
+                    ])
                   ],
                   2
                 )
@@ -47316,16 +47422,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "alert alert-warning" }, [
+    return _c("div", { staticClass: "col-md-5 alert alert-info" }, [
       _c("p", [
         _vm._v(
-          "На стадии тестирования, рекомендуем дважды запускать отчёт Портал Классика и Портал АТАК для\n\t\t\t\t\t\t\t\tперепроверки. Т.к. если сервер Портала\tбудет тупить, то данные могут быть не корректные.\n\t\t\t\t\t\t"
+          "Выгружает ситы по которым нет данных (No data) и закрытые ситы (Closed)."
         )
       ]),
       _vm._v(" "),
       _c("p", [
         _vm._v(
-          "\n\t\t\t\t\t\t\t\tВыгрузки запускается асинхронно, отчёты можно запускать в любой последовательности или все сразу.\n\t\t\t\t\t\t"
+          "Перезапустите отчёт хотя бы один раз, что бы проверить корректность данных."
         )
       ])
     ])
@@ -47335,98 +47441,64 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-5 alert alert-info" }, [
-      _vm._v(
-        "\n\t\t\t\t\t\tВыгружает название витрины если статус Ошибка за период с 18:00 предыдущего дня по 23:59 текущего дня.\n\t\t\t\t\t\t"
-      ),
-      _c("br"),
-      _vm._v(
-        "* Если в отчёте пусто, значит витрин со статусом Ошибка нет!\n\t\t\t\t\t\t"
-      ),
-      _c("br"),
-      _vm._v(
-        "* Если витрина была в ошибке и после перезапуска у неё статус Нормально, в отчёте её не будет!\n\t\t\t\t"
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-md-5" }, [_vm._v("Статус")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-md-5" }, [_vm._v("Статус")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", {}, [_vm._v("Витрина")]),
-        _vm._v(" "),
-        _c("th", {}, [_vm._v("Статус")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tfoot", [
-      _c("tr", [
-        _c("td", { staticClass: "text-center", attrs: { colspan: "2" } }, [
-          _vm._v(
-            "\n\t\t\t\t\t\t\t\t\t\t\t\tВсе витрины, которые не попали в этот, отчёт имеют статус Нормально.\n\t\t\t\t\t\t\t\t\t\t\t\t"
-          ),
-          _c("br"),
-          _vm._v(
-            "Если в очёте пусто, занчит все витрины в статусе Нормально.\n\t\t\t\t\t\t\t\t\t\t"
-          )
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", {}, [_vm._v("Витрина")]),
-        _vm._v(" "),
-        _c("th", {}, [_vm._v("Статус")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { staticClass: "text-center", attrs: { colspan: "2" } }, [
+      _c("p", [
         _vm._v(
-          "\n\t\t\t\t\t\t\t\t\t\t\t\tВсе витрины, которые не попали в этот, отчёт имеют статус Нормально.\n\t\t\t\t\t\t\t\t\t\t\t\t"
-        ),
-        _c("br"),
-        _vm._v(
-          "Если в очёте пусто, занчит все витрины в статусе Нормально.\n\t\t\t\t\t\t\t\t\t\t"
+          "Витрины если со статусом ОШИБКА, за период с 18:00 предыдущего дня по 23:59 текущего дня."
         )
+      ]),
+      _vm._v(" "),
+      _c("p", [
+        _vm._v(
+          "Если витрина была в ОШИБКЕ, но текущей её статус НОРМАЛЬНО, в отчёте её не будет."
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-md-5" }, [_vm._v("Статус")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-md-5" }, [_vm._v("Статус")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", {}, [_vm._v("Витрина")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("Статус")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", {}, [_vm._v("Витрина")]),
+        _vm._v(" "),
+        _c("th", {}, [_vm._v("Статус")])
       ])
     ])
   }
