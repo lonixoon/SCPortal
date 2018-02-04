@@ -47424,9 +47424,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-5 alert alert-info" }, [
       _c("p", [
-        _vm._v(
-          "Выгружает ситы по которым нет данных (No data) и закрытые ситы (Closed)."
-        )
+        _vm._v("Ситы по которым нет данных (No data) и закрытые ситы (Closed).")
       ]),
       _vm._v(" "),
       _c("p", [
@@ -47443,7 +47441,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-5 alert alert-info" }, [
       _c("p", [
         _vm._v(
-          "Витрины если со статусом ОШИБКА, за период с 18:00 предыдущего дня по 23:59 текущего дня."
+          "Витрины со статусом ОШИБКА, за период с 18:00 предыдущего дня по 23:59 текущего дня."
         )
       ]),
       _vm._v(" "),
