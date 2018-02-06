@@ -19,27 +19,24 @@
 				</div>
 				<div class="row" v-for="listProblem in list">
 						<div class="col-md-12">
-								<table style="margin-bottom: 0" class="table table-bordered table-striped">
+								<table class="table table-bordered table-striped">
 										<thead>
 										<tr>
-												<th style="width: 30px"></th>
+												<th></th>
 												<th class="col-md-3">Проблема</th>
 												<th>Ситы</th>
 										</tr>
 										</thead>
+										<tbody>
+										<tr v-for="(cites, problem) in listProblem">
+												<td style="width: 30px"><input type="checkbox"></td>
+												<td class="col-md-3">{{ problem }}</td>
+												<td><span v-for="cite in cites">{{ cite }}, </span></td>
+										</tr>
+										</tbody>
 								</table>
-								<form action="">
-										<table  v-for="(cites, problem) in listProblem" style="margin-bottom: 0" class="table table-bordered table-striped">
-												<tbody>
-												<tr>
-														<td style="width: 30px"><input type="checkbox"></td>
-														<td class="col-md-3">{{ problem }}</td>
-														<td><span v-for="cite in cites">{{ cite }}, </span></td>
-												</tr>
-												</tbody>
-										</table>
-								</form>
 						</div>
+
 				</div>
 		</div>
 </template>
@@ -72,10 +69,6 @@
                         alert("Не удалось обработать данные");
                     });
             },
-            crateTiket() {
-                let app = this;
-            },
-
         }
     }
 </script>

@@ -230,6 +230,8 @@
                 let app = this;
                 // показывем 'загрузка' пока выгружаются данные
                 app.loadingClassic = true;
+                // скрваем результаты на время выгрузки
+                app.classic = [];
                 // делаем запрос данные по указанному адресу
                 axios.get('/daily-status-portal/portal-classic')
                 // если данные получены
@@ -260,6 +262,8 @@
                 let app = this;
                 // показывем 'загрузка' пока выгружаются данные
                 app.loadingAtak = true;
+                // скрваем результаты на время выгрузки
+                app.atak = [];
                 // делаем запрос данные по указанному адресу
                 axios.get('/daily-status-portal/portal-atak')
                 // если данные получены
@@ -283,7 +287,7 @@
             },
 
 						/*
-						 Выгрузка данных Портал Админ АТАК
+						 Выгрузка данных Портал Админ Классика
 						 */
             portalAdminClassicUpload() {
                 // ищем кнопку 'запустить выгрузку'
@@ -294,6 +298,8 @@
                 let app = this;
                 // показывем 'загрузка' пока выгружаются данные
                 app.loadingAdminClassic = true;
+								// скрваем результаты на время выгрузки
+                app.showcaseNamesClassic = [];
                 // делаем запрос данные по указанному адресу
                 axios.get('/daily-status-admin-portal/portal-classic')
                 // если данные получены
@@ -334,6 +340,8 @@
                 let app = this;
                 // показывем 'загрузка' пока выгружаются данные
                 app.loadingAdminAtak = true;
+                // скрваем результаты на время выгрузки
+                app.showcaseNamesAtak = [];
                 // делаем запрос данные по указанному адресу
                 axios.get('/daily-status-admin-portal/portal-atak')
                 // если данные получены

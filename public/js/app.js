@@ -46829,6 +46829,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var app = this;
             // показывем 'загрузка' пока выгружаются данные
             app.loadingClassic = true;
+            // скрваем результаты на время выгрузки
+            app.classic = [];
             // делаем запрос данные по указанному адресу
             axios.get('/daily-status-portal/portal-classic')
             // если данные получены
@@ -46858,6 +46860,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var app = this;
             // показывем 'загрузка' пока выгружаются данные
             app.loadingAtak = true;
+            // скрваем результаты на время выгрузки
+            app.atak = [];
             // делаем запрос данные по указанному адресу
             axios.get('/daily-status-portal/portal-atak')
             // если данные получены
@@ -46881,7 +46885,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
         /*
-         Выгрузка данных Портал Админ АТАК
+         Выгрузка данных Портал Админ Классика
          */
         portalAdminClassicUpload: function portalAdminClassicUpload() {
             // ищем кнопку 'запустить выгрузку'
@@ -46892,6 +46896,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var app = this;
             // показывем 'загрузка' пока выгружаются данные
             app.loadingAdminClassic = true;
+            // скрваем результаты на время выгрузки
+            app.showcaseNamesClassic = [];
             // делаем запрос данные по указанному адресу
             axios.get('/daily-status-admin-portal/portal-classic')
             // если данные получены
@@ -46933,6 +46939,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var app = this;
             // показывем 'загрузка' пока выгружаются данные
             app.loadingAdminAtak = true;
+            // скрваем результаты на время выгрузки
+            app.showcaseNamesAtak = [];
             // делаем запрос данные по указанному адресу
             axios.get('/daily-status-admin-portal/portal-atak')
             // если данные получены
@@ -47604,6 +47612,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47621,17 +47634,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var app = this;
             var formData = new FormData(document.getElementById('uploadForm'));
             var rtfFile = document.getElementById('upload');
-            //                console.log(rtfFile.file);
             formData.append('file', rtfFile.file);
             axios.post('/daily-status-helpdesk/result', formData).then(function (response) {
                 app.list = response.data;
                 buttonSubmit.disabled = false;
-                //                        console.log(resp);
             }).catch(function (error) {
                 console.log(error.response);
                 buttonSubmit.disabled = false;
                 alert("Не удалось обработать данные");
             });
+        },
+        crateTiket: function crateTiket() {
+            var app = this;
         }
     }
 });
@@ -47671,7 +47685,7 @@ var render = function() {
                   attrs: { id: "buttonSubmit", type: "button" },
                   on: { click: this.uploadFiles }
                 },
-                [_vm._v("Загрузить")]
+                [_vm._v("\n\t\t\t\t\t\t\t\t\t\tЗагрузить\n\t\t\t\t\t\t\t\t")]
               )
             ])
           ]
@@ -47681,29 +47695,39 @@ var render = function() {
       _vm._l(_vm.list, function(listProblem) {
         return _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
-            _c("table", { staticClass: "table table-bordered table-striped" }, [
-              _vm._m(2, true),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(listProblem, function(cites, problem) {
-                  return _c("tr", [
-                    _vm._m(3, true),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "col-md-3" }, [
-                      _vm._v(_vm._s(problem))
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "td",
-                      _vm._l(cites, function(cite) {
-                        return _c("span", [_vm._v(_vm._s(cite) + ", ")])
-                      })
-                    )
-                  ])
-                })
-              )
-            ])
+            _vm._m(2, true),
+            _vm._v(" "),
+            _c(
+              "form",
+              { attrs: { action: "" } },
+              _vm._l(listProblem, function(cites, problem) {
+                return _c(
+                  "table",
+                  {
+                    staticClass: "table table-bordered table-striped",
+                    staticStyle: { "margin-bottom": "0" }
+                  },
+                  [
+                    _c("tbody", [
+                      _c("tr", [
+                        _vm._m(3, true),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "col-md-3" }, [
+                          _vm._v(_vm._s(problem))
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          _vm._l(cites, function(cite) {
+                            return _c("span", [_vm._v(_vm._s(cite) + ", ")])
+                          })
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              })
+            )
           ])
         ])
       })
@@ -47743,21 +47767,30 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th"),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Ситы")])
-      ])
-    ])
+    return _c(
+      "table",
+      {
+        staticClass: "table table-bordered table-striped",
+        staticStyle: { "margin-bottom": "0" }
+      },
+      [
+        _c("thead", [
+          _c("tr", [
+            _c("th", { staticStyle: { width: "30px" } }),
+            _vm._v(" "),
+            _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
+            _vm._v(" "),
+            _c("th", [_vm._v("Ситы")])
+          ])
+        ])
+      ]
+    )
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("th", { staticStyle: { width: "30px" } }, [
+    return _c("td", { staticStyle: { width: "30px" } }, [
       _c("input", { attrs: { type: "checkbox" } })
     ])
   }
