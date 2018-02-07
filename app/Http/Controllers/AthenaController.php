@@ -37,17 +37,15 @@ class AthenaController extends Controller
         $this->reloadFormGet($session, $link, 'TITLE_EN');
         // обновляем(сохраняем) топик
         $this->reloadFormGet($session, $link, 'SD_CATALOG_ID');
-
         // создаём тикет
-        $createTiketHtml = $this->createTiket($session, $link);
+        $this->createTiket($session, $link);
         // отпарвляем файл
-//        $this->uploadFileForm($session, $link);
-
+        $this->uploadFileForm($session, $link);
 
         // завершаем сессию
         $this->logout($session, $link);
 
-        return $createTiketHtml;
+        return 'Если не выдало ошибку, тикет создан';
     }
 
     /*
@@ -249,27 +247,43 @@ class AthenaController extends Controller
         $client->request('GET', $link['urlReloadForm'] . $parameter, ['cookies' => $session['cookieJar']]);
     }
 
+    /*
+     *  Отправка файлов
+     */
     public function uploadFileForm($session, $link)
     {
-
         $client = $this->client();
-
+        // путь к файлу
         $url = 'http://w7ru09990004/img/hellfire.jpg';
+        // открваем файл
         $file = fopen($url, 'r');
-        dump($file);
 
-        $postFile = $client->request('POST', $link['uploadFile'], [
+        // отправляем файл на сервер
+        $client->request('POST', $link['uploadFile'], [
                 'multipart' => [
                     [
                         'name' => 'file_to_upload',
                         'contents' => $file,
-                        'filename' => 'hellfire.jpg',
                     ],
                 ],
                 'cookies' => $session['cookieJar'],
             ]
         );
-        dump($postFile);
+
+        // обновляем таблицы (сохрание отправленного файла)
+        $client->request('POST', $link['uploadFileUpdateTable'], [
+                'multipart' => [
+                    [
+                        'name' => 'comment_upload_file',
+                        'contents' => '',
+                    ],
+                ],
+                'cookies' => $session['cookieJar'],
+            ]
+        );
+
+        // обновляем номер вложения (визуализация)
+        $client->request('GET', $link['uploadFileUpdateNumber'], ['cookies' => $session['cookieJar']]);
     }
 
     /*
@@ -281,12 +295,4 @@ class AthenaController extends Controller
         // завершаем работу
         $client->request('GET', $link['urlLogout'], ['cookies' => $session['cookieJar']]);
     }
-
-
-//    public function saveFile(Request $request)
-//    {
-//        $file = $request->file('file_to_upload');
-//        $fileName = '123123.jpg';
-//        $file->move('img', $fileName);
-//    }
 }

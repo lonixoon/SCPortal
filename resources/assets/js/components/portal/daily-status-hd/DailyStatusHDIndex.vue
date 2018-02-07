@@ -6,7 +6,6 @@
 				</div>
 				<div class="row">
 						<form class="col-md-3" id="uploadForm" name="uploadForm" enctype="multipart/form-data">
-								<!--{{ csrf_field() }}-->
 								<div class="form-group">
 										<input class="btn btn-default" type='file' accept='.rtf' name='file' id='upload' required>
 								</div>
