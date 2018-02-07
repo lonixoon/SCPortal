@@ -2,11 +2,11 @@
 		<div>
 				<!--<router-link to="/" class="btn btn-default">Назад</router-link>-->
 				<div class="col-md-12 form-group">
-						<h3>Разбор файла Daily Status HelpDesk по активностям (проблемам)</h3>
+						<h3>Тестовый Daily Status HelpDesk</h3>
+						<p>Тестируем написание тикетов из дейлика</p>
 				</div>
 				<div class="row">
 						<form class="col-md-3" id="uploadForm" name="uploadForm" enctype="multipart/form-data">
-								<!--{{ csrf_field() }}-->
 								<div class="form-group">
 										<input class="btn btn-default" type='file' accept='.rtf' name='file' id='upload' required>
 								</div>
@@ -18,25 +18,31 @@
 						</form>
 				</div>
 				<div class="row" v-for="listProblem in list">
+
 						<div class="col-md-12">
-								<table class="table table-bordered table-striped">
-										<thead>
-										<tr>
-												<th></th>
-												<th class="col-md-3">Проблема</th>
-												<th>Ситы</th>
-										</tr>
-										</thead>
+								<table style="margin-bottom: 0" class="table table-bordered table-striped">
 										<tbody>
-										<tr v-for="(cites, problem) in listProblem">
-												<td style="width: 30px"><input type="checkbox"></td>
-												<td class="col-md-3">{{ problem }}</td>
-												<td><span v-for="cite in cites">{{ cite }}, </span></td>
+										<tr>
+												<th class="col-md-1">Тикет</th>
+												<th class="col-md-3">Проблема</th>
+												<th class="col-md-8">Ситы</th>
 										</tr>
 										</tbody>
 								</table>
+								<form action="" v-for="(cites, problem) in listProblem">
+										<table style="margin-bottom: 0" class="table table-bordered table-striped">
+												<tbody>
+												<tr>
+														<td class="col-md-1">
+																<button type="button" class="btn btn-success btn-xs">Создать</button>
+														</td>
+														<td class="col-md-3">{{ problem }}</td>
+														<td class="col-md-8"><span v-for="cite in cites">{{ cite }}, </span></td>
+												</tr>
+												</tbody>
+										</table>
+								</form>
 						</div>
-
 				</div>
 		</div>
 </template>
@@ -69,6 +75,10 @@
                         alert("Не удалось обработать данные");
                     });
             },
+            crateTiket() {
+                let app = this;
+            },
+
         }
     }
 </script>

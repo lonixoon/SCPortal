@@ -14,6 +14,9 @@
                 <li class="nav__item">
                     <router-link :to="{name: 'dailyStatusHD'}">Daily Status Helpdesk</router-link>
                 </li>
+                <li class="nav__item">
+                    <router-link :to="{name: 'dailyStatusHDTest'}">Test DS HD</router-link>
+                </li>
             </ul>
         </div>
     </nav>

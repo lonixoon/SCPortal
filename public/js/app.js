@@ -1094,6 +1094,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_portal_daily_status_hd_DailyStatusHDIndexTest_vue__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_portal_daily_status_hd_DailyStatusHDIndexTest_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_portal_daily_status_hd_DailyStatusHDIndexTest_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -1107,6 +1109,7 @@ window.Vue = __webpack_require__(36);
 
 
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
+
 
 
 
@@ -1134,7 +1137,7 @@ var routes = [{
         portalIndex: __WEBPACK_IMPORTED_MODULE_4__components_portal_PortalIndex_vue___default.a,
         companiesIndex: __WEBPACK_IMPORTED_MODULE_1__components_companies_CompaniesIndex_vue___default.a
     }
-}, { path: '/daily-status-portal', component: __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue___default.a, name: 'dailyStatusPortal' }, { path: '/daily-status-hd', component: __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue___default.a, name: 'dailyStatusHD' }, { path: '/create', component: __WEBPACK_IMPORTED_MODULE_2__components_companies_CompaniesCreate_vue___default.a, name: 'createCompany' }, { path: '/edit/:id', component: __WEBPACK_IMPORTED_MODULE_3__components_companies_CompaniesEdit_vue___default.a, name: 'editCompany' }];
+}, { path: '/daily-status-portal', component: __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue___default.a, name: 'dailyStatusPortal' }, { path: '/daily-status-hd-test', component: __WEBPACK_IMPORTED_MODULE_7__components_portal_daily_status_hd_DailyStatusHDIndexTest_vue___default.a, name: 'dailyStatusHDTest' }, { path: '/daily-status-hd', component: __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue___default.a, name: 'dailyStatusHD' }, { path: '/create', component: __WEBPACK_IMPORTED_MODULE_2__components_companies_CompaniesCreate_vue___default.a, name: 'createCompany' }, { path: '/edit/:id', component: __WEBPACK_IMPORTED_MODULE_3__components_companies_CompaniesEdit_vue___default.a, name: 'editCompany' }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ routes: routes });
 
@@ -47614,8 +47617,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47642,9 +47643,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 buttonSubmit.disabled = false;
                 alert("Не удалось обработать данные");
             });
-        },
-        crateTiket: function crateTiket() {
-            var app = this;
         }
     }
 });
@@ -47694,39 +47692,29 @@ var render = function() {
       _vm._l(_vm.list, function(listProblem) {
         return _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
-            _vm._m(2, true),
-            _vm._v(" "),
-            _c(
-              "form",
-              { attrs: { action: "" } },
-              _vm._l(listProblem, function(cites, problem) {
-                return _c(
-                  "table",
-                  {
-                    staticClass: "table table-bordered table-striped",
-                    staticStyle: { "margin-bottom": "0" }
-                  },
-                  [
-                    _c("tbody", [
-                      _c("tr", [
-                        _vm._m(3, true),
-                        _vm._v(" "),
-                        _c("td", { staticClass: "col-md-3" }, [
-                          _vm._v(_vm._s(problem))
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "td",
-                          _vm._l(cites, function(cite) {
-                            return _c("span", [_vm._v(_vm._s(cite) + ", ")])
-                          })
-                        )
-                      ])
-                    ])
-                  ]
-                )
-              })
-            )
+            _c("table", { staticClass: "table table-bordered table-striped" }, [
+              _vm._m(2, true),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(listProblem, function(cites, problem) {
+                  return _c("tr", [
+                    _vm._m(3, true),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "col-md-3" }, [
+                      _vm._v(_vm._s(problem))
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      _vm._l(cites, function(cite) {
+                        return _c("span", [_vm._v(_vm._s(cite) + ", ")])
+                      })
+                    )
+                  ])
+                })
+              )
+            ])
           ])
         ])
       })
@@ -47766,24 +47754,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "table",
-      {
-        staticClass: "table table-bordered table-striped",
-        staticStyle: { "margin-bottom": "0" }
-      },
-      [
-        _c("thead", [
-          _c("tr", [
-            _c("th", { staticStyle: { width: "30px" } }),
-            _vm._v(" "),
-            _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
-            _vm._v(" "),
-            _c("th", [_vm._v("Ситы")])
-          ])
-        ])
-      ]
-    )
+    return _c("thead", [
+      _c("tr", [
+        _c("th"),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Ситы")])
+      ])
+    ])
   },
   function() {
     var _vm = this
@@ -47808,6 +47787,313 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(69)
+/* template */
+var __vue_template__ = __webpack_require__(70)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\portal\\daily-status-hd\\DailyStatusHDIndexTest.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6e0abd42", Component.options)
+  } else {
+    hotAPI.reload("data-v-6e0abd42", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 69 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            list: []
+        };
+    },
+
+    methods: {
+        uploadFiles: function uploadFiles() {
+            // дисейблем кнопку пока идёт выгрузка
+            var buttonSubmit = document.getElementById('buttonSubmit');
+            buttonSubmit.disabled = true;
+
+            var app = this;
+            var formData = new FormData(document.getElementById('uploadForm'));
+            var rtfFile = document.getElementById('upload');
+            formData.append('file', rtfFile.file);
+            axios.post('/daily-status-helpdesk/result', formData).then(function (response) {
+                app.list = response.data;
+                buttonSubmit.disabled = false;
+            }).catch(function (error) {
+                console.log(error.response);
+                buttonSubmit.disabled = false;
+                alert("Не удалось обработать данные");
+            });
+        },
+        crateTiket: function crateTiket() {
+            var app = this;
+        }
+    }
+});
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "form",
+          {
+            staticClass: "col-md-3",
+            attrs: {
+              id: "uploadForm",
+              name: "uploadForm",
+              enctype: "multipart/form-data"
+            }
+          },
+          [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { id: "buttonSubmit", type: "button" },
+                  on: { click: this.uploadFiles }
+                },
+                [_vm._v("\n\t\t\t\t\t\t\t\t\t\tЗагрузить\n\t\t\t\t\t\t\t\t")]
+              )
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.list, function(listProblem) {
+        return _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-md-12" },
+            [
+              _vm._m(2, true),
+              _vm._v(" "),
+              _vm._l(listProblem, function(cites, problem) {
+                return _c("form", { attrs: { action: "" } }, [
+                  _c(
+                    "table",
+                    {
+                      staticClass: "table table-bordered table-striped",
+                      staticStyle: { "margin-bottom": "0" }
+                    },
+                    [
+                      _c("tbody", [
+                        _c("tr", [
+                          _vm._m(3, true),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "col-md-3" }, [
+                            _vm._v(_vm._s(problem))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "col-md-8" },
+                            _vm._l(cites, function(cite) {
+                              return _c("span", [_vm._v(_vm._s(cite) + ", ")])
+                            })
+                          )
+                        ])
+                      ])
+                    ]
+                  )
+                ])
+              })
+            ],
+            2
+          )
+        ])
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12 form-group" }, [
+      _c("h3", [_vm._v("Тестовый Daily Status HelpDesk")]),
+      _vm._v(" "),
+      _c("p", [_vm._v("Тестируем написание тикетов из дейлика")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("input", {
+        staticClass: "btn btn-default",
+        attrs: {
+          type: "file",
+          accept: ".rtf",
+          name: "file",
+          id: "upload",
+          required: ""
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "table",
+      {
+        staticClass: "table table-bordered table-striped",
+        staticStyle: { "margin-bottom": "0" }
+      },
+      [
+        _c("tbody", [
+          _c("tr", [
+            _c("th", { staticClass: "col-md-1" }, [_vm._v("Тикет")]),
+            _vm._v(" "),
+            _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
+            _vm._v(" "),
+            _c("th", { staticClass: "col-md-8" }, [_vm._v("Ситы")])
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "col-md-1" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-success btn-xs", attrs: { type: "button" } },
+        [_vm._v("Создать")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6e0abd42", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

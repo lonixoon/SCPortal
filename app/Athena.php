@@ -23,7 +23,7 @@ class Athena extends Model
      * Получаем сессию первой переменной, второй ссылку на новый тикет и его ИД
      * Возвращаем готовые ссылки
      */
-    public function crateLink($session, $urlCreateTiketAndId)
+    public function crateLink($session, $urlNewTiketAndId)
     {
         // сессия
         $sessionId = $session['PHPSESSID'];
@@ -32,9 +32,9 @@ class Athena extends Model
         // сессия (кусок ссылки для удобаства)
         $session = 'PHPSESSID=' . $sessionId . '&internalurltime' . $sessionTime;
         // ИД тикета
-        $idTiket = $urlCreateTiketAndId['idTiket'];
+        $idTiket = $urlNewTiketAndId['idTiket'];
         // Ссылка на новый тикет
-        $urlCreateTiket = $urlCreateTiketAndId['urlCreateTiket'];
+        $urlCreateTiket = $urlNewTiketAndId['urlCreateTiket'];
 
 
         $link = [
@@ -62,15 +62,15 @@ class Athena extends Model
                 . $idTiket . '&field_to_reload=',
 
             // ссылка на добавления фалов в тикет multi
-            'uploadFile' => 'include/javascript/staff/upload/jquery.fileupload_doc.php?PHPSESSID=' . $sessionId
+            'urlUploadFile' => 'include/javascript/staff/upload/jquery.fileupload_doc.php?PHPSESSID=' . $sessionId
                 . '&wizard_from=quickcall&rqt_id=' . $idTiket . '&id=' . $idTiket . '&tablename=SD_REQUEST',
 
             // ссылка на обновление таблиц что бы файл прикрепился multi
-            'uploadFileUpdateTable' => 'upload_f_doc_details.php?PHPSESSID=' . $sessionId
+            'urlUploadFileUpdateTable' => 'upload_f_doc_details.php?PHPSESSID=' . $sessionId
                 . '&wizard_from=quickcall&rqt_id=' . $idTiket . '&id=' . $idTiket . '&tablename=SD_REQUEST',
 
             // ссылка на обновление циферки в тиктет чтобы было видно сколько вложений get
-            'uploadFileUpdateNumber' => 'qty_doc_upload.php?PHPSESSID=' . $sessionId
+            'urlUploadFileUpdateNumber' => 'qty_doc_upload.php?PHPSESSID=' . $sessionId
                 . '&tablename=SD_REQUEST&id=' . $idTiket,
         ];
 

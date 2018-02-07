@@ -21,31 +21,36 @@ class AthenaController extends Controller
         // формируем ссылки
         $link = $Athena->crateLink($session, null);
         // получаем ссылку на новый тикет и ИД этого тикета
-        $arrUrlCreateTiketAndIdTiket = $this->getNewTiketAndId($session, $link);
+        $urlNewTiketAndId = $this->getLinkNewTiketAndId($session, $link);
         // снова формируем ссылки
-        $link = $Athena->crateLink($session, $arrUrlCreateTiketAndIdTiket);
+        $link = $Athena->crateLink($session, $urlNewTiketAndId);
 
         // вставляем данные в верхнюю форму
         $this->headerFormPost($session, $link, null);
         // обновляем (сохраняем) заголовки верхней формы
         $this->reloadFormGet($session, $link, 'NEWS_QUERY');
+
         // вставляем данные в тело (нижнюю форму)
         $this->bodyFormPost($session, $link, null);
         // обновляем(сохраняем) приоритет тикета
         $this->reloadFormGet($session, $link, 'URGENCY_ID');
-        // обновляем(сохраняем) непонятная обновлялка
-        $this->reloadFormGet($session, $link, 'TITLE_EN');
         // обновляем(сохраняем) топик
         $this->reloadFormGet($session, $link, 'SD_CATALOG_ID');
+
         // создаём тикет
         $this->createTiket($session, $link);
+
         // отпарвляем файл
-        $this->uploadFileForm($session, $link);
+        $this->uploadFileForm($session, $link, null);
 
         // завершаем сессию
         $this->logout($session, $link);
 
-        return 'Если не выдало ошибку, тикет создан';
+        return '<h3>Походу прокатило, тикет создан</h3>';
+
+
+                // обновляем(сохраняем) непонятная обновлялка
+//        $this->reloadFormGet($session, $link, 'TITLE_EN');
     }
 
     /*
@@ -101,7 +106,7 @@ class AthenaController extends Controller
      * Принемает сессию и ссылки
      * Возвращает ИД нового тикета и сслку на его создание
      */
-    public function getNewTiketAndId($session, $link)
+    public function getLinkNewTiketAndId($session, $link)
     {
         $client = $this->client();
 
@@ -110,13 +115,13 @@ class AthenaController extends Controller
 
         // получаем текст где есть ссылка на новый тикет
         $arrCreateTiket = explode('href="/', $htmlGetIdTiket)[1];
-        // оставляем тольку ссылку
-        $urlCreateTiketAndId['urlCreateTiket'] = explode('";', $arrCreateTiket)[0];
 
+        // получаем ссылку
+        $urlNewTiketAndId['urlCreateTiket'] = explode('";', $arrCreateTiket)[0];
         // получаем ИД тикета
-        $urlCreateTiketAndId['idTiket'] = explode('&q2_id=', $urlCreateTiketAndId['urlCreateTiket'])[1];
+        $urlNewTiketAndId['idTiket'] = explode('&q2_id=', $urlNewTiketAndId['urlCreateTiket'])[1];
 
-        return $urlCreateTiketAndId;
+        return $urlNewTiketAndId;
     }
 
     /*
@@ -250,20 +255,18 @@ class AthenaController extends Controller
     /*
      *  Отправка файлов
      */
-    public function uploadFileForm($session, $link)
+    public function uploadFileForm($session, $link, $urlFile)
     {
         $client = $this->client();
         // путь к файлу
-        $url = 'http://w7ru09990004/img/hellfire.jpg';
-        // открваем файл
-        $file = fopen($url, 'r');
+        $urlFile = 'http://w7ru09990004/img/hellfire.jpg';
 
         // отправляем файл на сервер
-        $client->request('POST', $link['uploadFile'], [
+        $client->request('POST', $link['urlUploadFile'], [
                 'multipart' => [
                     [
                         'name' => 'file_to_upload',
-                        'contents' => $file,
+                        'contents' => fopen($urlFile, 'r'),
                     ],
                 ],
                 'cookies' => $session['cookieJar'],
@@ -271,7 +274,7 @@ class AthenaController extends Controller
         );
 
         // обновляем таблицы (сохрание отправленного файла)
-        $client->request('POST', $link['uploadFileUpdateTable'], [
+        $client->request('POST', $link['urlUploadFileUpdateTable'], [
                 'multipart' => [
                     [
                         'name' => 'comment_upload_file',
@@ -283,7 +286,7 @@ class AthenaController extends Controller
         );
 
         // обновляем номер вложения (визуализация)
-        $client->request('GET', $link['uploadFileUpdateNumber'], ['cookies' => $session['cookieJar']]);
+        $client->request('GET', $link['urlUploadFileUpdateNumber'], ['cookies' => $session['cookieJar']]);
     }
 
     /*
