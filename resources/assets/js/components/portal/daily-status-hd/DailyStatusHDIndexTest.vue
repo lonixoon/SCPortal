@@ -29,15 +29,30 @@
 										</tr>
 										</tbody>
 								</table>
-								<form action="" v-for="(cites, problem) in listProblem">
+								<!--<form action="" v-for="(cites, problem) in listProblem">-->
+										<!--<table style="margin-bottom: 0" class="table table-bordered table-striped">-->
+												<!--<tbody>-->
+												<!--<tr>-->
+														<!--<td class="col-md-1">-->
+																<!--<button type="button" class="btn btn-success btn-xs" @click="this.uploadFiles">Создать</button>-->
+														<!--</td>-->
+														<!--<td class="col-md-3">{{ problem }}</td>-->
+														<!--<td class="col-md-8"><span v-for="cite in cites">{{ cite }}, </span></td>-->
+												<!--</tr>-->
+												<!--</tbody>-->
+										<!--</table>-->
+								<!--</form>-->
+								<form action="http://w7ru09990004/#/daily-status-hd-test" method="post" v-for="(cites, problem) in listProblem">
 										<table style="margin-bottom: 0" class="table table-bordered table-striped">
 												<tbody>
 												<tr>
 														<td class="col-md-1">
-																<button type="button" class="btn btn-success btn-xs">Создать</button>
+																<button type="submit" class="btn btn-success btn-xs">Создать</button>
 														</td>
 														<td class="col-md-3">{{ problem }}</td>
 														<td class="col-md-8"><span v-for="cite in cites">{{ cite }}, </span></td>
+														<!--<textarea name="problem" hidden>{{ problem }}</textarea>-->
+														<!--<textarea name="cites" hidden v-for="cite in cites">{{ cite }}</textarea>-->
 												</tr>
 												</tbody>
 										</table>

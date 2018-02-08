@@ -47900,6 +47900,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47984,34 +47999,43 @@ var render = function() {
               _vm._m(2, true),
               _vm._v(" "),
               _vm._l(listProblem, function(cites, problem) {
-                return _c("form", { attrs: { action: "" } }, [
-                  _c(
-                    "table",
-                    {
-                      staticClass: "table table-bordered table-striped",
-                      staticStyle: { "margin-bottom": "0" }
-                    },
-                    [
-                      _c("tbody", [
-                        _c("tr", [
-                          _vm._m(3, true),
-                          _vm._v(" "),
-                          _c("td", { staticClass: "col-md-3" }, [
-                            _vm._v(_vm._s(problem))
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "td",
-                            { staticClass: "col-md-8" },
-                            _vm._l(cites, function(cite) {
-                              return _c("span", [_vm._v(_vm._s(cite) + ", ")])
-                            })
-                          )
+                return _c(
+                  "form",
+                  {
+                    attrs: {
+                      action: "http://w7ru09990004/#/daily-status-hd-test",
+                      method: "post"
+                    }
+                  },
+                  [
+                    _c(
+                      "table",
+                      {
+                        staticClass: "table table-bordered table-striped",
+                        staticStyle: { "margin-bottom": "0" }
+                      },
+                      [
+                        _c("tbody", [
+                          _c("tr", [
+                            _vm._m(3, true),
+                            _vm._v(" "),
+                            _c("td", { staticClass: "col-md-3" }, [
+                              _vm._v(_vm._s(problem))
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "td",
+                              { staticClass: "col-md-8" },
+                              _vm._l(cites, function(cite) {
+                                return _c("span", [_vm._v(_vm._s(cite) + ", ")])
+                              })
+                            )
+                          ])
                         ])
-                      ])
-                    ]
-                  )
-                ])
+                      ]
+                    )
+                  ]
+                )
               })
             ],
             2
@@ -48080,7 +48104,7 @@ var staticRenderFns = [
     return _c("td", { staticClass: "col-md-1" }, [
       _c(
         "button",
-        { staticClass: "btn btn-success btn-xs", attrs: { type: "button" } },
+        { staticClass: "btn btn-success btn-xs", attrs: { type: "submit" } },
         [_vm._v("Создать")]
       )
     ])

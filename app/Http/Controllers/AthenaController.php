@@ -20,20 +20,28 @@ class AthenaController extends Controller
         $session = $this->getAuth();
         // формируем ссылки
         $link = $Athena->crateLink($session, null);
+        $formData = $Athena->getFormData();
+        // получем ИД группы
+        $formData['idGroup'] = $this->urlGetGroupId($session, $link, $formData);
+
+
         // получаем ссылку на новый тикет и ИД этого тикета
         $urlNewTiketAndId = $this->getLinkNewTiketAndId($session, $link);
         // снова формируем ссылки
         $link = $Athena->crateLink($session, $urlNewTiketAndId);
 
+
         // вставляем данные в верхнюю форму
-        $this->headerFormPost($session, $link, null);
+        $this->headerFormPost($session, $link, $formData);
         // обновляем (сохраняем) заголовки верхней формы
         $this->reloadFormGet($session, $link, 'NEWS_QUERY');
 
         // вставляем данные в тело (нижнюю форму)
-        $this->bodyFormPost($session, $link, null);
+        $this->bodyFormPost($session, $link, $formData);
         // обновляем(сохраняем) приоритет тикета
-        $this->reloadFormGet($session, $link, 'URGENCY_ID');
+        $htmlSlaTarget = $this->reloadFormGet($session, $link, 'URGENCY_ID');
+        $formData['sla'] = $Athena->getSlaTarget($htmlSlaTarget);
+
         // обновляем(сохраняем) топик
         $this->reloadFormGet($session, $link, 'SD_CATALOG_ID');
 
@@ -41,15 +49,22 @@ class AthenaController extends Controller
         $this->createTiket($session, $link);
 
         // отпарвляем файл
-        $this->uploadFileForm($session, $link, null);
+        $this->uploadFileForm($session, $link, $formData);
+
+
+        // подготовка к отправке тикета
+        $this->getPreSendTiket($session, $link);
+        // отправляем тикет на грппу
+        $this->postTiketOnGroup($session, $link, $formData);
 
         // завершаем сессию
         $this->logout($session, $link);
 
         return '<h3>Походу прокатило, тикет создан</h3>';
+//        return $htmlPostTiketOnGroup;
 
 
-                // обновляем(сохраняем) непонятная обновлялка
+        // обновляем(сохраняем) непонятная обновлялка
 //        $this->reloadFormGet($session, $link, 'TITLE_EN');
     }
 
@@ -144,8 +159,8 @@ class AthenaController extends Controller
      */
     public function headerFormPost($session, $link, $formData)
     {
-        $formData['citId'] = '3680';
-        $formData['citName'] = '999R - Multiple Sites Russia';
+//        $formData['citId'] = '3680';
+//        $formData['citName'] = '999R - Multiple Sites Russia';
 
         $client = $this->client();
         // отправляем форму на заполнение верхний части формы тикета
@@ -169,13 +184,13 @@ class AthenaController extends Controller
                     'pk_AM_LOCATION.LOCATION_EN' => 'SD_REQUEST.LOCATION_ID',
 
                     // главная тема (Short description)
-                    'SD_REQUEST.AVAILABLE_FIELD_1' => '(AURA)',
+                    'SD_REQUEST.AVAILABLE_FIELD_1' => $formData['title'],
                     'OLD_SD_REQUEST.AVAILABLE_FIELD_1' => '',
                     'pk_SD_REQUEST.AVAILABLE_FIELD_1' => 'SD_REQUEST.AVAILABLE_FIELD_1',
                     'type_SD_REQUEST.AVAILABLE_FIELD_1' => 'string',
 
                     // свободный комент (Free comments)
-                    'SD_REQUEST.AVAILABLE_FIELD_3' => 'AUUUUURAAA',
+                    'SD_REQUEST.AVAILABLE_FIELD_3' => $formData['freeComment'],
                     'OLD_SD_REQUEST.AVAILABLE_FIELD_3' => '',
                     'pk_SD_REQUEST.AVAILABLE_FIELD_3' => '',
                     'type_SD_REQUEST.AVAILABLE_FIELD_3' => 'string',
@@ -196,11 +211,11 @@ class AthenaController extends Controller
      */
     public function bodyFormPost($session, $link, $formData)
     {
-        $formData['cimPriority'] = '2';
-        $formData['typeTiket'] = 'Incident';
-        $formData['topicNameiket'] = 'COUNTRY BUSINESS/GIMA/TRANSFERS';
-        $formData['topicId'] = '181570';
-        $formData['textTiket'] = 'lordfsghdsghdsfhdgf h dgf hdgf hdfg hgf';
+//        $formData['cimPriority'] = '2';
+//        $formData['typeTiket'] = 'Incident';
+//        $formData['topicNameiket'] = 'COUNTRY BUSINESS/GIMA/TRANSFERS';
+//        $formData['topicId'] = '181570';
+//        $formData['textTiket'] = 'lordfsghdsghdsfhdgf h dgf hdgf hdfg hgf';
 
         $client = $this->client();
         $client->request('POST', $link['urlFillingTiketForm'], [
@@ -249,24 +264,31 @@ class AthenaController extends Controller
     public function reloadFormGet($session, $link, $parameter)
     {
         $client = $this->client();
-        $client->request('GET', $link['urlReloadForm'] . $parameter, ['cookies' => $session['cookieJar']]);
+
+        if ($parameter == 'URGENCY_ID') {
+            $html = $client->request('GET', $link['urlReloadForm'] . $parameter, ['cookies' => $session['cookieJar']])
+                ->getBody()->getContents();
+            return $html;
+        } else {
+            $client->request('GET', $link['urlReloadForm'] . $parameter, ['cookies' => $session['cookieJar']]);
+        }
     }
 
     /*
      *  Отправка файлов
      */
-    public function uploadFileForm($session, $link, $urlFile)
+    public function uploadFileForm($session, $link, $formData)
     {
         $client = $this->client();
         // путь к файлу
-        $urlFile = 'http://w7ru09990004/img/hellfire.jpg';
+//        $formData['urlFile'] = 'http://w7ru09990004/img/hellfire.jpg';
 
         // отправляем файл на сервер
         $client->request('POST', $link['urlUploadFile'], [
                 'multipart' => [
                     [
                         'name' => 'file_to_upload',
-                        'contents' => fopen($urlFile, 'r'),
+                        'contents' => fopen($formData['urlFile'], 'r'),
                     ],
                 ],
                 'cookies' => $session['cookieJar'],
@@ -287,6 +309,83 @@ class AthenaController extends Controller
 
         // обновляем номер вложения (визуализация)
         $client->request('GET', $link['urlUploadFileUpdateNumber'], ['cookies' => $session['cookieJar']]);
+    }
+
+    /*
+     *  подготовка к отправке титета
+     */
+
+    public function getPreSendTiket($session, $link)
+    {
+        $client = $this->client();
+
+        $client->request('GET', $link['urlAssignTiket'], ['cookies' => $session['cookieJar']]);
+        $client->request('GET', $link['urlAfterTiket'], ['cookies' => $session['cookieJar']]);
+    }
+
+    /*
+     * Отправка титека на группу пост запросом
+     */
+    public function postTiketOnGroup($session, $link, $formData)
+    {
+        $client = $this->client();
+
+        $client->request('POST', $link['urlSendOnGroupTiket1'], [
+                'form_params' => [
+                    'PHPSESSID' => $session['PHPSESSID'],
+                    'phone' => '-',
+                    'email' => 'Notice_it@auchan.ru',
+                    '__questionnaire__questionnaire_id' => 34269,
+                    '__questionnaire__request_id' => $link['idTiket'],
+                    '__questionnaire__request_detail_id' => '',
+                    '__questionnaire__36627type' => 'comment',
+                    '__questionnaire__36627guid' => '{EC9FA872-734C-4723-8BFD-48EC66D8ADF1}',
+                    '__questionnaire__36627answer' => 0,
+                    '__questionnaire__36627displayed' => 1,
+                    '__questionnaire__36627required' => 0,
+                    '__questionnaire__36627conditionnal' => 0,
+                    '__questionnaire__ids' => 36627,
+                ],
+                'cookies' => $session['cookieJar'],
+            ]
+        )->getBody()->getContents();
+
+        $client->request('GET', $link['urlSendOnGroupTiket2'], ['cookies' => $session['cookieJar']]);
+
+        $client->request('POST', $link['urlSendOnGroupTiket3'], [
+                'form_params' => [
+                    'PHPSESSID' => $session['PHPSESSID'],
+                    'Group_hide' => trim($formData['idGroup']),
+                    'Group' => trim($formData['nameGroup']),
+                    'Done_by' => '',
+                    'Start_date' => strval($formData['sla']['slaStartDate']),
+                    'resolution_date' => strval($formData['sla']['slaTarget']) . ' (GMT+07:00) Novosibirsk',
+                    'End_date' => '',
+                    'Intervention_end_date' => '',
+                ],
+                'cookies' => $session['cookieJar'],
+            ]
+        );
+    }
+
+    /*
+     * Получения ИД группы отправки
+     */
+    public function urlGetGroupId($session, $link, $formData)
+    {
+        $nameGroupBase64 = base64_encode($formData['nameGroup']);
+
+        $client = $this->client();
+        // получает html где есть ИД группы
+        $html = $client->request('GET', $link['urlGetGroups'] . $nameGroupBase64, ['cookies' => $session['cookieJar']])
+            ->getBody()
+            ->getContents();
+
+        // получем из html сам ИД группы
+        $htmlIdGroup = explode('"id":"', $html)[1];
+        $idGroup = explode('"', $htmlIdGroup)[0];
+
+        return $idGroup;
     }
 
     /*
