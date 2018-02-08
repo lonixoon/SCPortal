@@ -31,7 +31,7 @@
 										<tr v-for="(cites, problem) in listProblem">
 												<td style="width: 30px"><input type="checkbox"></td>
 												<td class="col-md-3">{{ problem }}</td>
-												<td><span v-for="cite in cites">{{ cite }}, </span></td>
+												<td>{{ cites.join(', ') }}</td>
 										</tr>
 										</tbody>
 								</table>

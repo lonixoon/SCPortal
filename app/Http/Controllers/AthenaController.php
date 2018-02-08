@@ -13,23 +13,22 @@ class AthenaController extends Controller
     /*
      * Главная упавляющаая функция
      */
-    public function index()
+    public function index(Request $request)
     {
         $Athena = new Athena();
         // получаем сессию и куки из html
         $session = $this->getAuth();
         // формируем ссылки
         $link = $Athena->crateLink($session, null);
-        $formData = $Athena->getFormData();
+
+        $formData = $Athena->getFormData($request);
         // получем ИД группы
         $formData['idGroup'] = $this->urlGetGroupId($session, $link, $formData);
-
 
         // получаем ссылку на новый тикет и ИД этого тикета
         $urlNewTiketAndId = $this->getLinkNewTiketAndId($session, $link);
         // снова формируем ссылки
         $link = $Athena->crateLink($session, $urlNewTiketAndId);
-
 
         // вставляем данные в верхнюю форму
         $this->headerFormPost($session, $link, $formData);
@@ -40,17 +39,16 @@ class AthenaController extends Controller
         $this->bodyFormPost($session, $link, $formData);
         // обновляем(сохраняем) приоритет тикета
         $htmlSlaTarget = $this->reloadFormGet($session, $link, 'URGENCY_ID');
+        // добавляем срок SLA в FormData
         $formData['sla'] = $Athena->getSlaTarget($htmlSlaTarget);
-
         // обновляем(сохраняем) топик
         $this->reloadFormGet($session, $link, 'SD_CATALOG_ID');
 
         // создаём тикет
         $this->createTiket($session, $link);
 
-        // отпарвляем файл
-        $this->uploadFileForm($session, $link, $formData);
-
+        // отпарвляем файл (не всегда требуется, потом придумаем как реализовать)
+//        $this->uploadFileForm($session, $link, $formData);
 
         // подготовка к отправке тикета
         $this->getPreSendTiket($session, $link);
@@ -60,8 +58,8 @@ class AthenaController extends Controller
         // завершаем сессию
         $this->logout($session, $link);
 
-        return '<h3>Походу прокатило, тикет создан</h3>';
-//        return $htmlPostTiketOnGroup;
+        // возвращаем номер тикета
+        return $urlNewTiketAndId['numberTiket'];
 
 
         // обновляем(сохраняем) непонятная обновлялка
@@ -130,27 +128,24 @@ class AthenaController extends Controller
 
         // получаем текст где есть ссылка на новый тикет
         $arrCreateTiket = explode('href="/', $htmlGetIdTiket)[1];
-
         // получаем ссылку
         $urlNewTiketAndId['urlCreateTiket'] = explode('";', $arrCreateTiket)[0];
         // получаем ИД тикета
         $urlNewTiketAndId['idTiket'] = explode('&q2_id=', $urlNewTiketAndId['urlCreateTiket'])[1];
-
+        // получаем номер тикета
+        $stringNumberTiket = explode('&q2_rfcnumber=', $urlNewTiketAndId['urlCreateTiket'])[1];
+        $urlNewTiketAndId['numberTiket'] = explode('&q2_id=', $stringNumberTiket)[0];
         return $urlNewTiketAndId;
     }
 
     /*
      * Принемает сессию и ссылки
-     * Возвращает новый тикет
      */
     public function createTiket($session, $link)
     {
         $client = $this->client();
-
-        // получаем html созданного тикета
-        $htmlCreateTiket = $client->request('GET', $link['urlCreateTiket'], ['cookies' => $session['cookieJar']])->getBody()->getContents();
-
-        return $htmlCreateTiket;
+        // создаём тикет
+        $client->request('GET', $link['urlCreateTiket'], ['cookies' => $session['cookieJar']]);
     }
 
 
@@ -159,9 +154,6 @@ class AthenaController extends Controller
      */
     public function headerFormPost($session, $link, $formData)
     {
-//        $formData['citId'] = '3680';
-//        $formData['citName'] = '999R - Multiple Sites Russia';
-
         $client = $this->client();
         // отправляем форму на заполнение верхний части формы тикета
         $headerForm = $client->request('POST', $link['urlFillingTiketForm'], [
@@ -211,12 +203,6 @@ class AthenaController extends Controller
      */
     public function bodyFormPost($session, $link, $formData)
     {
-//        $formData['cimPriority'] = '2';
-//        $formData['typeTiket'] = 'Incident';
-//        $formData['topicNameiket'] = 'COUNTRY BUSINESS/GIMA/TRANSFERS';
-//        $formData['topicId'] = '181570';
-//        $formData['textTiket'] = 'lordfsghdsghdsfhdgf h dgf hdgf hdfg hgf';
-
         $client = $this->client();
         $client->request('POST', $link['urlFillingTiketForm'], [
                 'form_params' => [
@@ -230,7 +216,7 @@ class AthenaController extends Controller
                     'type_SD_URGENCY.URGENCY_EN' => 'pk',
 
                     // топик
-                    'SD_CATALOG.TITLE_EN' => $formData['typeTiket'] . '/PROD/RUSSIA/' . $formData['topicNameiket'], // тип .'/PROD/RUSSIA/'. название топика (полное соответствие  в aura)
+                    'SD_CATALOG.TITLE_EN' => $formData['typeTiket'] . '/PROD/RUSSIA/' . $formData['topicNameTiket'], // тип .'/PROD/RUSSIA/'. название топика (полное соответствие  в aura)
                     'SD_CATALOG.TITLE_EN_hide' => $formData['topicId'],  // поле, отвечающее за каталог
                     'pk_SD_CATALOG.TITLE_EN' => 'SD_REQUEST.SD_CATALOG_ID',
 
@@ -280,8 +266,6 @@ class AthenaController extends Controller
     public function uploadFileForm($session, $link, $formData)
     {
         $client = $this->client();
-        // путь к файлу
-//        $formData['urlFile'] = 'http://w7ru09990004/img/hellfire.jpg';
 
         // отправляем файл на сервер
         $client->request('POST', $link['urlUploadFile'], [

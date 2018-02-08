@@ -23,36 +23,28 @@
 								<table style="margin-bottom: 0" class="table table-bordered table-striped">
 										<tbody>
 										<tr>
-												<th class="col-md-1">Тикет</th>
+												<th class="col-md-2">Тикет</th>
 												<th class="col-md-3">Проблема</th>
-												<th class="col-md-8">Ситы</th>
+												<th class="col-md-7">Ситы</th>
 										</tr>
 										</tbody>
 								</table>
-								<!--<form action="" v-for="(cites, problem) in listProblem">-->
-										<!--<table style="margin-bottom: 0" class="table table-bordered table-striped">-->
-												<!--<tbody>-->
-												<!--<tr>-->
-														<!--<td class="col-md-1">-->
-																<!--<button type="button" class="btn btn-success btn-xs" @click="this.uploadFiles">Создать</button>-->
-														<!--</td>-->
-														<!--<td class="col-md-3">{{ problem }}</td>-->
-														<!--<td class="col-md-8"><span v-for="cite in cites">{{ cite }}, </span></td>-->
-												<!--</tr>-->
-												<!--</tbody>-->
-										<!--</table>-->
-								<!--</form>-->
-								<form action="http://w7ru09990004/#/daily-status-hd-test" method="post" v-for="(cites, problem) in listProblem">
+								<form v-bind:id="problem" method="post" v-for="(cites, problem) in listProblem">
 										<table style="margin-bottom: 0" class="table table-bordered table-striped">
 												<tbody>
 												<tr>
-														<td class="col-md-1">
-																<button type="submit" class="btn btn-success btn-xs">Создать</button>
+														<td class="col-md-2" v-bind:id="problem + '_tiket'">
+																<button v-bind:id="problem + '_create'" type="button" class="btn btn-success btn-xs" @click="crateTiket(problem)">
+																		Создать
+																</button>
+																<!--<span v-bind:id="problem + '_load'">Ожидайте...</span>-->
+																<!--<span v-bind:id="problem + '_error'">Ошибка</span>-->
+																<span v-bind:id="problem + '_number'"></span>
 														</td>
 														<td class="col-md-3">{{ problem }}</td>
-														<td class="col-md-8"><span v-for="cite in cites">{{ cite }}, </span></td>
-														<!--<textarea name="problem" hidden>{{ problem }}</textarea>-->
-														<!--<textarea name="cites" hidden v-for="cite in cites">{{ cite }}</textarea>-->
+														<td class="col-md-7">{{ cites.join(', ') }}</td>
+														<input name="title" v-bind:value="problem" hidden>
+														<input name="textTiket" v-bind:value="problem + ': ' + cites.join(', ')" hidden>
 												</tr>
 												</tbody>
 										</table>
@@ -90,8 +82,25 @@
                         alert("Не удалось обработать данные");
                     });
             },
-            crateTiket() {
+            crateTiket(problem) {
                 let app = this;
+                let form = document.getElementById(problem);
+                let tiketNumber = document.getElementById(problem + '_number');
+                let buttonCreate = document.getElementById(problem + '_create');
+                let tiket = document.getElementById(problem + '_tiket');
+                buttonCreate.innerHTML = 'Идёт загрузка';
+                buttonCreate.disabled = true;
+                let formData = new FormData(form);
+
+                axios.post('/athena', formData)
+                    .then(function (response) {
+                        console.log(response.data);
+                        tiketNumber.innerHTML = response.data;
+                        tiket.removeChild(buttonCreate);
+                    })
+                    .catch(function (error) {
+                        console.log(error.response);
+                    });
             },
 
         }

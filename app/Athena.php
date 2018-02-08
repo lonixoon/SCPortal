@@ -122,34 +122,36 @@ class Athena extends Model
         return $link;
     }
 
-    public function getFormData()
+    public function getFormData($request)
     {
         $formData = [
-            'nameGroup' => 'RUS L1 - Support Center',
-            // получаем функцией в процессе
+            // имя группы на которою отправляем
+//            'nameGroup' => 'RUS L1 - Support Center',
+            'nameGroup' => 'RUS L2 - Helpdesk',
+            // получаем функцией urlGetGroupId()
             'idGroup' => '',
             // путь к файлу
             'urlFile' => 'http://w7ru09990004/img/hellfire.jpg',
-            //
-            'citId' => '3680',
-            //
+            // Полное имя сита
             'citName' => '999R - Multiple Sites Russia',
-            //
+            // ИД сита
+            'citId' => '3680',
+            // приоритет тикета
             'cimPriority' => '2',
             // прогназируемое время решения, получаем из функции reloadFormGet()
             'sla' => [],
-            //
+            // тип тикета (инцидент или реквест)
             'typeTiket' => 'Incident',
-            //
-            'topicNameiket' => 'COUNTRY BUSINESS/GIMA/TRANSFERS',
-            //
+            // имя топик
+            'topicNameTiket' => 'COUNTRY BUSINESS/GIMA/TRANSFERS',
+            // ИД топика
             'topicId' => '181570',
-            //
-            'title' => 'АУРА',
-            //
-            'freeComment' => 'УРА',
-            //
-            'textTiket' => 'Тест999',
+            // тема тикета (короткое описание)
+            'title' => $request['title'],
+            // свободный комер (находится ниже темы тикета)
+            'freeComment' => '',
+            // весь тект тикета
+            'textTiket' => $request['textTiket'],
         ];
 
         return $formData;

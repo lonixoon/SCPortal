@@ -38,6 +38,7 @@ Route::post('/daily-status-helpdesk/result', 'DailyStatusHDController@getFile');
 
 // Атена
 Route::get('/athena', 'AthenaController@index');
+Route::post('/athena', 'AthenaController@index');
 
 // domain users
 //Route::get('/users', 'SCPortalController@users');

@@ -47705,12 +47705,7 @@ var render = function() {
                       _vm._v(_vm._s(problem))
                     ]),
                     _vm._v(" "),
-                    _c(
-                      "td",
-                      _vm._l(cites, function(cite) {
-                        return _c("span", [_vm._v(_vm._s(cite) + ", ")])
-                      })
-                    )
+                    _c("td", [_vm._v(_vm._s(cites.join(", ")))])
                   ])
                 })
               )
@@ -47907,14 +47902,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47942,8 +47929,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 alert("Не удалось обработать данные");
             });
         },
-        crateTiket: function crateTiket() {
+        crateTiket: function crateTiket(problem) {
             var app = this;
+            var form = document.getElementById(problem);
+            var tiketNumber = document.getElementById(problem + '_number');
+            var buttonCreate = document.getElementById(problem + '_create');
+            var tiket = document.getElementById(problem + '_tiket');
+            buttonCreate.innerHTML = 'Идёт загрузка';
+            buttonCreate.disabled = true;
+            var formData = new FormData(form);
+
+            axios.post('/athena', formData).then(function (response) {
+                console.log(response.data);
+                tiketNumber.innerHTML = response.data;
+                tiket.removeChild(buttonCreate);
+            }).catch(function (error) {
+                console.log(error.response);
+            });
         }
     }
 });
@@ -47999,43 +48001,72 @@ var render = function() {
               _vm._m(2, true),
               _vm._v(" "),
               _vm._l(listProblem, function(cites, problem) {
-                return _c(
-                  "form",
-                  {
-                    attrs: {
-                      action: "http://w7ru09990004/#/daily-status-hd-test",
-                      method: "post"
-                    }
-                  },
-                  [
-                    _c(
-                      "table",
-                      {
-                        staticClass: "table table-bordered table-striped",
-                        staticStyle: { "margin-bottom": "0" }
-                      },
-                      [
-                        _c("tbody", [
-                          _c("tr", [
-                            _vm._m(3, true),
-                            _vm._v(" "),
-                            _c("td", { staticClass: "col-md-3" }, [
-                              _vm._v(_vm._s(problem))
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "td",
-                              { staticClass: "col-md-8" },
-                              _vm._l(cites, function(cite) {
-                                return _c("span", [_vm._v(_vm._s(cite) + ", ")])
-                              })
-                            )
-                          ])
+                return _c("form", { attrs: { id: problem, method: "post" } }, [
+                  _c(
+                    "table",
+                    {
+                      staticClass: "table table-bordered table-striped",
+                      staticStyle: { "margin-bottom": "0" }
+                    },
+                    [
+                      _c("tbody", [
+                        _c("tr", [
+                          _c(
+                            "td",
+                            {
+                              staticClass: "col-md-2",
+                              attrs: { id: problem + "_tiket" }
+                            },
+                            [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-success btn-xs",
+                                  attrs: {
+                                    id: problem + "_create",
+                                    type: "button"
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.crateTiket(problem)
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tСоздать\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("span", { attrs: { id: problem + "_number" } })
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "col-md-3" }, [
+                            _vm._v(_vm._s(problem))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "col-md-7" }, [
+                            _vm._v(_vm._s(cites.join(", ")))
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: { name: "title", hidden: "" },
+                            domProps: { value: problem }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: { name: "textTiket", hidden: "" },
+                            domProps: {
+                              value: problem + ": " + cites.join(", ")
+                            }
+                          })
                         ])
-                      ]
-                    )
-                  ]
-                )
+                      ])
+                    ]
+                  )
+                ])
               })
             ],
             2
@@ -48087,27 +48118,15 @@ var staticRenderFns = [
       [
         _c("tbody", [
           _c("tr", [
-            _c("th", { staticClass: "col-md-1" }, [_vm._v("Тикет")]),
+            _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
             _vm._v(" "),
             _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
             _vm._v(" "),
-            _c("th", { staticClass: "col-md-8" }, [_vm._v("Ситы")])
+            _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")])
           ])
         ])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "col-md-1" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-success btn-xs", attrs: { type: "submit" } },
-        [_vm._v("Создать")]
-      )
-    ])
   }
 ]
 render._withStripped = true
