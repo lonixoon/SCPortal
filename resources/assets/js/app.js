@@ -21,7 +21,7 @@ import PortalIndex from './components/portal/PortalIndex.vue';
 
 import DailyStatusPortalIndex from './components/portal/daily-status-portal/DailyStatusPortalIndex.vue';
 import DailyStatusHDIndex from './components/portal/daily-status-hd/DailyStatusHDIndex.vue';
-import DailyStatusHDIndexTest from './components/portal/daily-status-hd/DailyStatusHDIndexTest.vue';
+import DailyStatusHDIndexOld from './components/portal/daily-status-hd/DailyStatusHDIndexOld.vue';
 
 // const routes = [
 //     {
@@ -44,7 +44,7 @@ const routes = [
     },
     {path: '/daily-status-portal', component: DailyStatusPortalIndex, name: 'dailyStatusPortal'},
 
-    {path: '/daily-status-hd-test', component: DailyStatusHDIndexTest, name: 'dailyStatusHDTest'},
+    {path: '/daily-status-hd-old', component: DailyStatusHDIndexOld, name: 'dailyStatusHDOld'},
     {path: '/daily-status-hd', component: DailyStatusHDIndex, name: 'dailyStatusHD'},
 
 

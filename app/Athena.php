@@ -127,25 +127,32 @@ class Athena extends Model
         $formData = [
             // имя группы на которою отправляем
 //            'nameGroup' => 'RUS L1 - Support Center',
-            'nameGroup' => 'RUS L2 - Helpdesk',
+//            'nameGroup' => 'RUS L2 - Helpdesk',
+            'nameGroup' => $request['nameGroup'],
             // получаем функцией urlGetGroupId()
             'idGroup' => '',
             // путь к файлу
             'urlFile' => 'http://w7ru09990004/img/hellfire.jpg',
             // Полное имя сита
-            'citName' => '999R - Multiple Sites Russia',
+//            'citName' => '999R - Multiple Sites Russia',
+            'citName' => $request['citName'],
             // ИД сита
-            'citId' => '3680',
+//            'citId' => '3680',
+            'citId' => $request['citId'],
             // приоритет тикета
-            'cimPriority' => '2',
+//            'cimPriority' => '2',
+            'cimPriority' => $request['cimPriority'],
             // прогназируемое время решения, получаем из функции reloadFormGet()
             'sla' => [],
             // тип тикета (инцидент или реквест)
-            'typeTiket' => 'Incident',
+//            'typeTiket' => 'Incident',
+            'typeTiket' => $request['typeTiket'],
             // имя топик
-            'topicNameTiket' => 'COUNTRY BUSINESS/GIMA/TRANSFERS',
+//            'topicNameTiket' => 'COUNTRY BUSINESS/GIMA/TRANSFERS',
+            'topicNameTiket' => $request['topicNameTiket'],
             // ИД топика
-            'topicId' => '181570',
+//            'topicId' => '181570',
+            'topicId' => $request['topicId'],
             // тема тикета (короткое описание)
             'title' => $request['title'],
             // свободный комер (находится ниже темы тикета)

@@ -86,7 +86,7 @@ class DailyStatusPortalController extends Controller
             // Base URI is used with relative requests
             'base_uri' => $link['link'],
             // You can set any number of default request options.
-            'timeout' => 60.0,
+            'timeout' => 100.0,
         ]);
         $cookieJar = new CookieJar();
 

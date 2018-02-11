@@ -232,6 +232,8 @@
                 app.loadingClassic = true;
                 // скрваем результаты на время выгрузки
                 app.classic = [];
+                // прячим блок ошибка при перезапуске функции
+                app.errorClassic = false;
                 // делаем запрос данные по указанному адресу
                 axios.get('/daily-status-portal/portal-classic')
                 // если данные получены
@@ -264,6 +266,8 @@
                 app.loadingAtak = true;
                 // скрваем результаты на время выгрузки
                 app.atak = [];
+								// прячим блок ошибка при перезапуске функции
+                app.errorClassic = false;
                 // делаем запрос данные по указанному адресу
                 axios.get('/daily-status-portal/portal-atak')
                 // если данные получены
