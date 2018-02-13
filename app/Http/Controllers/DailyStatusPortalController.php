@@ -115,9 +115,9 @@ class DailyStatusPortalController extends Controller
             ]
         );
 
-        // получаем html формы для получения токенов
+        // получаем запрос на данные по продажам
         $html = $client->get('pg412100.aspx', ['cookies' => $cookieJar])->getBody()->getContents();
-        // возвращаем html сраницы с остчётом по витринам
+        // возвращаем html
         return $html;
     }
 }
