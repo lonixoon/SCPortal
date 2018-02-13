@@ -74,6 +74,8 @@ class AthenaController extends Controller
         $client = new Client([
             'base_uri' => 'https://athena.easyvista.com/',
             'timeout' => 60.0,
+            'proxy' => 'proxy.ru.auchan.com:3128'
+            //            'proxy' => 'LOGIN:PASSWORD@proxy.ru.auchan.com:3128'
         ]);
         return $client;
     }
