@@ -27,7 +27,7 @@ class DailyStatusHDController extends Controller
         // Передаём текст -> получаем очищенный массив
         $array = $test2->getArray($text);
         // Передаём очищенный массив -> получаем готовые данные
-        $result['list'] = $test2->getData($array);
+        $result = $test2->getData($array);
         // Получаем количство тикетов
 //        $result['numberOfRecords'] = count($result['list']);
 

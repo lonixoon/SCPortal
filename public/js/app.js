@@ -47661,7 +47661,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            list: [],
+            list: null,
             errorDailyStatusHd: false
         };
     },
@@ -47732,198 +47732,197 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "form",
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "form",
+        {
+          staticClass: "col-md-3",
+          attrs: {
+            id: "uploadForm",
+            name: "uploadForm",
+            enctype: "multipart/form-data"
+          }
+        },
+        [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { id: "buttonSubmit", type: "button" },
+                on: { click: this.uploadFiles }
+              },
+              [
+                _vm._v(
+                  "\n                        Загрузить\n                    "
+                )
+              ]
+            )
+          ])
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
           {
-            staticClass: "col-md-3",
-            attrs: {
-              id: "uploadForm",
-              name: "uploadForm",
-              enctype: "multipart/form-data"
-            }
-          },
-          [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { id: "buttonSubmit", type: "button" },
-                  on: { click: this.uploadFiles }
-                },
-                [_vm._v("\n\t\t\t\t\t\t\t\t\t\tЗагрузить\n\t\t\t\t\t\t\t\t")]
-              )
-            ])
-          ]
-        )
-      ]),
-      _vm._v(" "),
+            name: "show",
+            rawName: "v-show",
+            value: _vm.errorDailyStatusHd,
+            expression: "errorDailyStatusHd"
+          }
+        ],
+        staticClass: "alert alert-danger"
+      },
+      [_vm._v("Не удалось обработать данные")]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
       _c(
         "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.errorDailyStatusHd,
-              expression: "errorDailyStatusHd"
-            }
-          ],
-          staticClass: "alert alert-danger"
-        },
-        [_vm._v("Не удалось обработать данные")]
-      ),
-      _vm._v(" "),
-      _vm._l(_vm.list, function(listProblem) {
-        return _c("div", { staticClass: "row" }, [
-          _c(
-            "div",
-            { staticClass: "col-md-12" },
-            [
-              _vm._m(2, true),
-              _vm._v(" "),
-              _vm._l(listProblem, function(cites, problem) {
-                return _c("form", { attrs: { id: problem, method: "post" } }, [
-                  _c(
-                    "table",
-                    {
-                      staticClass: "table table-bordered table-striped",
-                      staticStyle: { "margin-bottom": "0" }
-                    },
-                    [
-                      _c("tbody", [
-                        _c("tr", [
+        { staticClass: "col-md-12" },
+        [
+          _vm.list !== null
+            ? _c(
+                "table",
+                {
+                  staticClass: "table table-bordered table-striped",
+                  staticStyle: { "margin-bottom": "0" }
+                },
+                [_vm._m(2)]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._l(_vm.list, function(cites, problem) {
+            return _c("form", { attrs: { id: problem, method: "post" } }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-bordered table-striped",
+                  staticStyle: { "margin-bottom": "0" }
+                },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c(
+                        "td",
+                        {
+                          staticClass: "col-md-2",
+                          attrs: { id: problem + "_tiket" }
+                        },
+                        [
                           _c(
-                            "td",
+                            "button",
                             {
-                              staticClass: "col-md-2",
-                              attrs: { id: problem + "_tiket" }
+                              staticClass: "btn btn-success btn-xs",
+                              attrs: {
+                                id: problem + "_create",
+                                type: "button"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.crateTiket(problem)
+                                }
+                              }
                             },
                             [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-success btn-xs",
-                                  attrs: {
-                                    id: problem + "_create",
-                                    type: "button"
-                                  },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.crateTiket(problem)
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tСоздать\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t"
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("span", { attrs: { id: problem + "_number" } })
+                              _vm._v(
+                                "\n                                    Создать\n                                "
+                              )
                             ]
                           ),
                           _vm._v(" "),
-                          _c("td", { staticClass: "col-md-3" }, [
-                            _vm._v(_vm._s(problem))
-                          ]),
-                          _vm._v(" "),
-                          _c("td", { staticClass: "col-md-7" }, [
-                            _vm._v(_vm._s(cites.join(", ")))
-                          ]),
-                          _vm._v(" "),
-                          _c("input", {
-                            attrs: { name: "title", hidden: "" },
-                            domProps: { value: problem }
-                          }),
-                          _vm._v(" "),
-                          _c("input", {
-                            attrs: { name: "textTiket", hidden: "" },
-                            domProps: {
-                              value:
-                                _vm.createDate() +
-                                " <br>" +
-                                problem +
-                                ": " +
-                                " <br>" +
-                                cites.join(", ")
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("input", {
-                            attrs: {
-                              name: "nameGroup",
-                              value: "RUS L2 - Helpdesk",
-                              hidden: ""
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("input", {
-                            attrs: {
-                              name: "citName",
-                              value: "999R - Multiple Sites Russia",
-                              hidden: ""
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("input", {
-                            attrs: { name: "citId", value: "3680", hidden: "" }
-                          }),
-                          _vm._v(" "),
-                          _c("input", {
-                            attrs: {
-                              name: "cimPriority",
-                              value: "2",
-                              hidden: ""
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("input", {
-                            attrs: {
-                              name: "typeTiket",
-                              value: "Incident",
-                              hidden: ""
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("input", {
-                            attrs: {
-                              name: "topicNameTiket",
-                              value: "TECHNICAL/AS400_NPI/APPLICATION",
-                              hidden: ""
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("input", {
-                            attrs: {
-                              name: "topicId",
-                              value: "181902",
-                              hidden: ""
-                            }
-                          })
-                        ])
-                      ])
-                    ]
-                  )
-                ])
-              })
-            ],
-            2
-          )
-        ])
-      })
-    ],
-    2
-  )
+                          _c("span", { attrs: { id: problem + "_number" } })
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "col-md-3" }, [
+                        _vm._v(_vm._s(problem))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "col-md-7" }, [
+                        _vm._v(_vm._s(cites.join(", ")))
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { name: "title", hidden: "" },
+                        domProps: { value: problem }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { name: "textTiket", hidden: "" },
+                        domProps: {
+                          value:
+                            _vm.createDate() +
+                            " <br>" +
+                            problem +
+                            ": " +
+                            " <br>" +
+                            cites.join(", ")
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: {
+                          name: "nameGroup",
+                          value: "RUS L2 - Helpdesk",
+                          hidden: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: {
+                          name: "citName",
+                          value: "999R - Multiple Sites Russia",
+                          hidden: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { name: "citId", value: "3680", hidden: "" }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { name: "cimPriority", value: "2", hidden: "" }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: {
+                          name: "typeTiket",
+                          value: "Incident",
+                          hidden: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: {
+                          name: "topicNameTiket",
+                          value: "TECHNICAL/AS400_NPI/APPLICATION",
+                          hidden: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { name: "topicId", value: "181902", hidden: "" }
+                      })
+                    ])
+                  ])
+                ]
+              )
+            ])
+          })
+        ],
+        2
+      )
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -47940,13 +47939,13 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("p", [
           _vm._v(
-            "\n\t\t\t\t\t\t\t\tПосле нажатия кнопки создать, начнётся отправка тикета\n\t\t\t\t\t\t\t\t(процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).\n\t\t\t\t\t\t\t\tКак появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.\n\t\t\t\t\t\t"
+            "\n                    После нажатия кнопки создать, начнётся отправка тикета\n                    (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).\n                    Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.\n                "
           )
         ]),
         _vm._v(" "),
         _c("p", [
           _vm._v(
-            "\n\t\t\t\t\t\t\t\tТыкайте кнопочки Создать подряд и после ждите номера.\n\t\t\t\t\t\t"
+            "\n                    Тыкайте кнопочки Создать подряд и после ждите номера.\n                "
           )
         ])
       ])
@@ -47973,24 +47972,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "table",
-      {
-        staticClass: "table table-bordered table-striped",
-        staticStyle: { "margin-bottom": "0" }
-      },
-      [
-        _c("tbody", [
-          _c("tr", [
-            _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
-            _vm._v(" "),
-            _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
-            _vm._v(" "),
-            _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")])
-          ])
-        ])
-      ]
-    )
+    return _c("tbody", [
+      _c("tr", [
+        _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")])
+      ])
+    ])
   }
 ]
 render._withStripped = true
