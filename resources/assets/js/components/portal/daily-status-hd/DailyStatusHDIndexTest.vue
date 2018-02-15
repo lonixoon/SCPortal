@@ -21,7 +21,8 @@
                     <input class="btn btn-default" type='file' accept='.rtf' name='file' id='upload' required>
                 </div>
                 <div class="form-group">
-                    <button id="buttonSubmit" type="button" class="btn btn-primary" @click="this.uploadFiles">
+                    <!--<button id="buttonSubmit" type="button" class="btn btn-primary" @click="this.uploadFiles">-->
+                    <button id="buttonSubmit" type="button" class="btn btn-primary" @click="uploadFiles">
                         Загрузить
                     </button>
                 </div>

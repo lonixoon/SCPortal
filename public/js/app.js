@@ -1072,7 +1072,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(60);
+module.exports = __webpack_require__(63);
 
 
 /***/ }),
@@ -1096,6 +1096,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_portal_daily_status_hd_DailyStatusHDIndexOld_vue__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_portal_daily_status_hd_DailyStatusHDIndexOld_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_portal_daily_status_hd_DailyStatusHDIndexOld_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_portal_daily_status_hd_DailyStatusHDIndexTest_vue__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_portal_daily_status_hd_DailyStatusHDIndexTest_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_portal_daily_status_hd_DailyStatusHDIndexTest_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -1109,6 +1111,7 @@ window.Vue = __webpack_require__(36);
 
 
 window.Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
+
 
 
 
@@ -1137,7 +1140,7 @@ var routes = [{
         portalIndex: __WEBPACK_IMPORTED_MODULE_4__components_portal_PortalIndex_vue___default.a,
         companiesIndex: __WEBPACK_IMPORTED_MODULE_1__components_companies_CompaniesIndex_vue___default.a
     }
-}, { path: '/daily-status-portal', component: __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue___default.a, name: 'dailyStatusPortal' }, { path: '/daily-status-hd-old', component: __WEBPACK_IMPORTED_MODULE_7__components_portal_daily_status_hd_DailyStatusHDIndexOld_vue___default.a, name: 'dailyStatusHDOld' }, { path: '/daily-status-hd', component: __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue___default.a, name: 'dailyStatusHD' }, { path: '/create', component: __WEBPACK_IMPORTED_MODULE_2__components_companies_CompaniesCreate_vue___default.a, name: 'createCompany' }, { path: '/edit/:id', component: __WEBPACK_IMPORTED_MODULE_3__components_companies_CompaniesEdit_vue___default.a, name: 'editCompany' }];
+}, { path: '/daily-status-portal', component: __WEBPACK_IMPORTED_MODULE_5__components_portal_daily_status_portal_DailyStatusPortalIndex_vue___default.a, name: 'dailyStatusPortal' }, { path: '/daily-status-hd-old', component: __WEBPACK_IMPORTED_MODULE_7__components_portal_daily_status_hd_DailyStatusHDIndexOld_vue___default.a, name: 'dailyStatusHDOld' }, { path: '/daily-status-hd-test', component: __WEBPACK_IMPORTED_MODULE_8__components_portal_daily_status_hd_DailyStatusHDIndexTest_vue___default.a, name: 'dailyStatusHDTest' }, { path: '/daily-status-hd', component: __WEBPACK_IMPORTED_MODULE_6__components_portal_daily_status_hd_DailyStatusHDIndex_vue___default.a, name: 'dailyStatusHD' }, { path: '/create', component: __WEBPACK_IMPORTED_MODULE_2__components_companies_CompaniesCreate_vue___default.a, name: 'createCompany' }, { path: '/edit/:id', component: __WEBPACK_IMPORTED_MODULE_3__components_companies_CompaniesEdit_vue___default.a, name: 'editCompany' }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({ routes: routes });
 
@@ -47668,11 +47671,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         uploadFiles: function uploadFiles() {
+            var app = this;
             // дисейблем кнопку пока идёт выгрузка
             var buttonSubmit = document.getElementById('buttonSubmit');
             buttonSubmit.disabled = true;
-
-            var app = this;
             var formData = new FormData(document.getElementById('uploadForm'));
             var rtfFile = document.getElementById('upload');
             formData.append('file', rtfFile.file);
@@ -48248,6 +48250,473 @@ if (false) {
 
 /***/ }),
 /* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(61)
+/* template */
+var __vue_template__ = __webpack_require__(62)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\portal\\daily-status-hd\\DailyStatusHDIndexTest.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6e0abd42", Component.options)
+  } else {
+    hotAPI.reload("data-v-6e0abd42", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            list: null,
+            errorDailyStatusHd: false
+        };
+    },
+
+    methods: {
+        uploadFiles: function uploadFiles() {
+            var app = this;
+            // дисейблем кнопку пока идёт выгрузка
+            var buttonSubmit = document.getElementById('buttonSubmit');
+            buttonSubmit.disabled = true;
+            var formData = new FormData(document.getElementById('uploadForm'));
+            var rtfFile = document.getElementById('upload');
+            formData.append('file', rtfFile.file);
+            app.errorDailyStatusHd = false;
+
+            axios.post('/daily-status-helpdesk/result', formData).then(function (response) {
+                app.list = response.data;
+                buttonSubmit.disabled = false;
+            }).catch(function (error) {
+                console.log(error.response);
+                buttonSubmit.disabled = false;
+                app.errorDailyStatusHd = true;
+            });
+        },
+        crateTiket: function crateTiket(problem) {
+            var app = this;
+            var form = document.getElementById(problem);
+            var tiketNumber = document.getElementById(problem + '_number');
+            var buttonCreate = document.getElementById(problem + '_create');
+            var tiket = document.getElementById(problem + '_tiket');
+            buttonCreate.innerHTML = 'Ожидайте...';
+            buttonCreate.disabled = true;
+            var formData = new FormData(form);
+
+            axios.post('/athena', formData).then(function (response) {
+                tiketNumber.innerHTML = response.data;
+                tiket.removeChild(buttonCreate);
+                console.log(response.data);
+            }).catch(function (error) {
+                tiketNumber.innerHTML = 'Ошибка :-(';
+                tiket.removeChild(buttonCreate);
+                console.log(error.response);
+            });
+        },
+        createDate: function createDate() {
+            var date = new Date();
+
+            var dd = date.getDate();
+            if (dd < 10) dd = '0' + dd;
+
+            var mm = date.getMonth() + 1;
+            if (mm < 10) mm = '0' + mm;
+
+            var yy = date.getFullYear() % 100;
+            if (yy < 10) yy = '0' + yy;
+
+            return dd + '.' + mm + '.' + yy;
+        }
+    }
+});
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "form",
+        {
+          staticClass: "col-md-3",
+          attrs: {
+            id: "uploadForm",
+            name: "uploadForm",
+            enctype: "multipart/form-data"
+          }
+        },
+        [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { id: "buttonSubmit", type: "button" },
+                on: { click: _vm.uploadFiles }
+              },
+              [
+                _vm._v(
+                  "\n                        Загрузить\n                    "
+                )
+              ]
+            )
+          ])
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.errorDailyStatusHd,
+            expression: "errorDailyStatusHd"
+          }
+        ],
+        staticClass: "alert alert-danger"
+      },
+      [_vm._v("Не удалось обработать данные")]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c(
+        "div",
+        { staticClass: "col-md-12" },
+        [
+          _vm.list !== null
+            ? _c(
+                "table",
+                {
+                  staticClass: "table table-bordered table-striped",
+                  staticStyle: { "margin-bottom": "0" }
+                },
+                [_vm._m(2)]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._l(_vm.list, function(cites, problem) {
+            return _c("form", { attrs: { id: problem, method: "post" } }, [
+              _c(
+                "table",
+                {
+                  staticClass: "table table-bordered table-striped",
+                  staticStyle: { "margin-bottom": "0" }
+                },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c(
+                        "td",
+                        {
+                          staticClass: "col-md-2",
+                          attrs: { id: problem + "_tiket" }
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success btn-xs",
+                              attrs: {
+                                id: problem + "_create",
+                                type: "button"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.crateTiket(problem)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Создать\n                                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("span", { attrs: { id: problem + "_number" } })
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "col-md-3" }, [
+                        _vm._v(_vm._s(problem))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "col-md-7" }, [
+                        _vm._v(_vm._s(cites.join(", ")))
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { name: "title", hidden: "" },
+                        domProps: { value: problem }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { name: "textTiket", hidden: "" },
+                        domProps: {
+                          value:
+                            _vm.createDate() +
+                            " <br>" +
+                            problem +
+                            ": " +
+                            " <br>" +
+                            cites.join(", ")
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: {
+                          name: "nameGroup",
+                          value: "RUS L2 - Helpdesk",
+                          hidden: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: {
+                          name: "citName",
+                          value: "999R - Multiple Sites Russia",
+                          hidden: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { name: "citId", value: "3680", hidden: "" }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { name: "cimPriority", value: "2", hidden: "" }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: {
+                          name: "typeTiket",
+                          value: "Incident",
+                          hidden: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: {
+                          name: "topicNameTiket",
+                          value: "TECHNICAL/AS400_NPI/APPLICATION",
+                          hidden: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("input", {
+                        attrs: { name: "topicId", value: "181902", hidden: "" }
+                      })
+                    ])
+                  ])
+                ]
+              )
+            ])
+          })
+        ],
+        2
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12 form-group" }, [
+      _c("h3", [
+        _vm._v("Разбор файла Daily Status HelpDesk по активностям (проблемам)")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "alert alert-info" }, [
+        _c("p", [_vm._v("Добавлена отправка тикетов на ХД")]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "\n                    После нажатия кнопки создать, начнётся отправка тикета\n                    (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).\n                    Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.\n                "
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "\n                    Тыкайте кнопочки Создать подряд и после ждите номера.\n                "
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("input", {
+        staticClass: "btn btn-default",
+        attrs: {
+          type: "file",
+          accept: ".rtf",
+          name: "file",
+          id: "upload",
+          required: ""
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tbody", [
+      _c("tr", [
+        _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6e0abd42", module.exports)
+  }
+}
+
+/***/ }),
+/* 63 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
