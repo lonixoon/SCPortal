@@ -21,7 +21,6 @@
                     <input class="btn btn-default" type='file' accept='.rtf' name='file' id='upload' required>
                 </div>
                 <div class="form-group">
-                    <!--<button id="buttonSubmit" type="button" class="btn btn-primary" @click="this.uploadFiles">-->
                     <button id="buttonSubmit" type="button" class="btn btn-primary" @click="uploadFiles">
                         Загрузить
                     </button>
@@ -54,12 +53,12 @@
                                 <span v-bind:id="problem + '_number'"></span>
                             </td>
                             <td class="col-md-3">{{ problem }}</td>
-                            <td class="col-md-7">{{ cites.join(', ') }}</td>
+                            <td class="col-md-7">{{ citesList(cites) }}</td>
+                            <!--<td class="col-md-7">{{ crateText(problem, cites) }}</td>-->
 
                             <!--Отправка формы с параметрами-->
                             <input name="title" v-bind:value="problem" hidden>
-                            <input name="textTiket" v-bind:value="createDate() + ' <br>' + problem
-														 + ': ' + ' <br>' +  cites.join(', ')" hidden>
+                            <input name="textTiket" v-bind:value="crateText(problem, cites)" hidden>
                             <input name="nameGroup" value="RUS L2 - Helpdesk" hidden>
                             <input name="citName" value="999R - Multiple Sites Russia" hidden>
                             <input name="citId" value="3680" hidden>
@@ -145,6 +144,13 @@
 
                 return dd + '.' + mm + '.' + yy;
             },
+            citesList(cites) {
+                return cites.join(', ');
+            },
+            crateText(problem, cites) {
+                return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + this.citesList(cites);
+            },
         },
+        computed: {},
     }
 </script>

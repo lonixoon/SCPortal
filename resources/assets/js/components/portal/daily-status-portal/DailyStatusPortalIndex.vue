@@ -266,8 +266,8 @@
                 app.loadingAtak = true;
                 // скрваем результаты на время выгрузки
                 app.atak = [];
-								// прячим блок ошибка при перезапуске функции
-                app.errorClassic = false;
+				// прячим блок ошибка при перезапуске функции
+                app.errorAtak = false;
                 // делаем запрос данные по указанному адресу
                 axios.get('/daily-status-portal/portal-atak')
                 // если данные получены
@@ -302,8 +302,10 @@
                 let app = this;
                 // показывем 'загрузка' пока выгружаются данные
                 app.loadingAdminClassic = true;
-								// скрваем результаты на время выгрузки
+				// скрваем результаты на время выгрузки
                 app.showcaseNamesClassic = [];
+                // скрываем блок "ошибка"
+                app.errorAdminClassic = false;
                 // делаем запрос данные по указанному адресу
                 axios.get('/daily-status-admin-portal/portal-classic')
                 // если данные получены
@@ -347,6 +349,8 @@
                 // скрваем результаты на время выгрузки
                 app.showcaseNamesAtak = [];
                 // делаем запрос данные по указанному адресу
+                // скрываем блок "ошибка"
+                app.errorAdminAtak = false;
                 axios.get('/daily-status-admin-portal/portal-atak')
                 // если данные получены
                     .then(function (resp) {

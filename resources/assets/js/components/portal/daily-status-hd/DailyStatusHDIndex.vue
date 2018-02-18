@@ -21,7 +21,7 @@
                     <input class="btn btn-default" type='file' accept='.rtf' name='file' id='upload' required>
                 </div>
                 <div class="form-group">
-                    <button id="buttonSubmit" type="button" class="btn btn-primary" @click="this.uploadFiles">
+                    <button id="buttonSubmit" type="button" class="btn btn-primary" @click="uploadFiles">
                         Загрузить
                     </button>
                 </div>
@@ -53,12 +53,12 @@
                                 <span v-bind:id="problem + '_number'"></span>
                             </td>
                             <td class="col-md-3">{{ problem }}</td>
-                            <td class="col-md-7">{{ cites.join(', ') }}</td>
+                            <td class="col-md-7">{{ citesList(cites) }}</td>
+                            <!--<td class="col-md-7">{{ crateText(problem, cites) }}</td>-->
 
-                            <!--Отправка формы с параметрами-->
+                            <!--Скратая часть - отправка формы с параметрами-->
                             <input name="title" v-bind:value="problem" hidden>
-                            <input name="textTiket" v-bind:value="createDate() + ' <br>' + problem
-														 + ': ' + ' <br>' +  cites.join(', ')" hidden>
+                            <input name="textTiket" v-bind:value="crateText(problem, cites)" hidden>
                             <input name="nameGroup" value="RUS L2 - Helpdesk" hidden>
                             <input name="citName" value="999R - Multiple Sites Russia" hidden>
                             <input name="citId" value="3680" hidden>
@@ -81,69 +81,114 @@
     export default {
         data() {
             return {
+                // список проблем
                 list: null,
+                // сообщение Ошибка
                 errorDailyStatusHd: false,
             }
         },
         methods: {
+            // отправляем фал на сервер
             uploadFiles() {
                 let app = this;
-                // дисейблем кнопку пока идёт выгрузка
+                // ищем кнопку загрузки файла
                 let buttonSubmit = document.getElementById('buttonSubmit');
+                // дисейблем кнопку пока идёт выгрузка
                 buttonSubmit.disabled = true;
-                let formData = new FormData(document.getElementById('uploadForm'));
+                // ищем форму
+                let form = document.getElementById('uploadForm');
+                // записываем форму в Дату
+                let formData = new FormData(form);
+                // ищем импут с фалом
                 let rtfFile = document.getElementById('upload');
+                // добавляем файл в Дату
                 formData.append('file', rtfFile.file);
+                // прячим блок Ошибка
                 app.errorDailyStatusHd = false;
 
-
+                // отправляем аякс запрос
                 axios.post('/daily-status-helpdesk/result', formData)
+                    // если всё ок
                     .then(function (response) {
+                        // добавляем в список проблем полученные даннеы о проблемах
                         app.list = response.data;
+                        // разблокируем кнопку отправки файла
                         buttonSubmit.disabled = false;
                     })
+                    // если ошибка
                     .catch(function (error) {
+                        // выводим подробности в консоль
                         console.log(error.response);
+                        // разблокируем кнопку отправки файла
                         buttonSubmit.disabled = false;
+                        // показываем текс Ошибка
                         app.errorDailyStatusHd = true;
                     });
             },
+            // создаём тикет
             crateTiket(problem) {
                 let app = this;
+                // ищем каждую форму отправки
                 let form = document.getElementById(problem);
+                // ищем каждый спан куда вставить номер тикета
                 let tiketNumber = document.getElementById(problem + '_number');
+                // ищем каждую кнопку отправки
                 let buttonCreate = document.getElementById(problem + '_create');
+                // ищем поле в таблице где находится кнопка
                 let tiket = document.getElementById(problem + '_tiket');
+                // после нажатия кнопки Создать меняем текст
                 buttonCreate.innerHTML = 'Ожидайте...';
+                // блокируем повторное нажатие кнопки
                 buttonCreate.disabled = true;
+                // передаём форму в ФормДату
                 let formData = new FormData(form);
 
+                // отправляем аякс запрос
                 axios.post('/athena', formData)
+                    // если всё ок
                     .then(function (response) {
+                        // удаляем кнопку
+                        tiket.removeChild(buttonCreate);
+                        // ставляем номер тикета в поле span
                         tiketNumber.innerHTML = response.data;
-                        tiket.removeChild(buttonCreate);
-                        console.log(response.data);
+                        // выводим в консоль
+//                        console.log(response.data);
                     })
+                    // если ошибка
                     .catch(function (error) {
-                        tiketNumber.innerHTML = 'Ошибка :-(';
+                        // удаляем кнопку
                         tiket.removeChild(buttonCreate);
+                        // вместо номера втавляем тест с ошибкой
+                        tiketNumber.innerHTML = 'Ошибка :-(';
+                        // выводим в консоль
                         console.log(error.response);
                     });
             },
+            // создаём дату текущего дня в формате ДД.ММ.ГГ
             createDate() {
+                // создаем дату
                 let date = new Date();
-
+                // получаем день
                 let dd = date.getDate();
                 if (dd < 10) dd = '0' + dd;
-
+                // получаем месяц
                 let mm = date.getMonth() + 1;
                 if (mm < 10) mm = '0' + mm;
-
+                // получаем год
                 let yy = date.getFullYear() % 100;
                 if (yy < 10) yy = '0' + yy;
-
+                // формируем строку в формате ДД.ММ.ГГ
                 return dd + '.' + mm + '.' + yy;
             },
+            // делаем из массива с проблемными ситами сроку через запятую
+            citesList(cites) {
+                return cites.join(', ');
+            },
+            // создаём текст тикета
+            crateText(problem, cites) {
+                return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + this.citesList(cites);
+            },
         },
+        computed: {},
     }
 </script>

@@ -46871,7 +46871,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // скрваем результаты на время выгрузки
             app.atak = [];
             // прячим блок ошибка при перезапуске функции
-            app.errorClassic = false;
+            app.errorAtak = false;
             // делаем запрос данные по указанному адресу
             axios.get('/daily-status-portal/portal-atak')
             // если данные получены
@@ -46908,6 +46908,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             app.loadingAdminClassic = true;
             // скрваем результаты на время выгрузки
             app.showcaseNamesClassic = [];
+            // скрываем блок "ошибка"
+            app.errorAdminClassic = false;
             // делаем запрос данные по указанному адресу
             axios.get('/daily-status-admin-portal/portal-classic')
             // если данные получены
@@ -46952,6 +46954,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // скрваем результаты на время выгрузки
             app.showcaseNamesAtak = [];
             // делаем запрос данные по указанному адресу
+            // скрываем блок "ошибка"
+            app.errorAdminAtak = false;
             axios.get('/daily-status-admin-portal/portal-atak')
             // если данные получены
             .then(function (resp) {
@@ -47664,66 +47668,120 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            // список проблем
             list: null,
+            // сообщение Ошибка
             errorDailyStatusHd: false
         };
     },
 
     methods: {
+        // отправляем фал на сервер
         uploadFiles: function uploadFiles() {
             var app = this;
-            // дисейблем кнопку пока идёт выгрузка
+            // ищем кнопку загрузки файла
             var buttonSubmit = document.getElementById('buttonSubmit');
+            // дисейблем кнопку пока идёт выгрузка
             buttonSubmit.disabled = true;
-            var formData = new FormData(document.getElementById('uploadForm'));
+            // ищем форму
+            var form = document.getElementById('uploadForm');
+            // записываем форму в Дату
+            var formData = new FormData(form);
+            // ищем импут с фалом
             var rtfFile = document.getElementById('upload');
+            // добавляем файл в Дату
             formData.append('file', rtfFile.file);
+            // прячим блок Ошибка
             app.errorDailyStatusHd = false;
 
-            axios.post('/daily-status-helpdesk/result', formData).then(function (response) {
+            // отправляем аякс запрос
+            axios.post('/daily-status-helpdesk/result', formData)
+            // если всё ок
+            .then(function (response) {
+                // добавляем в список проблем полученные даннеы о проблемах
                 app.list = response.data;
+                // разблокируем кнопку отправки файла
                 buttonSubmit.disabled = false;
-            }).catch(function (error) {
+            })
+            // если ошибка
+            .catch(function (error) {
+                // выводим подробности в консоль
                 console.log(error.response);
+                // разблокируем кнопку отправки файла
                 buttonSubmit.disabled = false;
+                // показываем текс Ошибка
                 app.errorDailyStatusHd = true;
             });
         },
+
+        // создаём тикет
         crateTiket: function crateTiket(problem) {
             var app = this;
+            // ищем каждую форму отправки
             var form = document.getElementById(problem);
+            // ищем каждый спан куда вставить номер тикета
             var tiketNumber = document.getElementById(problem + '_number');
+            // ищем каждую кнопку отправки
             var buttonCreate = document.getElementById(problem + '_create');
+            // ищем поле в таблице где находится кнопка
             var tiket = document.getElementById(problem + '_tiket');
+            // после нажатия кнопки Создать меняем текст
             buttonCreate.innerHTML = 'Ожидайте...';
+            // блокируем повторное нажатие кнопки
             buttonCreate.disabled = true;
+            // передаём форму в ФормДату
             var formData = new FormData(form);
 
-            axios.post('/athena', formData).then(function (response) {
+            // отправляем аякс запрос
+            axios.post('/athena', formData)
+            // если всё ок
+            .then(function (response) {
+                // удаляем кнопку
+                tiket.removeChild(buttonCreate);
+                // ставляем номер тикета в поле span
                 tiketNumber.innerHTML = response.data;
+                // выводим в консоль
+                //                        console.log(response.data);
+            })
+            // если ошибка
+            .catch(function (error) {
+                // удаляем кнопку
                 tiket.removeChild(buttonCreate);
-                console.log(response.data);
-            }).catch(function (error) {
+                // вместо номера втавляем тест с ошибкой
                 tiketNumber.innerHTML = 'Ошибка :-(';
-                tiket.removeChild(buttonCreate);
+                // выводим в консоль
                 console.log(error.response);
             });
         },
-        createDate: function createDate() {
-            var date = new Date();
 
+        // создаём дату текущего дня в формате ДД.ММ.ГГ
+        createDate: function createDate() {
+            // создаем дату
+            var date = new Date();
+            // получаем день
             var dd = date.getDate();
             if (dd < 10) dd = '0' + dd;
-
+            // получаем месяц
             var mm = date.getMonth() + 1;
             if (mm < 10) mm = '0' + mm;
-
+            // получаем год
             var yy = date.getFullYear() % 100;
             if (yy < 10) yy = '0' + yy;
-
+            // формируем строку в формате ДД.ММ.ГГ
             return dd + '.' + mm + '.' + yy;
+        },
+
+        // делаем из массива с проблемными ситами сроку через запятую
+        citesList: function citesList(cites) {
+            return cites.join(', ');
+        },
+
+        // создаём текст тикета
+        crateText: function crateText(problem, cites) {
+            return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + this.citesList(cites);
         }
-    }
+    },
+    computed: {}
 });
 
 /***/ }),
@@ -47757,13 +47815,9 @@ var render = function() {
               {
                 staticClass: "btn btn-primary",
                 attrs: { id: "buttonSubmit", type: "button" },
-                on: { click: this.uploadFiles }
+                on: { click: _vm.uploadFiles }
               },
-              [
-                _vm._v(
-                  "\n                        Загрузить\n                    "
-                )
-              ]
+              [_vm._v("\n                    Загрузить\n                ")]
             )
           ])
         ]
@@ -47836,7 +47890,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                    Создать\n                                "
+                                "\n                                Создать\n                            "
                               )
                             ]
                           ),
@@ -47850,7 +47904,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("td", { staticClass: "col-md-7" }, [
-                        _vm._v(_vm._s(cites.join(", ")))
+                        _vm._v(_vm._s(_vm.citesList(cites)))
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -47860,15 +47914,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("input", {
                         attrs: { name: "textTiket", hidden: "" },
-                        domProps: {
-                          value:
-                            _vm.createDate() +
-                            " <br>" +
-                            problem +
-                            ": " +
-                            " <br>" +
-                            cites.join(", ")
-                        }
+                        domProps: { value: _vm.crateText(problem, cites) }
                       }),
                       _vm._v(" "),
                       _c("input", {
@@ -47941,13 +47987,13 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("p", [
           _vm._v(
-            "\n                    После нажатия кнопки создать, начнётся отправка тикета\n                    (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).\n                    Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.\n                "
+            "\n                После нажатия кнопки создать, начнётся отправка тикета\n                (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).\n                Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.\n            "
           )
         ]),
         _vm._v(" "),
         _c("p", [
           _vm._v(
-            "\n                    Тыкайте кнопочки Создать подряд и после ждите номера.\n                "
+            "\n                Тыкайте кнопочки Создать подряд и после ждите номера.\n            "
           )
         ])
       ])
@@ -48380,7 +48426,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -48443,8 +48488,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (yy < 10) yy = '0' + yy;
 
             return dd + '.' + mm + '.' + yy;
+        },
+        citesList: function citesList(cites) {
+            return cites.join(', ');
+        },
+        crateText: function crateText(problem, cites) {
+            return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + this.citesList(cites);
         }
-    }
+    },
+    computed: {}
 });
 
 /***/ }),
@@ -48480,11 +48532,7 @@ var render = function() {
                 attrs: { id: "buttonSubmit", type: "button" },
                 on: { click: _vm.uploadFiles }
               },
-              [
-                _vm._v(
-                  "\n                        Загрузить\n                    "
-                )
-              ]
+              [_vm._v("\n                    Загрузить\n                ")]
             )
           ])
         ]
@@ -48557,7 +48605,7 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                    Создать\n                                "
+                                "\n                                Создать\n                            "
                               )
                             ]
                           ),
@@ -48571,7 +48619,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("td", { staticClass: "col-md-7" }, [
-                        _vm._v(_vm._s(cites.join(", ")))
+                        _vm._v(_vm._s(_vm.citesList(cites)))
                       ]),
                       _vm._v(" "),
                       _c("input", {
@@ -48581,15 +48629,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("input", {
                         attrs: { name: "textTiket", hidden: "" },
-                        domProps: {
-                          value:
-                            _vm.createDate() +
-                            " <br>" +
-                            problem +
-                            ": " +
-                            " <br>" +
-                            cites.join(", ")
-                        }
+                        domProps: { value: _vm.crateText(problem, cites) }
                       }),
                       _vm._v(" "),
                       _c("input", {
@@ -48662,13 +48702,13 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("p", [
           _vm._v(
-            "\n                    После нажатия кнопки создать, начнётся отправка тикета\n                    (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).\n                    Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.\n                "
+            "\n                После нажатия кнопки создать, начнётся отправка тикета\n                (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).\n                Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.\n            "
           )
         ]),
         _vm._v(" "),
         _c("p", [
           _vm._v(
-            "\n                    Тыкайте кнопочки Создать подряд и после ждите номера.\n                "
+            "\n                Тыкайте кнопочки Создать подряд и после ждите номера.\n            "
           )
         ])
       ])
