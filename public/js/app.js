@@ -46778,10 +46778,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            classic: [],
-            atak: [],
-            showcaseNamesClassic: [],
-            showcaseNamesAtak: [],
+            classic: {},
+            atak: {},
+            showcaseNamesClassic: {},
+            showcaseNamesAtak: {},
 
             loadingClassic: false,
             loadingAtak: false,
@@ -46804,7 +46804,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     //        },
     methods: {
         /*
-         Запуск всех отчётов сразу
+         * Запуск всех отчётов сразу
          */
         allReport: function allReport() {
             // ищём кнопку "Запустить выгрузку всех очётов"
@@ -46824,7 +46824,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
         /*
-         Выгрузка данных по Портал Калассика
+         * Выгрузка данных по Портал Калассика
          */
         portalClassicUpload: function portalClassicUpload() {
             // ищем кнопку 'запустить выгрузку'
@@ -46895,7 +46895,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
         /*
-         Выгрузка данных Портал Админ Классика
+         * Выгрузка данных Портал Админ Классика
          */
         portalAdminClassicUpload: function portalAdminClassicUpload() {
             // ищем кнопку 'запустить выгрузку'
@@ -46940,7 +46940,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
         /*
-         Выгрузка данных Портал Админ АТАК
+         * Выгрузка данных Портал Админ АТАК
          */
         portalAdminAtakUpload: function portalAdminAtakUpload() {
             // ищем кнопку 'запустить выгрузку'
@@ -47664,6 +47664,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47671,7 +47673,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // список проблем
             list: null,
             // сообщение Ошибка
-            errorDailyStatusHd: false
+            errorDailyStatusHd: false,
+            // масив с тикетами
+            tiketNumbers: []
         };
     },
 
@@ -47740,6 +47744,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 tiket.removeChild(buttonCreate);
                 // ставляем номер тикета в поле span
                 tiketNumber.innerHTML = response.data;
+                // добавляем тикеты в массив
+                app.tiketNumbers.push(response.data);
                 // выводим в консоль
                 //                        console.log(response.data);
             })
@@ -47771,7 +47777,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return dd + '.' + mm + '.' + yy;
         },
 
-        // делаем из массива с проблемными ситами сроку через запятую
+        // делаем из массива с проблемными ситами в сроку через запятую
         citesList: function citesList(cites) {
             return cites.join(', ');
         },
@@ -47796,32 +47802,34 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
-      _c(
-        "form",
-        {
-          staticClass: "col-md-3",
-          attrs: {
-            id: "uploadForm",
-            name: "uploadForm",
-            enctype: "multipart/form-data"
-          }
-        },
-        [
-          _vm._m(1),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                attrs: { id: "buttonSubmit", type: "button" },
-                on: { click: _vm.uploadFiles }
-              },
-              [_vm._v("\n                    Загрузить\n                ")]
-            )
-          ])
-        ]
-      )
+      _vm.list === null
+        ? _c(
+            "form",
+            {
+              staticClass: "col-md-3",
+              attrs: {
+                id: "uploadForm",
+                name: "uploadForm",
+                enctype: "multipart/form-data"
+              }
+            },
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { id: "buttonSubmit", type: "button" },
+                    on: { click: _vm.uploadFiles }
+                  },
+                  [_vm._v("\n                    Загрузить\n                ")]
+                )
+              ])
+            ]
+          )
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c(
@@ -47841,6 +47849,10 @@ var render = function() {
     ),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
+      _c("p", { staticClass: "col-md-12" }, [
+        _vm._v(_vm._s(_vm.tiketNumbers.join(", ")))
+      ]),
+      _vm._v(" "),
       _c(
         "div",
         { staticClass: "col-md-12" },
@@ -47861,7 +47873,7 @@ var render = function() {
               _c(
                 "table",
                 {
-                  staticClass: "table table-bordered table-striped",
+                  staticClass: "table table-bordered table-hover",
                   staticStyle: { "margin-bottom": "0" }
                 },
                 [
@@ -47871,7 +47883,14 @@ var render = function() {
                         "td",
                         {
                           staticClass: "col-md-2",
-                          attrs: { id: problem + "_tiket" }
+                          attrs: { id: problem + "_tiket" },
+                          model: {
+                            value: _vm.tiketNumbers,
+                            callback: function($$v) {
+                              _vm.tiketNumbers = $$v
+                            },
+                            expression: "tiketNumbers"
+                          }
                         },
                         [
                           _c(
@@ -47983,8 +48002,6 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "alert alert-info" }, [
-        _c("p", [_vm._v("Добавлена отправка тикетов на ХД")]),
-        _vm._v(" "),
         _c("p", [
           _vm._v(
             "\n                После нажатия кнопки создать, начнётся отправка тикета\n                (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).\n                Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.\n            "
@@ -47994,6 +48011,12 @@ var staticRenderFns = [
         _c("p", [
           _vm._v(
             "\n                Тыкайте кнопочки Создать подряд и после ждите номера.\n            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "\n                Чуть выше таблицы будут номера тикетов в строку, что бы было удобно их копировать.\n            "
           )
         ])
       ])

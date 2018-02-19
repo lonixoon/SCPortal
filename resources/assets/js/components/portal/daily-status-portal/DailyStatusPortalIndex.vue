@@ -174,10 +174,10 @@
     export default {
         data: function () {
             return {
-                classic: [],
-                atak: [],
-                showcaseNamesClassic: [],
-                showcaseNamesAtak: [],
+                classic: {},
+                atak: {},
+                showcaseNamesClassic: {},
+                showcaseNamesAtak: {},
 
                 loadingClassic: false,
                 loadingAtak: false,
@@ -199,9 +199,9 @@
 //            this.portalAtakUpload();
 //        },
         methods: {
-						/*
-						 Запуск всех отчётов сразу
-						 */
+			/*
+			 * Запуск всех отчётов сразу
+			 */
             allReport() {
                 // ищём кнопку "Запустить выгрузку всех очётов"
                 let buttonAllReport = document.getElementById('buttonAllReport');
@@ -218,9 +218,9 @@
                 }, 30000);
             },
 
-						/*
-						 Выгрузка данных по Портал Калассика
-						 */
+			/*
+			 * Выгрузка данных по Портал Калассика
+			 */
             portalClassicUpload() {
                 // ищем кнопку 'запустить выгрузку'
                 let buttonClassic = document.getElementById('buttonClassic');
@@ -290,9 +290,9 @@
                     });
             },
 
-						/*
-						 Выгрузка данных Портал Админ Классика
-						 */
+			/*
+			 * Выгрузка данных Портал Админ Классика
+			 */
             portalAdminClassicUpload() {
                 // ищем кнопку 'запустить выгрузку'
                 let buttonAdminClassic = document.getElementById('buttonAdminClassic');
@@ -334,9 +334,9 @@
                     });
             },
 
-						/*
-						 Выгрузка данных Портал Админ АТАК
-						 */
+			/*
+			 * Выгрузка данных Портал Админ АТАК
+			 */
             portalAdminAtakUpload() {
                 // ищем кнопку 'запустить выгрузку'
                 let buttonAdminAtak = document.getElementById('buttonAdminAtak');

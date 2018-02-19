@@ -4,7 +4,6 @@
         <div class="col-md-12 form-group">
             <h3>Разбор файла Daily Status HelpDesk по активностям (проблемам)</h3>
             <div class="alert alert-info">
-                <p>Добавлена отправка тикетов на ХД</p>
                 <p>
                     После нажатия кнопки создать, начнётся отправка тикета
                     (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).
@@ -13,10 +12,13 @@
                 <p>
                     Тыкайте кнопочки Создать подряд и после ждите номера.
                 </p>
+                <p>
+                    Чуть выше таблицы будут номера тикетов в строку, что бы было удобно их копировать.
+                </p>
             </div>
         </div>
         <div class="row">
-            <form class="col-md-3" id="uploadForm" name="uploadForm" enctype="multipart/form-data">
+            <form class="col-md-3" id="uploadForm" name="uploadForm" enctype="multipart/form-data" v-if="list === null">
                 <div class="form-group">
                     <input class="btn btn-default" type='file' accept='.rtf' name='file' id='upload' required>
                 </div>
@@ -29,7 +31,7 @@
         </div>
         <div v-show="errorDailyStatusHd" class="alert alert-danger">Не удалось обработать данные</div>
         <div class="row">
-
+            <p class="col-md-12">{{ tiketNumbers.join(', ') }}</p>
             <div class="col-md-12">
                 <table v-if="list !== null" style="margin-bottom: 0" class="table table-bordered table-striped">
                     <tbody>
@@ -41,11 +43,11 @@
                     </tbody>
                 </table>
                 <form v-bind:id="problem" method="post" v-for="(cites, problem) in list">
-                    <table style="margin-bottom: 0" class="table table-bordered table-striped">
+                    <table style="margin-bottom: 0" class="table table-bordered table-hover">
                         <tbody>
                         <tr>
                             <!--Визульная часть-->
-                            <td class="col-md-2" v-bind:id="problem + '_tiket'">
+                            <td class="col-md-2" v-model="tiketNumbers" v-bind:id="problem + '_tiket'">
                                 <button v-bind:id="problem + '_create'" type="button" class="btn btn-success btn-xs"
                                         @click="crateTiket(problem)">
                                     Создать
@@ -85,6 +87,8 @@
                 list: null,
                 // сообщение Ошибка
                 errorDailyStatusHd: false,
+                // масив с тикетами
+                tiketNumbers: [],
             }
         },
         methods: {
@@ -151,6 +155,8 @@
                         tiket.removeChild(buttonCreate);
                         // ставляем номер тикета в поле span
                         tiketNumber.innerHTML = response.data;
+                        // добавляем тикеты в массив
+                        app.tiketNumbers.push(response.data);
                         // выводим в консоль
 //                        console.log(response.data);
                     })
@@ -180,7 +186,7 @@
                 // формируем строку в формате ДД.ММ.ГГ
                 return dd + '.' + mm + '.' + yy;
             },
-            // делаем из массива с проблемными ситами сроку через запятую
+            // делаем из массива с проблемными ситами в сроку через запятую
             citesList(cites) {
                 return cites.join(', ');
             },

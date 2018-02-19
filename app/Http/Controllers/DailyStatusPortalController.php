@@ -66,7 +66,7 @@ class DailyStatusPortalController extends Controller
         // передаём 1) citeName 2) clientsValue 3) CaPeriodValue, получаем массив: Магазин => [Клинеты, ТО за период]
         $allCiteArr = $DailyStatusPortal->processingData($dataPortal);
         // передаём  Магазин => [Клинеты, ТО за период], возвращаем Магазин => Статус
-        $allProblemCiteArr['classic'] = $DailyStatusPortal->processingProblemData($allCiteArr);
+        $allProblemCiteArr['atak'] = $DailyStatusPortal->processingProblemData($allCiteArr);
         // возвращаем Магазин => Статус
         return $allProblemCiteArr;
     }
