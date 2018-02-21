@@ -278,6 +278,34 @@ class DailyStatusHD extends Model
         return $arrSlice;
     }
 
+
+    public function getSopraInGica($array)
+    {
+        $arrayProblem = [];
+
+        // ищем SOPRA in GICA
+        $start = array_search('----------------------------------------- SOPRA in GICA ------------------------------------------------------', $array);
+        // срезаем до SOPRA in GICA
+        $sliceStartArray = array_slice($array, $start);
+        // ищем Catalog from GICA
+        $end = array_search('----------------------------------------- Catalog from GICA -------------------------------------------------', $sliceStartArray);
+        // срезаем по Catalog from GICA и убераем надписи
+        $sliceEndArray = array_slice($sliceStartArray, 1, $end - 1);
+
+
+        foreach ($sliceEndArray as $value) {
+            $temp = explode('with code status: ', $value);
+            if (array_key_exists(1, $temp) && $temp[1] == '10') {
+                $arrayProblem[] = $value;
+            }
+        }
+
+        return $arrayProblem;
+    }
+
+    /*
+     *  Собираем все проблемы с интеррацией по магазинам
+     */
     public function getData($array)
     {
         // ищем строку где идёт интерграция каталога
@@ -289,7 +317,7 @@ class DailyStatusHD extends Model
         $siteName = '';
         // массив под все найденые проблемы (тадосы, каталоги и тд.)
         $arrayProblem = [];
-        //  массив с проблемами - ситы
+        // массив с проблемами - ситы
         $arrayProblemToSite = [];
         // итоговый массив
         $result = [];

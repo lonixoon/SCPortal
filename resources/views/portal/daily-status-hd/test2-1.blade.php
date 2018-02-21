@@ -1,7 +1,7 @@
 @extends('portal.daily-status-hd.test2')
 
 @section('form')
-    <form action="{{ url('/daily-status-helpdesk/result') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ url('/daily-status-helpdesk/result2') }}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="input-file">
             <div class="input-file__label">Файл не выбран</div>

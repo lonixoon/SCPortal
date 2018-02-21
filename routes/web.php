@@ -35,9 +35,11 @@ Route::get('/daily-status-admin-portal/portal-atak', 'DailyStatusAdminPortalCont
 // HelpDesk Daily Status
     // выгружнный отчёт в виде api
 Route::post('/daily-status-helpdesk/result', 'DailyStatusHDController@getFile');
+Route::post('/daily-status-helpdesk/result2', 'DailyStatusHDController@getFile2');
+Route::get('/helpdesk', 'DailyStatusHDController@index');
 
 // Атена
-Route::get('/athena', 'AthenaController@index');
+//Route::get('/athena', 'AthenaController@index');
 Route::post('/athena', 'AthenaController@index');
 
 // domain users

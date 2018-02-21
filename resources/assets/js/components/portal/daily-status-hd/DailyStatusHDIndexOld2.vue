@@ -30,95 +30,50 @@
             </form>
         </div>
         <div v-show="errorDailyStatusHd" class="alert alert-danger">Не удалось обработать данные</div>
-        <div class="row" v-for="(list, key) in lists">
-            <div v-if="key == 'catalogFromGica'">
-                <p class="col-md-12">{{ tiketNumbers.join(', ') }}</p>
-                <div class="col-md-12">
-                    <table style="margin-bottom: 0" class="table table-bordered table-striped">
+        <div class="row">
+            <p class="col-md-12">{{ tiketNumbers.join(', ') }}</p>
+            <div class="col-md-12">
+                <table v-if="list !== null" style="margin-bottom: 0" class="table table-bordered table-striped">
+                    <tbody>
+                    <tr>
+                        <th class="col-md-2">Тикет</th>
+                        <th class="col-md-3">Проблема</th>
+                        <th class="col-md-7">Ситы</th>
+                    </tr>
+                    </tbody>
+                </table>
+                <form v-bind:id="problem" method="post" v-for="(cites, problem) in list">
+                    <table style="margin-bottom: 0" class="table table-bordered table-hover">
                         <tbody>
                         <tr>
-                            <th class="col-md-2">Тикет</th>
-                            <th class="col-md-3">Intagrate catalog to stores</th>
-                            <th class="col-md-7">Ситы</th>
+                            <!--Визульная часть-->
+                            <td class="col-md-2" v-model="tiketNumbers" v-bind:id="problem + '_tiket'">
+                                <button v-bind:id="problem + '_create'" type="button" class="btn btn-success btn-xs"
+                                        @click="crateTiket(problem)">
+                                    Создать
+                                </button>
+                                <span v-bind:id="problem + '_number'"></span>
+                            </td>
+                            <td class="col-md-3">{{ problem }}</td>
+                            <td class="col-md-7">{{ citesList(cites) }}</td>
+                            <!--<td class="col-md-7">{{ crateText(problem, cites) }}</td>-->
+
+                            <!--Скратая часть - отправка формы с параметрами-->
+                            <input name="title" v-bind:value="problem" hidden>
+                            <input name="textTiket" v-bind:value="crateText(problem, cites)" hidden>
+                            <input name="nameGroup" value="RUS L2 - Helpdesk" hidden>
+                            <input name="citName" value="999R - Multiple Sites Russia" hidden>
+                            <input name="citId" value="3680" hidden>
+                            <input name="cimPriority" value="2" hidden>
+                            <input name="typeTiket" value="Incident" hidden>
+                            <input name="topicNameTiket" value="TECHNICAL/AS400_NPI/APPLICATION" hidden>
+                            <input name="topicId" value="181902" hidden>
+                            <!--<input name="topicNameTiket" value="COUNTRY BUSINESS/GIMA/TRANSFERS" hidden>-->
+                            <!--<input name="topicId" value="181570" hidden>-->
                         </tr>
                         </tbody>
                     </table>
-                    <form v-bind:id="problem" method="post" v-for="(cites, problem) in list">
-                        <table style="margin-bottom: 0" class="table table-bordered table-hover">
-                            <tbody>
-                            <tr>
-                                <!--Визульная часть-->
-                                <td class="col-md-2" v-model="tiketNumbers" v-bind:id="problem + '_tiket'">
-                                    <button v-bind:id="problem + '_create'" type="button" class="btn btn-success btn-xs"
-                                            @click="crateTiket(problem)">
-                                        Создать
-                                    </button>
-                                    <span v-bind:id="problem + '_number'"></span>
-                                </td>
-                                <td class="col-md-3">{{ problem }}</td>
-                                <td class="col-md-7">{{ citesList(cites) }}</td>
-                                <!--<td class="col-md-7">{{ crateText(problem, cites) }}</td>-->
-
-                                <!--Скратая часть - отправка формы с параметрами-->
-                                <input name="title" v-bind:value="problem" hidden>
-                                <input name="textTiket" v-bind:value="crateText(problem, cites)" hidden>
-                                <input name="nameGroup" value="RUS L2 - Helpdesk" hidden>
-                                <input name="citName" value="999R - Multiple Sites Russia" hidden>
-                                <input name="citId" value="3680" hidden>
-                                <input name="cimPriority" value="2" hidden>
-                                <input name="typeTiket" value="Incident" hidden>
-                                <input name="topicNameTiket" value="TECHNICAL/AS400_NPI/APPLICATION" hidden>
-                                <input name="topicId" value="181902" hidden>
-                                <!--<input name="topicNameTiket" value="COUNTRY BUSINESS/GIMA/TRANSFERS" hidden>-->
-                                <!--<input name="topicId" value="181570" hidden>-->
-                            </tr>
-                            </tbody>
-                        </table>
-                    </form>
-                </div>
-            </div>
-
-            <div v-if="key == 'sopraInGica' && list.length > 0">
-                <div class="col-md-12">
-                    <table style="margin-bottom: 0" class="table table-bordered table-striped">
-                        <tbody>
-                        <tr>
-                            <th class="col-md-2">Тикет</th>
-                            <th class="col-md-7">SOPRA in GICA</th>
-                            <th class="col-md-3">Дейсвие</th>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <form v-bind:id="problem" method="post" v-for="(problem, index) in list">
-                        <table style="margin-bottom: 0" class="table table-bordered table-hover">
-                            <tbody>
-                            <tr>
-                                <!--Визульная часть-->
-                                <td class="col-md-2" v-model="tiketNumbers" v-bind:id="problem + '_tiket'">
-                                    <button v-bind:id="problem + '_create'" type="button" class="btn btn-success btn-xs"
-                                            @click="crateTiket(problem)">
-                                        Создать
-                                    </button>
-                                    <span v-bind:id="problem + '_number'"></span>
-                                </td>
-                                <td class="col-md-7 alarm">{{ problem }}</td>
-                                <td class="col-md-3">Крит! Дублируем звонком</td>
-
-                                <!--Скратая часть - отправка формы с параметрами-->
-                                <input name="title" v-bind:value="problem" hidden>
-                                <input name="textTiket" v-bind:value="'SOPRA in GICA<br>' + problem" hidden>
-                                <input name="nameGroup" value="RUS L2 - Helpdesk" hidden>
-                                <input name="citName" value="999R - Multiple Sites Russia" hidden>
-                                <input name="citId" value="3680" hidden>
-                                <input name="cimPriority" value="1" hidden>
-                                <input name="typeTiket" value="Incident" hidden>
-                                <input name="topicNameTiket" value="TECHNICAL/AS400_NPI/APPLICATION" hidden>
-                                <input name="topicId" value="181902" hidden>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -128,7 +83,6 @@
     export default {
         data() {
             return {
-                lists: null,
                 // список проблем
                 list: null,
                 // сообщение Ошибка
@@ -158,10 +112,10 @@
 
                 // отправляем аякс запрос
                 axios.post('/daily-status-helpdesk/result', formData)
-                // если всё ок
+                    // если всё ок
                     .then(function (response) {
                         // добавляем в список проблем полученные даннеы о проблемах
-                        app.lists = response.data;
+                        app.list = response.data;
                         // разблокируем кнопку отправки файла
                         buttonSubmit.disabled = false;
                     })
@@ -195,7 +149,7 @@
 
                 // отправляем аякс запрос
                 axios.post('/athena', formData)
-                // если всё ок
+                    // если всё ок
                     .then(function (response) {
                         // удаляем кнопку
                         tiket.removeChild(buttonCreate);

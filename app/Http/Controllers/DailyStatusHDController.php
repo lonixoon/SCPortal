@@ -21,15 +21,37 @@ class DailyStatusHDController extends Controller
         // получаем файл
         $file = $rtf->file('file');
         // создаём новую модель
-        $test2 = new DailyStatusHD();
+        $DailyStatusHD = new DailyStatusHD();
         // Передаём файл -> получаем очищенный от всех тегов текст
-        $text = $test2->rtf2text($file);
+        $text = $DailyStatusHD->rtf2text($file);
         // Передаём текст -> получаем очищенный массив
-        $array = $test2->getArray($text);
+        $array = $DailyStatusHD->getArray($text);
         // Передаём очищенный массив -> получаем готовые данные
-        $result = $test2->getData($array);
-        // Получаем количство тикетов
-//        $result['numberOfRecords'] = count($result['list']);
+        $result['sopraInGica'] = $DailyStatusHD->getSopraInGica($array);
+        $result['catalogFromGica'] = $DailyStatusHD->getData($array);
+//        $result = $DailyStatusHD->getData($array);
+
+//        return view('portal.daily-status-hd.test2-2', $result);
+        return $result;
+    }
+
+    public function getFile2(Request $rtf)
+    {
+        $this->validate($rtf, [
+            'file' => 'required | mimes:rtf'
+        ]);
+
+        // получаем файл
+        $file = $rtf->file('file');
+        // создаём новую модель
+        $DailyStatusHD = new DailyStatusHD();
+        // Передаём файл -> получаем очищенный от всех тегов текст
+        $text = $DailyStatusHD->rtf2text($file);
+        // Передаём текст -> получаем очищенный массив
+        $array = $DailyStatusHD->getArray($text);
+        // Передаём очищенный массив -> получаем готовые данные
+        $result = $DailyStatusHD->getSopraInGica($array);
+//        $result = $DailyStatusHD->getData($array);
 
 //        return view('portal.daily-status-hd.test2-2', $result);
         return $result;

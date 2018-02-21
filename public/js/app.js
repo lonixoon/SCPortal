@@ -47666,12 +47666,57 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            // список проблем
-            list: null,
+            lists: null,
             // сообщение Ошибка
             errorDailyStatusHd: false,
             // масив с тикетами
@@ -47703,7 +47748,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // если всё ок
             .then(function (response) {
                 // добавляем в список проблем полученные даннеы о проблемах
-                app.list = response.data;
+                app.lists = response.data;
                 // разблокируем кнопку отправки файла
                 buttonSubmit.disabled = false;
             })
@@ -47798,198 +47843,389 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _vm.list === null
-        ? _c(
-            "form",
-            {
-              staticClass: "col-md-3",
-              attrs: {
-                id: "uploadForm",
-                name: "uploadForm",
-                enctype: "multipart/form-data"
-              }
-            },
-            [
-              _vm._m(1),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { id: "buttonSubmit", type: "button" },
-                    on: { click: _vm.uploadFiles }
-                  },
-                  [_vm._v("\n                    Загрузить\n                ")]
-                )
-              ])
-            ]
-          )
-        : _vm._e()
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.errorDailyStatusHd,
-            expression: "errorDailyStatusHd"
-          }
-        ],
-        staticClass: "alert alert-danger"
-      },
-      [_vm._v("Не удалось обработать данные")]
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c("p", { staticClass: "col-md-12" }, [
-        _vm._v(_vm._s(_vm.tiketNumbers.join(", ")))
+  return _c(
+    "div",
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _vm.lists === null
+          ? _c(
+              "form",
+              {
+                staticClass: "col-md-3",
+                attrs: {
+                  id: "uploadForm",
+                  name: "uploadForm",
+                  enctype: "multipart/form-data"
+                }
+              },
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { id: "buttonSubmit", type: "button" },
+                      on: { click: _vm.uploadFiles }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Загрузить\n                "
+                      )
+                    ]
+                  )
+                ])
+              ]
+            )
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "col-md-12" },
-        [
-          _vm.list !== null
-            ? _c(
-                "table",
-                {
-                  staticClass: "table table-bordered table-striped",
-                  staticStyle: { "margin-bottom": "0" }
-                },
-                [_vm._m(2)]
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm._l(_vm.list, function(cites, problem) {
-            return _c("form", { attrs: { id: problem, method: "post" } }, [
-              _c(
-                "table",
-                {
-                  staticClass: "table table-bordered table-hover",
-                  staticStyle: { "margin-bottom": "0" }
-                },
-                [
-                  _c("tbody", [
-                    _c("tr", [
-                      _c(
-                        "td",
-                        {
-                          staticClass: "col-md-2",
-                          attrs: { id: problem + "_tiket" },
-                          model: {
-                            value: _vm.tiketNumbers,
-                            callback: function($$v) {
-                              _vm.tiketNumbers = $$v
-                            },
-                            expression: "tiketNumbers"
-                          }
-                        },
-                        [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-success btn-xs",
-                              attrs: {
-                                id: problem + "_create",
-                                type: "button"
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.errorDailyStatusHd,
+              expression: "errorDailyStatusHd"
+            }
+          ],
+          staticClass: "alert alert-danger"
+        },
+        [_vm._v("Не удалось обработать данные")]
+      ),
+      _vm._v(" "),
+      _vm.tiketNumbers.length > 0
+        ? _c("div", { staticClass: "col-md-12" }, [
+            _vm._v(
+              "\n        Здесь будут все ваши тикеты в виде одной строки (для удобства копирования):\n        "
+            ),
+            _c("p", [_vm._v(_vm._s(_vm.tiketNumbers.join(", ")))])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm._l(_vm.lists, function(list, key) {
+        return _c(
+          "div",
+          { staticClass: "row", staticStyle: { "margin-bottom": "30px" } },
+          [
+            key == "catalogFromGica"
+              ? _c("div", [
+                  _c(
+                    "div",
+                    { staticClass: "col-md-12" },
+                    [
+                      _vm._m(2, true),
+                      _vm._v(" "),
+                      _vm._l(list, function(cites, problem) {
+                        return _c(
+                          "form",
+                          { attrs: { id: problem, method: "post" } },
+                          [
+                            _c(
+                              "table",
+                              {
+                                staticClass: "table table-bordered table-hover",
+                                staticStyle: { "margin-bottom": "0" }
                               },
-                              on: {
-                                click: function($event) {
-                                  _vm.crateTiket(problem)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                Создать\n                            "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("span", { attrs: { id: problem + "_number" } })
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "col-md-3" }, [
-                        _vm._v(_vm._s(problem))
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "col-md-7" }, [
-                        _vm._v(_vm._s(_vm.citesList(cites)))
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: { name: "title", hidden: "" },
-                        domProps: { value: problem }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: { name: "textTiket", hidden: "" },
-                        domProps: { value: _vm.crateText(problem, cites) }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: {
-                          name: "nameGroup",
-                          value: "RUS L2 - Helpdesk",
-                          hidden: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: {
-                          name: "citName",
-                          value: "999R - Multiple Sites Russia",
-                          hidden: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: { name: "citId", value: "3680", hidden: "" }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: { name: "cimPriority", value: "2", hidden: "" }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: {
-                          name: "typeTiket",
-                          value: "Incident",
-                          hidden: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: {
-                          name: "topicNameTiket",
-                          value: "TECHNICAL/AS400_NPI/APPLICATION",
-                          hidden: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: { name: "topicId", value: "181902", hidden: "" }
+                              [
+                                _c("tbody", [
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass: "col-md-2",
+                                        attrs: { id: problem + "_tiket" },
+                                        model: {
+                                          value: _vm.tiketNumbers,
+                                          callback: function($$v) {
+                                            _vm.tiketNumbers = $$v
+                                          },
+                                          expression: "tiketNumbers"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-success btn-xs",
+                                            attrs: {
+                                              id: problem + "_create",
+                                              type: "button"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.crateTiket(problem)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                    Создать\n                                "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("span", {
+                                          attrs: { id: problem + "_number" }
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", { staticClass: "col-md-3" }, [
+                                      _vm._v(_vm._s(problem))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", { staticClass: "col-md-7" }, [
+                                      _vm._v(_vm._s(_vm.citesList(cites)))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: { name: "title", hidden: "" },
+                                      domProps: { value: problem }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: { name: "textTiket", hidden: "" },
+                                      domProps: {
+                                        value: _vm.crateText(problem, cites)
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "nameGroup",
+                                        value: "RUS L2 - Helpdesk",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "citName",
+                                        value: "999R - Multiple Sites Russia",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "citId",
+                                        value: "3680",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "cimPriority",
+                                        value: "2",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "typeTiket",
+                                        value: "Incident",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "topicNameTiket",
+                                        value:
+                                          "TECHNICAL/AS400_NPI/APPLICATION",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "topicId",
+                                        value: "181902",
+                                        hidden: ""
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        )
                       })
-                    ])
-                  ])
-                ]
-              )
-            ])
-          })
-        ],
-        2
-      )
-    ])
-  ])
+                    ],
+                    2
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            key == "sopraInGica" && list.length > 0
+              ? _c("div", [
+                  _c(
+                    "div",
+                    { staticClass: "col-md-12" },
+                    [
+                      _vm._m(3, true),
+                      _vm._v(" "),
+                      _vm._l(list, function(problem, index) {
+                        return _c(
+                          "form",
+                          { attrs: { id: problem, method: "post" } },
+                          [
+                            _c(
+                              "table",
+                              {
+                                staticClass: "table table-bordered table-hover",
+                                staticStyle: { "margin-bottom": "0" }
+                              },
+                              [
+                                _c("tbody", [
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass: "col-md-2",
+                                        attrs: { id: problem + "_tiket" },
+                                        model: {
+                                          value: _vm.tiketNumbers,
+                                          callback: function($$v) {
+                                            _vm.tiketNumbers = $$v
+                                          },
+                                          expression: "tiketNumbers"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-success btn-xs",
+                                            attrs: {
+                                              id: problem + "_create",
+                                              type: "button"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.crateTiket(problem)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                    Создать\n                                "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("span", {
+                                          attrs: { id: problem + "_number" }
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      { staticClass: "col-md-7 alarm" },
+                                      [_vm._v(_vm._s(problem))]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", { staticClass: "col-md-3" }, [
+                                      _vm._v("Крит! Дублируем звонком")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: { name: "title", hidden: "" },
+                                      domProps: { value: problem }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: { name: "textTiket", hidden: "" },
+                                      domProps: {
+                                        value: "SOPRA in GICA<br>" + problem
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "nameGroup",
+                                        value: "RUS L2 - Helpdesk",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "citName",
+                                        value: "999R - Multiple Sites Russia",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "citId",
+                                        value: "3680",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "cimPriority",
+                                        value: "1",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "typeTiket",
+                                        value: "Incident",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "topicNameTiket",
+                                        value:
+                                          "TECHNICAL/AS400_NPI/APPLICATION",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "topicId",
+                                        value: "181902",
+                                        hidden: ""
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ])
+              : _vm._e()
+          ]
+        )
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = [
   function() {
@@ -48011,12 +48247,6 @@ var staticRenderFns = [
         _c("p", [
           _vm._v(
             "\n                Тыкайте кнопочки Создать подряд и после ждите номера.\n            "
-          )
-        ]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "\n                Чуть выше таблицы будут номера тикетов в строку, что бы было удобно их копировать.\n            "
           )
         ])
       ])
@@ -48043,15 +48273,49 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tbody", [
-      _c("tr", [
-        _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")])
-      ])
-    ])
+    return _c(
+      "table",
+      {
+        staticClass: "table table-bordered table-striped",
+        staticStyle: { "margin-bottom": "0" }
+      },
+      [
+        _c("tbody", [
+          _c("tr", [
+            _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
+            _vm._v(" "),
+            _c("th", { staticClass: "col-md-3" }, [
+              _vm._v("Intagrate catalog to stores")
+            ]),
+            _vm._v(" "),
+            _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")])
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "table",
+      {
+        staticClass: "table table-bordered table-striped",
+        staticStyle: { "margin-bottom": "0" }
+      },
+      [
+        _c("tbody", [
+          _c("tr", [
+            _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
+            _vm._v(" "),
+            _c("th", { staticClass: "col-md-7" }, [_vm._v("SOPRA in GICA")]),
+            _vm._v(" "),
+            _c("th", { staticClass: "col-md-3" }, [_vm._v("Действие")])
+          ])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -48449,72 +48713,171 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            lists: null,
+            // список проблем
             list: null,
-            errorDailyStatusHd: false
+            // сообщение Ошибка
+            errorDailyStatusHd: false,
+            // масив с тикетами
+            tiketNumbers: []
         };
     },
 
     methods: {
+        // отправляем фал на сервер
         uploadFiles: function uploadFiles() {
             var app = this;
-            // дисейблем кнопку пока идёт выгрузка
+            // ищем кнопку загрузки файла
             var buttonSubmit = document.getElementById('buttonSubmit');
+            // дисейблем кнопку пока идёт выгрузка
             buttonSubmit.disabled = true;
-            var formData = new FormData(document.getElementById('uploadForm'));
+            // ищем форму
+            var form = document.getElementById('uploadForm');
+            // записываем форму в Дату
+            var formData = new FormData(form);
+            // ищем импут с фалом
             var rtfFile = document.getElementById('upload');
+            // добавляем файл в Дату
             formData.append('file', rtfFile.file);
+            // прячим блок Ошибка
             app.errorDailyStatusHd = false;
 
-            axios.post('/daily-status-helpdesk/result', formData).then(function (response) {
-                app.list = response.data;
+            // отправляем аякс запрос
+            axios.post('/daily-status-helpdesk/result', formData)
+            // если всё ок
+            .then(function (response) {
+                // добавляем в список проблем полученные даннеы о проблемах
+                app.lists = response.data;
+                // разблокируем кнопку отправки файла
                 buttonSubmit.disabled = false;
-            }).catch(function (error) {
+            })
+            // если ошибка
+            .catch(function (error) {
+                // выводим подробности в консоль
                 console.log(error.response);
+                // разблокируем кнопку отправки файла
                 buttonSubmit.disabled = false;
+                // показываем текс Ошибка
                 app.errorDailyStatusHd = true;
             });
         },
+
+        // создаём тикет
         crateTiket: function crateTiket(problem) {
             var app = this;
+            // ищем каждую форму отправки
             var form = document.getElementById(problem);
+            // ищем каждый спан куда вставить номер тикета
             var tiketNumber = document.getElementById(problem + '_number');
+            // ищем каждую кнопку отправки
             var buttonCreate = document.getElementById(problem + '_create');
+            // ищем поле в таблице где находится кнопка
             var tiket = document.getElementById(problem + '_tiket');
+            // после нажатия кнопки Создать меняем текст
             buttonCreate.innerHTML = 'Ожидайте...';
+            // блокируем повторное нажатие кнопки
             buttonCreate.disabled = true;
+            // передаём форму в ФормДату
             var formData = new FormData(form);
 
-            axios.post('/athena', formData).then(function (response) {
+            // отправляем аякс запрос
+            axios.post('/athena', formData)
+            // если всё ок
+            .then(function (response) {
+                // удаляем кнопку
+                tiket.removeChild(buttonCreate);
+                // ставляем номер тикета в поле span
                 tiketNumber.innerHTML = response.data;
+                // добавляем тикеты в массив
+                app.tiketNumbers.push(response.data);
+                // выводим в консоль
+                //                        console.log(response.data);
+            })
+            // если ошибка
+            .catch(function (error) {
+                // удаляем кнопку
                 tiket.removeChild(buttonCreate);
-                console.log(response.data);
-            }).catch(function (error) {
+                // вместо номера втавляем тест с ошибкой
                 tiketNumber.innerHTML = 'Ошибка :-(';
-                tiket.removeChild(buttonCreate);
+                // выводим в консоль
                 console.log(error.response);
             });
         },
-        createDate: function createDate() {
-            var date = new Date();
 
+        // создаём дату текущего дня в формате ДД.ММ.ГГ
+        createDate: function createDate() {
+            // создаем дату
+            var date = new Date();
+            // получаем день
             var dd = date.getDate();
             if (dd < 10) dd = '0' + dd;
-
+            // получаем месяц
             var mm = date.getMonth() + 1;
             if (mm < 10) mm = '0' + mm;
-
+            // получаем год
             var yy = date.getFullYear() % 100;
             if (yy < 10) yy = '0' + yy;
-
+            // формируем строку в формате ДД.ММ.ГГ
             return dd + '.' + mm + '.' + yy;
         },
+
+        // делаем из массива с проблемными ситами в сроку через запятую
         citesList: function citesList(cites) {
             return cites.join(', ');
         },
+
+        // создаём текст тикета
         crateText: function crateText(problem, cites) {
             return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + this.citesList(cites);
         }
@@ -48530,185 +48893,374 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
-      _c(
-        "form",
-        {
-          staticClass: "col-md-3",
-          attrs: {
-            id: "uploadForm",
-            name: "uploadForm",
-            enctype: "multipart/form-data"
-          }
-        },
-        [
-          _vm._m(1),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "button",
+  return _c(
+    "div",
+    [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _vm.list === null
+          ? _c(
+              "form",
               {
-                staticClass: "btn btn-primary",
-                attrs: { id: "buttonSubmit", type: "button" },
-                on: { click: _vm.uploadFiles }
+                staticClass: "col-md-3",
+                attrs: {
+                  id: "uploadForm",
+                  name: "uploadForm",
+                  enctype: "multipart/form-data"
+                }
               },
-              [_vm._v("\n                    Загрузить\n                ")]
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { id: "buttonSubmit", type: "button" },
+                      on: { click: _vm.uploadFiles }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Загрузить\n                "
+                      )
+                    ]
+                  )
+                ])
+              ]
             )
-          ])
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.errorDailyStatusHd,
-            expression: "errorDailyStatusHd"
-          }
-        ],
-        staticClass: "alert alert-danger"
-      },
-      [_vm._v("Не удалось обработать данные")]
-    ),
-    _vm._v(" "),
-    _c("div", { staticClass: "row" }, [
+          : _vm._e()
+      ]),
+      _vm._v(" "),
       _c(
         "div",
-        { staticClass: "col-md-12" },
-        [
-          _vm.list !== null
-            ? _c(
-                "table",
-                {
-                  staticClass: "table table-bordered table-striped",
-                  staticStyle: { "margin-bottom": "0" }
-                },
-                [_vm._m(2)]
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm._l(_vm.list, function(cites, problem) {
-            return _c("form", { attrs: { id: problem, method: "post" } }, [
-              _c(
-                "table",
-                {
-                  staticClass: "table table-bordered table-striped",
-                  staticStyle: { "margin-bottom": "0" }
-                },
-                [
-                  _c("tbody", [
-                    _c("tr", [
-                      _c(
-                        "td",
-                        {
-                          staticClass: "col-md-2",
-                          attrs: { id: problem + "_tiket" }
-                        },
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.errorDailyStatusHd,
+              expression: "errorDailyStatusHd"
+            }
+          ],
+          staticClass: "alert alert-danger"
+        },
+        [_vm._v("Не удалось обработать данные")]
+      ),
+      _vm._v(" "),
+      _vm._l(_vm.lists, function(list, key) {
+        return _c("div", { staticClass: "row" }, [
+          key == "catalogFromGica"
+            ? _c("div", [
+                _c("p", { staticClass: "col-md-12" }, [
+                  _vm._v(_vm._s(_vm.tiketNumbers.join(", ")))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "col-md-12" },
+                  [
+                    _vm._m(2, true),
+                    _vm._v(" "),
+                    _vm._l(list, function(cites, problem) {
+                      return _c(
+                        "form",
+                        { attrs: { id: problem, method: "post" } },
                         [
                           _c(
-                            "button",
+                            "table",
                             {
-                              staticClass: "btn btn-success btn-xs",
-                              attrs: {
-                                id: problem + "_create",
-                                type: "button"
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.crateTiket(problem)
-                                }
-                              }
+                              staticClass: "table table-bordered table-hover",
+                              staticStyle: { "margin-bottom": "0" }
                             },
                             [
-                              _vm._v(
-                                "\n                                Создать\n                            "
-                              )
+                              _c("tbody", [
+                                _c("tr", [
+                                  _c(
+                                    "td",
+                                    {
+                                      staticClass: "col-md-2",
+                                      attrs: { id: problem + "_tiket" },
+                                      model: {
+                                        value: _vm.tiketNumbers,
+                                        callback: function($$v) {
+                                          _vm.tiketNumbers = $$v
+                                        },
+                                        expression: "tiketNumbers"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-success btn-xs",
+                                          attrs: {
+                                            id: problem + "_create",
+                                            type: "button"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.crateTiket(problem)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                    Создать\n                                "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", {
+                                        attrs: { id: problem + "_number" }
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("td", { staticClass: "col-md-3" }, [
+                                    _vm._v(_vm._s(problem))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", { staticClass: "col-md-7" }, [
+                                    _vm._v(_vm._s(_vm.citesList(cites)))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: { name: "title", hidden: "" },
+                                    domProps: { value: problem }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: { name: "textTiket", hidden: "" },
+                                    domProps: {
+                                      value: _vm.crateText(problem, cites)
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "nameGroup",
+                                      value: "RUS L2 - Helpdesk",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "citName",
+                                      value: "999R - Multiple Sites Russia",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "citId",
+                                      value: "3680",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "cimPriority",
+                                      value: "2",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "typeTiket",
+                                      value: "Incident",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "topicNameTiket",
+                                      value: "TECHNICAL/AS400_NPI/APPLICATION",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "topicId",
+                                      value: "181902",
+                                      hidden: ""
+                                    }
+                                  })
+                                ])
+                              ])
                             ]
-                          ),
-                          _vm._v(" "),
-                          _c("span", { attrs: { id: problem + "_number" } })
+                          )
                         ]
-                      ),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "col-md-3" }, [
-                        _vm._v(_vm._s(problem))
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "col-md-7" }, [
-                        _vm._v(_vm._s(_vm.citesList(cites)))
-                      ]),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: { name: "title", hidden: "" },
-                        domProps: { value: problem }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: { name: "textTiket", hidden: "" },
-                        domProps: { value: _vm.crateText(problem, cites) }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: {
-                          name: "nameGroup",
-                          value: "RUS L2 - Helpdesk",
-                          hidden: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: {
-                          name: "citName",
-                          value: "999R - Multiple Sites Russia",
-                          hidden: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: { name: "citId", value: "3680", hidden: "" }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: { name: "cimPriority", value: "2", hidden: "" }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: {
-                          name: "typeTiket",
-                          value: "Incident",
-                          hidden: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: {
-                          name: "topicNameTiket",
-                          value: "TECHNICAL/AS400_NPI/APPLICATION",
-                          hidden: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("input", {
-                        attrs: { name: "topicId", value: "181902", hidden: "" }
-                      })
-                    ])
-                  ])
-                ]
-              )
-            ])
-          })
-        ],
-        2
-      )
-    ])
-  ])
+                      )
+                    })
+                  ],
+                  2
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          key == "sopraInGica" && list.length > 0
+            ? _c("div", [
+                _c(
+                  "div",
+                  { staticClass: "col-md-12" },
+                  [
+                    _vm._m(3, true),
+                    _vm._v(" "),
+                    _vm._l(list, function(problem, index) {
+                      return _c(
+                        "form",
+                        { attrs: { id: problem, method: "post" } },
+                        [
+                          _c(
+                            "table",
+                            {
+                              staticClass: "table table-bordered table-hover",
+                              staticStyle: { "margin-bottom": "0" }
+                            },
+                            [
+                              _c("tbody", [
+                                _c("tr", [
+                                  _c(
+                                    "td",
+                                    {
+                                      staticClass: "col-md-2",
+                                      attrs: { id: problem + "_tiket" },
+                                      model: {
+                                        value: _vm.tiketNumbers,
+                                        callback: function($$v) {
+                                          _vm.tiketNumbers = $$v
+                                        },
+                                        expression: "tiketNumbers"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "btn btn-success btn-xs",
+                                          attrs: {
+                                            id: problem + "_create",
+                                            type: "button"
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.crateTiket(problem)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                                    Создать\n                                "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", {
+                                        attrs: { id: problem + "_number" }
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("td", { staticClass: "col-md-7 alarm" }, [
+                                    _vm._v(_vm._s(problem))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", { staticClass: "col-md-3" }, [
+                                    _vm._v("Крит! Дублируем звонком")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: { name: "title", hidden: "" },
+                                    domProps: { value: problem }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: { name: "textTiket", hidden: "" },
+                                    domProps: {
+                                      value: "SOPRA in GICA<br>" + problem
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "nameGroup",
+                                      value: "RUS L2 - Helpdesk",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "citName",
+                                      value: "999R - Multiple Sites Russia",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "citId",
+                                      value: "3680",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "cimPriority",
+                                      value: "1",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "typeTiket",
+                                      value: "Incident",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "topicNameTiket",
+                                      value: "TECHNICAL/AS400_NPI/APPLICATION",
+                                      hidden: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    attrs: {
+                                      name: "topicId",
+                                      value: "181902",
+                                      hidden: ""
+                                    }
+                                  })
+                                ])
+                              ])
+                            ]
+                          )
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                )
+              ])
+            : _vm._e()
+        ])
+      })
+    ],
+    2
+  )
 }
 var staticRenderFns = [
   function() {
@@ -48721,8 +49273,6 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "alert alert-info" }, [
-        _c("p", [_vm._v("Добавлена отправка тикетов на ХД")]),
-        _vm._v(" "),
         _c("p", [
           _vm._v(
             "\n                После нажатия кнопки создать, начнётся отправка тикета\n                (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).\n                Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.\n            "
@@ -48732,6 +49282,12 @@ var staticRenderFns = [
         _c("p", [
           _vm._v(
             "\n                Тыкайте кнопочки Создать подряд и после ждите номера.\n            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "\n                Чуть выше таблицы будут номера тикетов в строку, что бы было удобно их копировать.\n            "
           )
         ])
       ])
@@ -48758,15 +49314,49 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tbody", [
-      _c("tr", [
-        _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-md-3" }, [_vm._v("Проблема")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")])
-      ])
-    ])
+    return _c(
+      "table",
+      {
+        staticClass: "table table-bordered table-striped",
+        staticStyle: { "margin-bottom": "0" }
+      },
+      [
+        _c("tbody", [
+          _c("tr", [
+            _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
+            _vm._v(" "),
+            _c("th", { staticClass: "col-md-3" }, [
+              _vm._v("Intagrate catalog to stores")
+            ]),
+            _vm._v(" "),
+            _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")])
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "table",
+      {
+        staticClass: "table table-bordered table-striped",
+        staticStyle: { "margin-bottom": "0" }
+      },
+      [
+        _c("tbody", [
+          _c("tr", [
+            _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
+            _vm._v(" "),
+            _c("th", { staticClass: "col-md-7" }, [_vm._v("SOPRA in GICA")]),
+            _vm._v(" "),
+            _c("th", { staticClass: "col-md-3" }, [_vm._v("Дейсвие")])
+          ])
+        ])
+      ]
+    )
   }
 ]
 render._withStripped = true
