@@ -57,8 +57,7 @@
                                     <span v-bind:id="problem + '_number'"></span>
                                 </td>
                                 <td class="col-md-3">{{ problem }}</td>
-                                <td class="col-md-7">{{ citesList(cites) }}</td>
-                                <!--<td class="col-md-7">{{ crateText(problem, cites) }}</td>-->
+                                <td class="col-md-7">{{ cites.join(', ') }}</td>
 
                                 <!--Скратая часть - отправка формы с параметрами-->
                                 <input name="title" v-bind:value="problem" hidden>
@@ -85,8 +84,8 @@
                         <tbody>
                         <tr>
                             <th class="col-md-2">Тикет</th>
-                            <th class="col-md-7">SOPRA in GICA</th>
-                            <th class="col-md-3">Действие</th>
+                            <th class="col-md-6">SOPRA in GICA</th>
+                            <th class="col-md-4">Действие</th>
                         </tr>
                         </tbody>
                     </table>
@@ -100,10 +99,14 @@
                                             @click="crateTiket(problem)">
                                         Создать
                                     </button>
+                                    <select v-bind:id="problem + '_cimPriority'" name="cimPriority" style="padding-bottom: 2px;">
+                                        <option value="1">Critical 1</option>
+                                        <option value="2" selected>High 2</option>
+                                    </select>
                                     <span v-bind:id="problem + '_number'"></span>
                                 </td>
-                                <td class="col-md-7 alarm">{{ problem }}</td>
-                                <td class="col-md-3">Крит! Дублируем звонком</td>
+                                <td class="col-md-6">{{ problem }}</td>
+                                <td class="col-md-4">Если ЖИКА не доступна - Critical 1 и звонок</td>
 
                                 <!--Скратая часть - отправка формы с параметрами-->
                                 <input name="title" v-bind:value="problem" hidden>
@@ -111,7 +114,7 @@
                                 <input name="nameGroup" value="RUS L2 - Helpdesk" hidden>
                                 <input name="citName" value="999R - Multiple Sites Russia" hidden>
                                 <input name="citId" value="3680" hidden>
-                                <input name="cimPriority" value="1" hidden>
+                                <!--<input name="cimPriority" value="1" hidden>-->
                                 <input name="typeTiket" value="Incident" hidden>
                                 <input name="topicNameTiket" value="TECHNICAL/AS400_NPI/APPLICATION" hidden>
                                 <input name="topicId" value="181902" hidden>
@@ -185,8 +188,12 @@
                 let buttonCreate = document.getElementById(problem + '_create');
                 // ищем поле в таблице где находится кнопка
                 let tiket = document.getElementById(problem + '_tiket');
+                // ищем поле в таблице где находится выставление приоритета
+                let cimPrioritySelect = document.getElementById(problem + '_cimPriority');
                 // после нажатия кнопки Создать меняем текст
                 buttonCreate.innerHTML = 'Ожидайте...';
+                // удаляем выбор приоритета
+                tiket.removeChild(cimPrioritySelect);
                 // блокируем повторное нажатие кнопки
                 buttonCreate.disabled = true;
                 // передаём форму в ФормДату
@@ -231,15 +238,10 @@
                 // формируем строку в формате ДД.ММ.ГГ
                 return dd + '.' + mm + '.' + yy;
             },
-            // делаем из массива с проблемными ситами в сроку через запятую
-            citesList(cites) {
-                return cites.join(', ');
-            },
             // создаём текст тикета
             crateText(problem, cites) {
-                return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + this.citesList(cites);
+                return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + cites.join(', ');
             },
         },
-        computed: {},
     }
 </script>

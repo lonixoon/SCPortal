@@ -12,13 +12,11 @@
                 <p>
                     Тыкайте кнопочки Создать подряд и после ждите номера.
                 </p>
-                <p>
-                    Чуть выше таблицы будут номера тикетов в строку, что бы было удобно их копировать.
-                </p>
             </div>
         </div>
         <div class="row">
-            <form class="col-md-3" id="uploadForm" name="uploadForm" enctype="multipart/form-data" v-if="list === null">
+            <form class="col-md-3" id="uploadForm" name="uploadForm" enctype="multipart/form-data"
+                  v-if="lists === null">
                 <div class="form-group">
                     <input class="btn btn-default" type='file' accept='.rtf' name='file' id='upload' required>
                 </div>
@@ -30,9 +28,12 @@
             </form>
         </div>
         <div v-show="errorDailyStatusHd" class="alert alert-danger">Не удалось обработать данные</div>
-        <div class="row" v-for="(list, key) in lists">
+        <div class="col-md-12" v-if="tiketNumbers.length > 0">
+            Здесь будут все ваши тикеты в виде одной строки (для удобства копирования):
+            <p>{{ tiketNumbers.join(', ') }}</p>
+        </div>
+        <div class="row" v-for="(list, key) in lists" style="margin-bottom: 30px;">
             <div v-if="key == 'catalogFromGica'">
-                <p class="col-md-12">{{ tiketNumbers.join(', ') }}</p>
                 <div class="col-md-12">
                     <table style="margin-bottom: 0" class="table table-bordered table-striped">
                         <tbody>
@@ -84,8 +85,8 @@
                         <tbody>
                         <tr>
                             <th class="col-md-2">Тикет</th>
-                            <th class="col-md-7">SOPRA in GICA</th>
-                            <th class="col-md-3">Дейсвие</th>
+                            <th class="col-md-6">SOPRA in GICA</th>
+                            <th class="col-md-4">Действие</th>
                         </tr>
                         </tbody>
                     </table>
@@ -99,10 +100,14 @@
                                             @click="crateTiket(problem)">
                                         Создать
                                     </button>
+                                    <select v-bind:id="problem + '_cimPriority'" name="cimPriority">
+                                        <option value="1">Critical 1</option>
+                                        <option value="2" selected>High 2</option>
+                                    </select>
                                     <span v-bind:id="problem + '_number'"></span>
                                 </td>
-                                <td class="col-md-7 alarm">{{ problem }}</td>
-                                <td class="col-md-3">Крит! Дублируем звонком</td>
+                                <td class="col-md-6">{{ problem }}</td>
+                                <td class="col-md-4">Если ЖИКА не доступна - Critical 1 и звонок</td>
 
                                 <!--Скратая часть - отправка формы с параметрами-->
                                 <input name="title" v-bind:value="problem" hidden>
@@ -110,7 +115,7 @@
                                 <input name="nameGroup" value="RUS L2 - Helpdesk" hidden>
                                 <input name="citName" value="999R - Multiple Sites Russia" hidden>
                                 <input name="citId" value="3680" hidden>
-                                <input name="cimPriority" value="1" hidden>
+                                <!--<input name="cimPriority" value="1" hidden>-->
                                 <input name="typeTiket" value="Incident" hidden>
                                 <input name="topicNameTiket" value="TECHNICAL/AS400_NPI/APPLICATION" hidden>
                                 <input name="topicId" value="181902" hidden>
@@ -129,8 +134,6 @@
         data() {
             return {
                 lists: null,
-                // список проблем
-                list: null,
                 // сообщение Ошибка
                 errorDailyStatusHd: false,
                 // масив с тикетами
@@ -186,8 +189,12 @@
                 let buttonCreate = document.getElementById(problem + '_create');
                 // ищем поле в таблице где находится кнопка
                 let tiket = document.getElementById(problem + '_tiket');
+                // ищем поле в таблице где находится выставление приоритета
+                let cimPrioritySelect = document.getElementById(problem + '_cimPriority');
                 // после нажатия кнопки Создать меняем текст
                 buttonCreate.innerHTML = 'Ожидайте...';
+                // удаляем выбор приоритета
+                tiket.removeChild(cimPrioritySelect);
                 // блокируем повторное нажатие кнопки
                 buttonCreate.disabled = true;
                 // передаём форму в ФормДату

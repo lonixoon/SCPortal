@@ -47712,6 +47712,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47774,8 +47777,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var buttonCreate = document.getElementById(problem + '_create');
             // ищем поле в таблице где находится кнопка
             var tiket = document.getElementById(problem + '_tiket');
+            // ищем поле в таблице где находится выставление приоритета
+            var cimPrioritySelect = document.getElementById(problem + '_cimPriority');
             // после нажатия кнопки Создать меняем текст
             buttonCreate.innerHTML = 'Ожидайте...';
+            // удаляем выбор приоритета
+            tiket.removeChild(cimPrioritySelect);
             // блокируем повторное нажатие кнопки
             buttonCreate.disabled = true;
             // передаём форму в ФормДату
@@ -47822,17 +47829,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return dd + '.' + mm + '.' + yy;
         },
 
-        // делаем из массива с проблемными ситами в сроку через запятую
-        citesList: function citesList(cites) {
-            return cites.join(', ');
-        },
-
         // создаём текст тикета
         crateText: function crateText(problem, cites) {
-            return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + this.citesList(cites);
+            return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + cites.join(', ');
         }
-    },
-    computed: {}
+    }
 });
 
 /***/ }),
@@ -47982,7 +47983,7 @@ var render = function() {
                                     ]),
                                     _vm._v(" "),
                                     _c("td", { staticClass: "col-md-7" }, [
-                                      _vm._v(_vm._s(_vm.citesList(cites)))
+                                      _vm._v(_vm._s(cites.join(", ")))
                                     ]),
                                     _vm._v(" "),
                                     _c("input", {
@@ -48124,20 +48125,51 @@ var render = function() {
                                           ]
                                         ),
                                         _vm._v(" "),
+                                        _c(
+                                          "select",
+                                          {
+                                            staticStyle: {
+                                              "padding-bottom": "2px"
+                                            },
+                                            attrs: {
+                                              id: problem + "_cimPriority",
+                                              name: "cimPriority"
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "option",
+                                              { attrs: { value: "1" } },
+                                              [_vm._v("Critical 1")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "option",
+                                              {
+                                                attrs: {
+                                                  value: "2",
+                                                  selected: ""
+                                                }
+                                              },
+                                              [_vm._v("High 2")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
                                         _c("span", {
                                           attrs: { id: problem + "_number" }
                                         })
                                       ]
                                     ),
                                     _vm._v(" "),
-                                    _c(
-                                      "td",
-                                      { staticClass: "col-md-7 alarm" },
-                                      [_vm._v(_vm._s(problem))]
-                                    ),
+                                    _c("td", { staticClass: "col-md-6" }, [
+                                      _vm._v(_vm._s(problem))
+                                    ]),
                                     _vm._v(" "),
-                                    _c("td", { staticClass: "col-md-3" }, [
-                                      _vm._v("Крит! Дублируем звонком")
+                                    _c("td", { staticClass: "col-md-4" }, [
+                                      _vm._v(
+                                        "Если ЖИКА не доступна - Critical 1 и звонок"
+                                      )
                                     ]),
                                     _vm._v(" "),
                                     _c("input", {
@@ -48172,14 +48204,6 @@ var render = function() {
                                       attrs: {
                                         name: "citId",
                                         value: "3680",
-                                        hidden: ""
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("input", {
-                                      attrs: {
-                                        name: "cimPriority",
-                                        value: "1",
                                         hidden: ""
                                       }
                                     }),
@@ -48309,9 +48333,9 @@ var staticRenderFns = [
           _c("tr", [
             _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
             _vm._v(" "),
-            _c("th", { staticClass: "col-md-7" }, [_vm._v("SOPRA in GICA")]),
+            _c("th", { staticClass: "col-md-6" }, [_vm._v("SOPRA in GICA")]),
             _vm._v(" "),
-            _c("th", { staticClass: "col-md-3" }, [_vm._v("Действие")])
+            _c("th", { staticClass: "col-md-4" }, [_vm._v("Действие")])
           ])
         ])
       ]
@@ -48760,13 +48784,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             lists: null,
-            // список проблем
-            list: null,
             // сообщение Ошибка
             errorDailyStatusHd: false,
             // масив с тикетами
@@ -48824,8 +48851,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var buttonCreate = document.getElementById(problem + '_create');
             // ищем поле в таблице где находится кнопка
             var tiket = document.getElementById(problem + '_tiket');
+            // ищем поле в таблице где находится выставление приоритета
+            var cimPrioritySelect = document.getElementById(problem + '_cimPriority');
             // после нажатия кнопки Создать меняем текст
             buttonCreate.innerHTML = 'Ожидайте...';
+            // удаляем выбор приоритета
+            tiket.removeChild(cimPrioritySelect);
             // блокируем повторное нажатие кнопки
             buttonCreate.disabled = true;
             // передаём форму в ФормДату
@@ -48899,7 +48930,7 @@ var render = function() {
       _vm._m(0),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _vm.list === null
+        _vm.lists === null
           ? _c(
               "form",
               {
@@ -48949,314 +48980,349 @@ var render = function() {
         [_vm._v("Не удалось обработать данные")]
       ),
       _vm._v(" "),
+      _vm.tiketNumbers.length > 0
+        ? _c("div", { staticClass: "col-md-12" }, [
+            _vm._v(
+              "\n        Здесь будут все ваши тикеты в виде одной строки (для удобства копирования):\n        "
+            ),
+            _c("p", [_vm._v(_vm._s(_vm.tiketNumbers.join(", ")))])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _vm._l(_vm.lists, function(list, key) {
-        return _c("div", { staticClass: "row" }, [
-          key == "catalogFromGica"
-            ? _c("div", [
-                _c("p", { staticClass: "col-md-12" }, [
-                  _vm._v(_vm._s(_vm.tiketNumbers.join(", ")))
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "col-md-12" },
-                  [
-                    _vm._m(2, true),
-                    _vm._v(" "),
-                    _vm._l(list, function(cites, problem) {
-                      return _c(
-                        "form",
-                        { attrs: { id: problem, method: "post" } },
-                        [
-                          _c(
-                            "table",
-                            {
-                              staticClass: "table table-bordered table-hover",
-                              staticStyle: { "margin-bottom": "0" }
-                            },
-                            [
-                              _c("tbody", [
-                                _c("tr", [
-                                  _c(
-                                    "td",
-                                    {
-                                      staticClass: "col-md-2",
-                                      attrs: { id: problem + "_tiket" },
-                                      model: {
-                                        value: _vm.tiketNumbers,
-                                        callback: function($$v) {
-                                          _vm.tiketNumbers = $$v
-                                        },
-                                        expression: "tiketNumbers"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-success btn-xs",
-                                          attrs: {
-                                            id: problem + "_create",
-                                            type: "button"
+        return _c(
+          "div",
+          { staticClass: "row", staticStyle: { "margin-bottom": "30px" } },
+          [
+            key == "catalogFromGica"
+              ? _c("div", [
+                  _c(
+                    "div",
+                    { staticClass: "col-md-12" },
+                    [
+                      _vm._m(2, true),
+                      _vm._v(" "),
+                      _vm._l(list, function(cites, problem) {
+                        return _c(
+                          "form",
+                          { attrs: { id: problem, method: "post" } },
+                          [
+                            _c(
+                              "table",
+                              {
+                                staticClass: "table table-bordered table-hover",
+                                staticStyle: { "margin-bottom": "0" }
+                              },
+                              [
+                                _c("tbody", [
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass: "col-md-2",
+                                        attrs: { id: problem + "_tiket" },
+                                        model: {
+                                          value: _vm.tiketNumbers,
+                                          callback: function($$v) {
+                                            _vm.tiketNumbers = $$v
                                           },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.crateTiket(problem)
+                                          expression: "tiketNumbers"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-success btn-xs",
+                                            attrs: {
+                                              id: problem + "_create",
+                                              type: "button"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.crateTiket(problem)
+                                              }
                                             }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                    Создать\n                                "
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        attrs: { id: problem + "_number" }
-                                      })
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("td", { staticClass: "col-md-3" }, [
-                                    _vm._v(_vm._s(problem))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", { staticClass: "col-md-7" }, [
-                                    _vm._v(_vm._s(_vm.citesList(cites)))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: { name: "title", hidden: "" },
-                                    domProps: { value: problem }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: { name: "textTiket", hidden: "" },
-                                    domProps: {
-                                      value: _vm.crateText(problem, cites)
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "nameGroup",
-                                      value: "RUS L2 - Helpdesk",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "citName",
-                                      value: "999R - Multiple Sites Russia",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "citId",
-                                      value: "3680",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "cimPriority",
-                                      value: "2",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "typeTiket",
-                                      value: "Incident",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "topicNameTiket",
-                                      value: "TECHNICAL/AS400_NPI/APPLICATION",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "topicId",
-                                      value: "181902",
-                                      hidden: ""
-                                    }
-                                  })
-                                ])
-                              ])
-                            ]
-                          )
-                        ]
-                      )
-                    })
-                  ],
-                  2
-                )
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          key == "sopraInGica" && list.length > 0
-            ? _c("div", [
-                _c(
-                  "div",
-                  { staticClass: "col-md-12" },
-                  [
-                    _vm._m(3, true),
-                    _vm._v(" "),
-                    _vm._l(list, function(problem, index) {
-                      return _c(
-                        "form",
-                        { attrs: { id: problem, method: "post" } },
-                        [
-                          _c(
-                            "table",
-                            {
-                              staticClass: "table table-bordered table-hover",
-                              staticStyle: { "margin-bottom": "0" }
-                            },
-                            [
-                              _c("tbody", [
-                                _c("tr", [
-                                  _c(
-                                    "td",
-                                    {
-                                      staticClass: "col-md-2",
-                                      attrs: { id: problem + "_tiket" },
-                                      model: {
-                                        value: _vm.tiketNumbers,
-                                        callback: function($$v) {
-                                          _vm.tiketNumbers = $$v
-                                        },
-                                        expression: "tiketNumbers"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "button",
-                                        {
-                                          staticClass: "btn btn-success btn-xs",
-                                          attrs: {
-                                            id: problem + "_create",
-                                            type: "button"
                                           },
-                                          on: {
-                                            click: function($event) {
-                                              _vm.crateTiket(problem)
-                                            }
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                                    Создать\n                                "
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c("span", {
-                                        attrs: { id: problem + "_number" }
-                                      })
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c("td", { staticClass: "col-md-7 alarm" }, [
-                                    _vm._v(_vm._s(problem))
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", { staticClass: "col-md-3" }, [
-                                    _vm._v("Крит! Дублируем звонком")
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: { name: "title", hidden: "" },
-                                    domProps: { value: problem }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: { name: "textTiket", hidden: "" },
-                                    domProps: {
-                                      value: "SOPRA in GICA<br>" + problem
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "nameGroup",
-                                      value: "RUS L2 - Helpdesk",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "citName",
-                                      value: "999R - Multiple Sites Russia",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "citId",
-                                      value: "3680",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "cimPriority",
-                                      value: "1",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "typeTiket",
-                                      value: "Incident",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "topicNameTiket",
-                                      value: "TECHNICAL/AS400_NPI/APPLICATION",
-                                      hidden: ""
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _c("input", {
-                                    attrs: {
-                                      name: "topicId",
-                                      value: "181902",
-                                      hidden: ""
-                                    }
-                                  })
+                                          [
+                                            _vm._v(
+                                              "\n                                    Создать\n                                "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("span", {
+                                          attrs: { id: problem + "_number" }
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", { staticClass: "col-md-3" }, [
+                                      _vm._v(_vm._s(problem))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", { staticClass: "col-md-7" }, [
+                                      _vm._v(_vm._s(_vm.citesList(cites)))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: { name: "title", hidden: "" },
+                                      domProps: { value: problem }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: { name: "textTiket", hidden: "" },
+                                      domProps: {
+                                        value: _vm.crateText(problem, cites)
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "nameGroup",
+                                        value: "RUS L2 - Helpdesk",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "citName",
+                                        value: "999R - Multiple Sites Russia",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "citId",
+                                        value: "3680",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "cimPriority",
+                                        value: "2",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "typeTiket",
+                                        value: "Incident",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "topicNameTiket",
+                                        value:
+                                          "TECHNICAL/AS400_NPI/APPLICATION",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "topicId",
+                                        value: "181902",
+                                        hidden: ""
+                                      }
+                                    })
+                                  ])
                                 ])
-                              ])
-                            ]
-                          )
-                        ]
-                      )
-                    })
-                  ],
-                  2
-                )
-              ])
-            : _vm._e()
-        ])
+                              ]
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            key == "sopraInGica" && list.length > 0
+              ? _c("div", [
+                  _c(
+                    "div",
+                    { staticClass: "col-md-12" },
+                    [
+                      _vm._m(3, true),
+                      _vm._v(" "),
+                      _vm._l(list, function(problem, index) {
+                        return _c(
+                          "form",
+                          { attrs: { id: problem, method: "post" } },
+                          [
+                            _c(
+                              "table",
+                              {
+                                staticClass: "table table-bordered table-hover",
+                                staticStyle: { "margin-bottom": "0" }
+                              },
+                              [
+                                _c("tbody", [
+                                  _c("tr", [
+                                    _c(
+                                      "td",
+                                      {
+                                        staticClass: "col-md-2",
+                                        attrs: { id: problem + "_tiket" },
+                                        model: {
+                                          value: _vm.tiketNumbers,
+                                          callback: function($$v) {
+                                            _vm.tiketNumbers = $$v
+                                          },
+                                          expression: "tiketNumbers"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass:
+                                              "btn btn-success btn-xs",
+                                            attrs: {
+                                              id: problem + "_create",
+                                              type: "button"
+                                            },
+                                            on: {
+                                              click: function($event) {
+                                                _vm.crateTiket(problem)
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                    Создать\n                                "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "select",
+                                          {
+                                            attrs: {
+                                              id: problem + "_cimPriority",
+                                              name: "cimPriority"
+                                            }
+                                          },
+                                          [
+                                            _c(
+                                              "option",
+                                              { attrs: { value: "1" } },
+                                              [_vm._v("Critical 1")]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "option",
+                                              {
+                                                attrs: {
+                                                  value: "2",
+                                                  selected: ""
+                                                }
+                                              },
+                                              [_vm._v("High 2")]
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("span", {
+                                          attrs: { id: problem + "_number" }
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", { staticClass: "col-md-6" }, [
+                                      _vm._v(_vm._s(problem))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", { staticClass: "col-md-4" }, [
+                                      _vm._v(
+                                        "Если ЖИКА не доступна - Critical 1 и звонок"
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: { name: "title", hidden: "" },
+                                      domProps: { value: problem }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: { name: "textTiket", hidden: "" },
+                                      domProps: {
+                                        value: "SOPRA in GICA<br>" + problem
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "nameGroup",
+                                        value: "RUS L2 - Helpdesk",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "citName",
+                                        value: "999R - Multiple Sites Russia",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "citId",
+                                        value: "3680",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "typeTiket",
+                                        value: "Incident",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "topicNameTiket",
+                                        value:
+                                          "TECHNICAL/AS400_NPI/APPLICATION",
+                                        hidden: ""
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("input", {
+                                      attrs: {
+                                        name: "topicId",
+                                        value: "181902",
+                                        hidden: ""
+                                      }
+                                    })
+                                  ])
+                                ])
+                              ]
+                            )
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ])
+              : _vm._e()
+          ]
+        )
       })
     ],
     2
@@ -49282,12 +49348,6 @@ var staticRenderFns = [
         _c("p", [
           _vm._v(
             "\n                Тыкайте кнопочки Создать подряд и после ждите номера.\n            "
-          )
-        ]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "\n                Чуть выше таблицы будут номера тикетов в строку, что бы было удобно их копировать.\n            "
           )
         ])
       ])
@@ -49350,9 +49410,9 @@ var staticRenderFns = [
           _c("tr", [
             _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
             _vm._v(" "),
-            _c("th", { staticClass: "col-md-7" }, [_vm._v("SOPRA in GICA")]),
+            _c("th", { staticClass: "col-md-6" }, [_vm._v("SOPRA in GICA")]),
             _vm._v(" "),
-            _c("th", { staticClass: "col-md-3" }, [_vm._v("Дейсвие")])
+            _c("th", { staticClass: "col-md-4" }, [_vm._v("Действие")])
           ])
         ])
       ]
