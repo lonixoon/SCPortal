@@ -47704,17 +47704,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47731,18 +47720,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         // отправляем фал на сервер
         uploadFiles: function uploadFiles() {
             var app = this;
-            // ищем кнопку загрузки файла
-            var buttonSubmit = document.getElementById('buttonSubmit');
-            // дисейблем кнопку пока идёт выгрузка
-            buttonSubmit.disabled = true;
-            // ищем форму
-            var form = document.getElementById('uploadForm');
-            // записываем форму в Дату
-            var formData = new FormData(form);
-            // ищем импут с фалом
-            var rtfFile = document.getElementById('upload');
-            // добавляем файл в Дату
-            formData.append('file', rtfFile.file);
+            // записываем форму в FormData
+            var formData = new FormData(app.$refs.uploadForm);
             // прячим блок Ошибка
             app.errorDailyStatusHd = false;
 
@@ -47750,17 +47729,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/daily-status-helpdesk/result', formData)
             // если всё ок
             .then(function (response) {
-                // добавляем в список проблем полученные даннеы о проблемах
+                // добавляем в список проблем полученные данные о проблемах
                 app.lists = response.data;
-                // разблокируем кнопку отправки файла
-                buttonSubmit.disabled = false;
             })
             // если ошибка
             .catch(function (error) {
                 // выводим подробности в консоль
                 console.log(error.response);
-                // разблокируем кнопку отправки файла
-                buttonSubmit.disabled = false;
                 // показываем текс Ошибка
                 app.errorDailyStatusHd = true;
             });
@@ -47782,7 +47757,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // после нажатия кнопки Создать меняем текст
             buttonCreate.innerHTML = 'Ожидайте...';
             // удаляем выбор приоритета
-            tiket.removeChild(cimPrioritySelect);
+            if (cimPrioritySelect) {
+                tiket.removeChild(cimPrioritySelect);
+            }
             // блокируем повторное нажатие кнопки
             buttonCreate.disabled = true;
             // передаём форму в ФормДату
@@ -47830,8 +47807,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         // создаём текст тикета
-        crateText: function crateText(problem, cites) {
+        crateTextCatalogFromGica: function crateTextCatalogFromGica(problem, cites) {
             return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + cites.join(', ');
+        },
+        crateTextSopraInGica: function crateTextSopraInGica(problem, cites) {
+            return this.createDate() + ' <br>' + 'SOPRA in GICA:<br>' + problem;
         }
     }
 });
@@ -47854,30 +47834,18 @@ var render = function() {
           ? _c(
               "form",
               {
+                ref: "uploadForm",
                 staticClass: "col-md-3",
-                attrs: {
-                  id: "uploadForm",
-                  name: "uploadForm",
-                  enctype: "multipart/form-data"
-                }
+                attrs: { enctype: "multipart/form-data" }
               },
               [
-                _vm._m(1),
-                _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { id: "buttonSubmit", type: "button" },
-                      on: { click: _vm.uploadFiles }
-                    },
-                    [
-                      _vm._v(
-                        "\n                    Загрузить\n                "
-                      )
-                    ]
-                  )
+                  _c("input", {
+                    ref: "upload",
+                    staticClass: "btn btn-default",
+                    attrs: { type: "file", accept: ".rtf", name: "file" },
+                    on: { change: _vm.uploadFiles }
+                  })
                 ])
               ]
             )
@@ -47900,14 +47868,9 @@ var render = function() {
         [_vm._v("Не удалось обработать данные")]
       ),
       _vm._v(" "),
-      _vm.tiketNumbers.length > 0
-        ? _c("div", { staticClass: "col-md-12" }, [
-            _vm._v(
-              "\n        Здесь будут все ваши тикеты в виде одной строки (для удобства копирования):\n        "
-            ),
-            _c("p", [_vm._v(_vm._s(_vm.tiketNumbers.join(", ")))])
-          ])
-        : _vm._e(),
+      _c("p", { staticClass: "col-md-12" }, [
+        _vm._v(_vm._s(_vm.tiketNumbers.join(", ")))
+      ]),
       _vm._v(" "),
       _vm._l(_vm.lists, function(list, key) {
         return _c(
@@ -47920,7 +47883,7 @@ var render = function() {
                     "div",
                     { staticClass: "col-md-12" },
                     [
-                      _vm._m(2, true),
+                      _vm._m(1, true),
                       _vm._v(" "),
                       _vm._l(list, function(cites, problem) {
                         return _c(
@@ -47994,7 +47957,10 @@ var render = function() {
                                     _c("input", {
                                       attrs: { name: "textTiket", hidden: "" },
                                       domProps: {
-                                        value: _vm.crateText(problem, cites)
+                                        value: _vm.crateTextCatalogFromGica(
+                                          problem,
+                                          cites
+                                        )
                                       }
                                     }),
                                     _vm._v(" "),
@@ -48073,7 +48039,7 @@ var render = function() {
                     "div",
                     { staticClass: "col-md-12" },
                     [
-                      _vm._m(3, true),
+                      _vm._m(2, true),
                       _vm._v(" "),
                       _vm._l(list, function(problem, index) {
                         return _c(
@@ -48128,9 +48094,6 @@ var render = function() {
                                         _c(
                                           "select",
                                           {
-                                            staticStyle: {
-                                              "padding-bottom": "2px"
-                                            },
                                             attrs: {
                                               id: problem + "_cimPriority",
                                               name: "cimPriority"
@@ -48180,7 +48143,7 @@ var render = function() {
                                     _c("input", {
                                       attrs: { name: "textTiket", hidden: "" },
                                       domProps: {
-                                        value: "SOPRA in GICA<br>" + problem
+                                        value: _vm.crateTextSopraInGica(problem)
                                       }
                                     }),
                                     _vm._v(" "),
@@ -48263,34 +48226,15 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("div", { staticClass: "alert alert-info" }, [
         _c("p", [
-          _vm._v(
-            "\n                После нажатия кнопки создать, начнётся отправка тикета\n                (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).\n                Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.\n            "
-          )
+          _vm._v("После нажатия кнопки создать, начнётся отправка тикета.")
         ]),
         _vm._v(" "),
         _c("p", [
           _vm._v(
-            "\n                Тыкайте кнопочки Создать подряд и после ждите номера.\n            "
+            "Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk."
           )
         ])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("input", {
-        staticClass: "btn btn-default",
-        attrs: {
-          type: "file",
-          accept: ".rtf",
-          name: "file",
-          id: "upload",
-          required: ""
-        }
-      })
     ])
   },
   function() {
@@ -48309,7 +48253,7 @@ var staticRenderFns = [
             _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
             _vm._v(" "),
             _c("th", { staticClass: "col-md-3" }, [
-              _vm._v("Intagrate catalog to stores")
+              _vm._v("Integrate catalog to stores")
             ]),
             _vm._v(" "),
             _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")])
@@ -48777,18 +48721,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -48805,18 +48737,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         // отправляем фал на сервер
         uploadFiles: function uploadFiles() {
             var app = this;
-            // ищем кнопку загрузки файла
-            var buttonSubmit = document.getElementById('buttonSubmit');
-            // дисейблем кнопку пока идёт выгрузка
-            buttonSubmit.disabled = true;
-            // ищем форму
-            var form = document.getElementById('uploadForm');
-            // записываем форму в Дату
-            var formData = new FormData(form);
-            // ищем импут с фалом
-            var rtfFile = document.getElementById('upload');
-            // добавляем файл в Дату
-            formData.append('file', rtfFile.file);
+            // записываем форму в FormData
+            var formData = new FormData(app.$refs.uploadForm);
             // прячим блок Ошибка
             app.errorDailyStatusHd = false;
 
@@ -48824,17 +48746,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/daily-status-helpdesk/result', formData)
             // если всё ок
             .then(function (response) {
-                // добавляем в список проблем полученные даннеы о проблемах
+                // добавляем в список проблем полученные данные о проблемах
                 app.lists = response.data;
-                // разблокируем кнопку отправки файла
-                buttonSubmit.disabled = false;
             })
             // если ошибка
             .catch(function (error) {
                 // выводим подробности в консоль
                 console.log(error.response);
-                // разблокируем кнопку отправки файла
-                buttonSubmit.disabled = false;
                 // показываем текс Ошибка
                 app.errorDailyStatusHd = true;
             });
@@ -48856,7 +48774,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // после нажатия кнопки Создать меняем текст
             buttonCreate.innerHTML = 'Ожидайте...';
             // удаляем выбор приоритета
-            tiket.removeChild(cimPrioritySelect);
+            if (cimPrioritySelect) {
+                tiket.removeChild(cimPrioritySelect);
+            }
             // блокируем повторное нажатие кнопки
             buttonCreate.disabled = true;
             // передаём форму в ФормДату
@@ -48903,17 +48823,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return dd + '.' + mm + '.' + yy;
         },
 
-        // делаем из массива с проблемными ситами в сроку через запятую
-        citesList: function citesList(cites) {
-            return cites.join(', ');
-        },
-
         // создаём текст тикета
-        crateText: function crateText(problem, cites) {
-            return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + this.citesList(cites);
+        crateTextCatalogFromGica: function crateTextCatalogFromGica(problem, cites) {
+            return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + cites.join(', ');
+        },
+        crateTextSopraInGica: function crateTextSopraInGica(problem, cites) {
+            return this.createDate() + ' <br>' + 'SOPRA in GICA:<br>' + problem;
         }
-    },
-    computed: {}
+    }
 });
 
 /***/ }),
@@ -48934,30 +48851,18 @@ var render = function() {
           ? _c(
               "form",
               {
+                ref: "uploadForm",
                 staticClass: "col-md-3",
-                attrs: {
-                  id: "uploadForm",
-                  name: "uploadForm",
-                  enctype: "multipart/form-data"
-                }
+                attrs: { enctype: "multipart/form-data" }
               },
               [
-                _vm._m(1),
-                _vm._v(" "),
                 _c("div", { staticClass: "form-group" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { id: "buttonSubmit", type: "button" },
-                      on: { click: _vm.uploadFiles }
-                    },
-                    [
-                      _vm._v(
-                        "\n                    Загрузить\n                "
-                      )
-                    ]
-                  )
+                  _c("input", {
+                    ref: "upload",
+                    staticClass: "btn btn-default",
+                    attrs: { type: "file", accept: ".rtf", name: "file" },
+                    on: { change: _vm.uploadFiles }
+                  })
                 ])
               ]
             )
@@ -48980,14 +48885,9 @@ var render = function() {
         [_vm._v("Не удалось обработать данные")]
       ),
       _vm._v(" "),
-      _vm.tiketNumbers.length > 0
-        ? _c("div", { staticClass: "col-md-12" }, [
-            _vm._v(
-              "\n        Здесь будут все ваши тикеты в виде одной строки (для удобства копирования):\n        "
-            ),
-            _c("p", [_vm._v(_vm._s(_vm.tiketNumbers.join(", ")))])
-          ])
-        : _vm._e(),
+      _c("p", { staticClass: "col-md-12" }, [
+        _vm._v(_vm._s(_vm.tiketNumbers.join(", ")))
+      ]),
       _vm._v(" "),
       _vm._l(_vm.lists, function(list, key) {
         return _c(
@@ -49000,7 +48900,7 @@ var render = function() {
                     "div",
                     { staticClass: "col-md-12" },
                     [
-                      _vm._m(2, true),
+                      _vm._m(1, true),
                       _vm._v(" "),
                       _vm._l(list, function(cites, problem) {
                         return _c(
@@ -49063,7 +48963,7 @@ var render = function() {
                                     ]),
                                     _vm._v(" "),
                                     _c("td", { staticClass: "col-md-7" }, [
-                                      _vm._v(_vm._s(_vm.citesList(cites)))
+                                      _vm._v(_vm._s(cites.join(", ")))
                                     ]),
                                     _vm._v(" "),
                                     _c("input", {
@@ -49074,7 +48974,10 @@ var render = function() {
                                     _c("input", {
                                       attrs: { name: "textTiket", hidden: "" },
                                       domProps: {
-                                        value: _vm.crateText(problem, cites)
+                                        value: _vm.crateTextCatalogFromGica(
+                                          problem,
+                                          cites
+                                        )
                                       }
                                     }),
                                     _vm._v(" "),
@@ -49153,7 +49056,7 @@ var render = function() {
                     "div",
                     { staticClass: "col-md-12" },
                     [
-                      _vm._m(3, true),
+                      _vm._m(2, true),
                       _vm._v(" "),
                       _vm._l(list, function(problem, index) {
                         return _c(
@@ -49257,7 +49160,7 @@ var render = function() {
                                     _c("input", {
                                       attrs: { name: "textTiket", hidden: "" },
                                       domProps: {
-                                        value: "SOPRA in GICA<br>" + problem
+                                        value: _vm.crateTextSopraInGica(problem)
                                       }
                                     }),
                                     _vm._v(" "),
@@ -49340,34 +49243,15 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("div", { staticClass: "alert alert-info" }, [
         _c("p", [
-          _vm._v(
-            "\n                После нажатия кнопки создать, начнётся отправка тикета\n                (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).\n                Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.\n            "
-          )
+          _vm._v("После нажатия кнопки создать, начнётся отправка тикета.")
         ]),
         _vm._v(" "),
         _c("p", [
           _vm._v(
-            "\n                Тыкайте кнопочки Создать подряд и после ждите номера.\n            "
+            "Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk."
           )
         ])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("input", {
-        staticClass: "btn btn-default",
-        attrs: {
-          type: "file",
-          accept: ".rtf",
-          name: "file",
-          id: "upload",
-          required: ""
-        }
-      })
     ])
   },
   function() {
@@ -49386,7 +49270,7 @@ var staticRenderFns = [
             _c("th", { staticClass: "col-md-2" }, [_vm._v("Тикет")]),
             _vm._v(" "),
             _c("th", { staticClass: "col-md-3" }, [
-              _vm._v("Intagrate catalog to stores")
+              _vm._v("Integrate catalog to stores")
             ]),
             _vm._v(" "),
             _c("th", { staticClass: "col-md-7" }, [_vm._v("Ситы")])

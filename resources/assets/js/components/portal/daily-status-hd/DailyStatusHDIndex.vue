@@ -4,34 +4,23 @@
         <div class="col-md-12 form-group">
             <h3>Разбор файла Daily Status HelpDesk по активностям (проблемам)</h3>
             <div class="alert alert-info">
-                <p>
-                    После нажатия кнопки создать, начнётся отправка тикета
-                    (процесс занимает обычно занимает 30 – 60 секунд, зависит от скорости работы Афины).
-                    Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.
-                </p>
-                <p>
-                    Тыкайте кнопочки Создать подряд и после ждите номера.
-                </p>
+                <p>После нажатия кнопки создать, начнётся отправка тикета.</p>
+                <p>Как появится номер - тикет создан и отправлен на RUS L2 – Helpdesk.</p>
             </div>
         </div>
         <div class="row">
-            <form class="col-md-3" id="uploadForm" name="uploadForm" enctype="multipart/form-data"
+            <form class="col-md-3" ref="uploadForm" enctype="multipart/form-data"
                   v-if="lists === null">
                 <div class="form-group">
-                    <input class="btn btn-default" type='file' accept='.rtf' name='file' id='upload' required>
-                </div>
-                <div class="form-group">
-                    <button id="buttonSubmit" type="button" class="btn btn-primary" @click="uploadFiles">
-                        Загрузить
-                    </button>
+                    <input class="btn btn-default" type='file' accept='.rtf' name='file' ref='upload'
+                           @change="uploadFiles">
                 </div>
             </form>
         </div>
         <div v-show="errorDailyStatusHd" class="alert alert-danger">Не удалось обработать данные</div>
-        <div class="col-md-12" v-if="tiketNumbers.length > 0">
-            Здесь будут все ваши тикеты в виде одной строки (для удобства копирования):
-            <p>{{ tiketNumbers.join(', ') }}</p>
-        </div>
+        <!--отображение тикетов в строку, чисто для удобства-->
+        <p class="col-md-12">{{ tiketNumbers.join(', ') }}</p>
+        <!---->
         <div class="row" v-for="(list, key) in lists" style="margin-bottom: 30px;">
             <div v-if="key == 'catalogFromGica'">
                 <div class="col-md-12">
@@ -39,7 +28,7 @@
                         <tbody>
                         <tr>
                             <th class="col-md-2">Тикет</th>
-                            <th class="col-md-3">Intagrate catalog to stores</th>
+                            <th class="col-md-3">Integrate catalog to stores</th>
                             <th class="col-md-7">Ситы</th>
                         </tr>
                         </tbody>
@@ -61,7 +50,7 @@
 
                                 <!--Скратая часть - отправка формы с параметрами-->
                                 <input name="title" v-bind:value="problem" hidden>
-                                <input name="textTiket" v-bind:value="crateText(problem, cites)" hidden>
+                                <input name="textTiket" v-bind:value="crateTextCatalogFromGica(problem, cites)" hidden>
                                 <input name="nameGroup" value="RUS L2 - Helpdesk" hidden>
                                 <input name="citName" value="999R - Multiple Sites Russia" hidden>
                                 <input name="citId" value="3680" hidden>
@@ -99,7 +88,7 @@
                                             @click="crateTiket(problem)">
                                         Создать
                                     </button>
-                                    <select v-bind:id="problem + '_cimPriority'" name="cimPriority" style="padding-bottom: 2px;">
+                                    <select v-bind:id="problem + '_cimPriority'" name="cimPriority">
                                         <option value="1">Critical 1</option>
                                         <option value="2" selected>High 2</option>
                                     </select>
@@ -110,7 +99,7 @@
 
                                 <!--Скратая часть - отправка формы с параметрами-->
                                 <input name="title" v-bind:value="problem" hidden>
-                                <input name="textTiket" v-bind:value="'SOPRA in GICA<br>' + problem" hidden>
+                                <input name="textTiket" v-bind:value="crateTextSopraInGica(problem)" hidden>
                                 <input name="nameGroup" value="RUS L2 - Helpdesk" hidden>
                                 <input name="citName" value="999R - Multiple Sites Russia" hidden>
                                 <input name="citId" value="3680" hidden>
@@ -143,36 +132,22 @@
             // отправляем фал на сервер
             uploadFiles() {
                 let app = this;
-                // ищем кнопку загрузки файла
-                let buttonSubmit = document.getElementById('buttonSubmit');
-                // дисейблем кнопку пока идёт выгрузка
-                buttonSubmit.disabled = true;
-                // ищем форму
-                let form = document.getElementById('uploadForm');
-                // записываем форму в Дату
-                let formData = new FormData(form);
-                // ищем импут с фалом
-                let rtfFile = document.getElementById('upload');
-                // добавляем файл в Дату
-                formData.append('file', rtfFile.file);
+                // записываем форму в FormData
+                let formData = new FormData(app.$refs.uploadForm);
                 // прячим блок Ошибка
                 app.errorDailyStatusHd = false;
 
                 // отправляем аякс запрос
                 axios.post('/daily-status-helpdesk/result', formData)
-                // если всё ок
+                    // если всё ок
                     .then(function (response) {
-                        // добавляем в список проблем полученные даннеы о проблемах
+                        // добавляем в список проблем полученные данные о проблемах
                         app.lists = response.data;
-                        // разблокируем кнопку отправки файла
-                        buttonSubmit.disabled = false;
                     })
                     // если ошибка
                     .catch(function (error) {
                         // выводим подробности в консоль
                         console.log(error.response);
-                        // разблокируем кнопку отправки файла
-                        buttonSubmit.disabled = false;
                         // показываем текс Ошибка
                         app.errorDailyStatusHd = true;
                     });
@@ -193,7 +168,9 @@
                 // после нажатия кнопки Создать меняем текст
                 buttonCreate.innerHTML = 'Ожидайте...';
                 // удаляем выбор приоритета
-                tiket.removeChild(cimPrioritySelect);
+                if (cimPrioritySelect) {
+                    tiket.removeChild(cimPrioritySelect);
+                }
                 // блокируем повторное нажатие кнопки
                 buttonCreate.disabled = true;
                 // передаём форму в ФормДату
@@ -239,8 +216,11 @@
                 return dd + '.' + mm + '.' + yy;
             },
             // создаём текст тикета
-            crateText(problem, cites) {
+            crateTextCatalogFromGica(problem, cites) {
                 return this.createDate() + ' <br>' + problem + ': ' + ' <br>' + cites.join(', ');
+            },
+            crateTextSopraInGica(problem, cites) {
+                return this.createDate() + ' <br>' + 'SOPRA in GICA:<br>' + problem;
             },
         },
     }
